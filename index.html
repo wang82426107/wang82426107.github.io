@@ -99,10 +99,10 @@
   <div class="post-content">
     <header>
       
-      <time datetime="2016-03-07T09:16:47.000Z"><a href="/2016/03/07/华山论剑之iOS计步/">週一, 3月 7 2016, 5:16:47 下午</a></time>
+      <time datetime="2016-03-07T09:16:47.000Z"><a href="/2016/03/07/华山论剑之Apple Pay/">週一, 3月 7 2016, 5:16:47 下午</a></time>
 
   
-    <h1 class="title"><a href="/2016/03/07/华山论剑之iOS计步/">华山论剑之iOS计步</a></h1>
+    <h1 class="title"><a href="/2016/03/07/华山论剑之Apple Pay/">华山论剑之Apple Pay</a></h1>
   
 
 
@@ -336,13 +336,88 @@
     <footer>
       
         <div class="alignleft">
-            <a href="/2016/03/07/华山论剑之iOS计步/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+            <a href="/2016/03/07/华山论剑之Apple Pay/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
         </div>
         
         
           <div class="alignright"> 
-            <a href="http://yoursite.com/2016/03/07/华山论剑之iOS计步/#comment" class="comment-link">
-              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/07/华山论剑之iOS计步/">&nbsp;
+            <a href="http://yoursite.com/2016/03/07/华山论剑之Apple Pay/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/07/华山论剑之Apple Pay/">&nbsp;
+              </span>
+            </a>
+          </div>
+        
+      
+      <div class="clearfix"></div>
+    </footer>
+  </div>
+</article>
+
+
+
+
+  <article class="post">
+  
+    <div class="gallery">
+  <div class="photoset">
+    
+      <img src="">
+    
+  </div>
+  <div class="control">
+    <div class="prev"></div>
+    <div class="next"></div>
+  </div>
+</div>
+  
+  <div class="post-content">
+    <header>
+      
+      <time datetime="2016-03-07T09:16:47.000Z"><a href="/2016/03/07/华山论剑之浅谈ios单例/">週一, 3月 7 2016, 5:16:47 下午</a></time>
+
+  
+    <h1 class="title"><a href="/2016/03/07/华山论剑之浅谈ios单例/">华山论剑之Apple Pay</a></h1>
+  
+
+
+
+<div class="clear"></div>
+      
+    </header>
+    <div class="entry">
+      
+        <p>##华山论剑之浅谈iOS单例<br><br></p>
+<blockquote>
+<p>####<strong>“不管真单例还是伪单例,种地就用史丹利!”</strong>   ——栋哥</p>
+</blockquote>
+<p></p>
+<p>####今天就简单的谈一下单例的创建和使用,单例就是一个只有一个实例对象的类,单例的特点就是当单例对象被创建出来的时候就会一直存在,直到程序被杀死,单例对象才会从内存中释放掉,单例为什么会有这样的特性呢?这是因为单例对象是存在于内存中的静态区的,所以它的生命周期特别的长.那么我们都在什么时候用到单例呢?当我们需要对一个事件只执行一次的时候,比如网络解析的时候,我们需要一个单例存储我们的网络数据,这样就可以有效的避免代码的冗杂度了.当然了,单例的使用有利也有弊,他的有利之处在于他可以有效的避免代码的冗杂度,但是由于单例的生命周期导致数据的不安全性.同时会让占用的内存不能及时的得到释放,影响了系统的运行效率.</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1396375-bbd653fd3b849780.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p></p>
+<p>##伪单例</p>
+<p>####相比于完整单例,伪单例的创建就相对简单的多了.伪单例对象只需要对其初始化方法进行修改就行.现在我们就创建一个伪单例对象Person.在Person.h文件中我们要声明一个类方法用于单例的初始化.单例的类型可以多种多样,不一定就是NSObject的子类.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface Person : NSObject</span><br><span class="line"></span><br><span class="line">+(instancetype)defaultPerson;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<p>####我们在Person.m文件中就要defaultPerson进行实现了.这里实现的方式有两种一种是使用@synchronized进行加锁操作,另外一种是使用GCD进行加锁.<br><br>@synchronized进行加锁.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Person.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Person</span><br><span class="line"></span><br><span class="line">static Person *person = nil;</span><br><span class="line"></span><br><span class="line">+(instancetype)defaultPerson&#123;</span><br><span class="line"></span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        </span><br><span class="line">        if (nil == person) &#123;</span><br><span class="line">            </span><br><span class="line">            person = [[Person alloc]init];</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">   </span><br><span class="line">    &#125;</span><br><span class="line">    return person;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<p><br>使用GCD进行加锁.  dispatch_once这个线程之后只会走一次.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Person.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Person</span><br><span class="line"></span><br><span class="line">static Person *person = nil;</span><br><span class="line"></span><br><span class="line">+(instancetype)defaultPerson&#123;</span><br><span class="line">    </span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        </span><br><span class="line">        person = [[Person alloc] init];</span><br><span class="line">        </span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    return person;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure></p>
+<p>####这样我们创建出来的对象全局就唯一存在了,其实这是不完整的,因为如果有 对该对象进行copy mutableCopy copyWithZone 等操作时，就不是同一份对象了。所以完整单例就是要对这些方法进行重写.<br><br><br></p>
+<p>##完整单例</p>
+<p>####相对于伪单例,完整单例需要重写的方法有两个方向,一个是初始化方法,另外一个就是copy的一系列的方法.我们先看一下初始化方法.</p>
+<p><br>创建单例的方法,我们会使用到allocWithZone这个方法避免出现死循环.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">static Person *person = nil;</span><br><span class="line"></span><br><span class="line">+(instancetype)defaultPerson&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    @synchronized(self)&#123;</span><br><span class="line">        if (nil == person) &#123;</span><br><span class="line">            </span><br><span class="line">            person = [[super allocWithZone:nil] init]; // 避免死循环</span><br><span class="line">            // 如果 在单例类里面重写了 allocWithZone 方法 ，在创建单例对象时 使用 [[DataHandle alloc] init] 创建，会死循环。</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return person;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们看一下 allocWithZone 和alloc 方法是如何修改的.这样就保证再次开辟空间也是同一个对象了.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)allocWithZone:(struct _NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    return [Person defaultPerson];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (instancetype)alloc</span><br><span class="line">&#123;</span><br><span class="line">    return [Person defaultPerson];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再看一下剩下的copy一系列的方法的修改,返回值全部是自己本身,这样保障不管怎么复制都是同一个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (id)copy</span><br><span class="line">&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id)mutableCopy</span><br><span class="line">&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (id)copyWithZone:(struct _NSZone *)zone</span><br><span class="line">&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当然了,在MRC环境下.引用计数我们是这样做的修改的,因为只有一个实例对象,所以引用计数对实例对象实际上是没有任何意义的.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">- (instancetype)retain</span><br><span class="line">&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (oneway void)release</span><br><span class="line">&#123;</span><br><span class="line">    // nothing</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (instancetype)autorelease</span><br><span class="line">&#123;</span><br><span class="line">    return self;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSUInteger)retainCount</span><br><span class="line">&#123;</span><br><span class="line">    return NSUIntegerMax; // 返回整形最大值。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer>
+      
+        <div class="alignleft">
+            <a href="/2016/03/07/华山论剑之浅谈ios单例/#more" class="more-link"><i class="fa fa-chevron-right"></i>Read More</a>
+        </div>
+        
+        
+          <div class="alignright"> 
+            <a href="http://yoursite.com/2016/03/07/华山论剑之浅谈ios单例/#comment" class="comment-link">
+              <i class="fa fa-comments"></i><span class="ds-thread-count" data-thread-key="/2016/03/07/华山论剑之浅谈ios单例/">&nbsp;
               </span>
             </a>
           </div>
