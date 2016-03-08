@@ -1,0 +1,762 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”
+
+XMPP简介
+XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈XMPP协议实现即时通讯功能">
+<meta property="og:url" content="http://yoursite.com/2015/07/07/华山论剑之浅谈XMPP协议实现即时通讯功能/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”
+
+XMPP简介
+XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XM">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-3359e4fdb3369848.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-a4f88359f9667622.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-2f1a2715bc46a7d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-7e9dc835d66f2971.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-03-08T11:51:51.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈XMPP协议实现即时通讯功能">
+<meta name="twitter:description" content="优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”
+
+XMPP简介
+XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XM">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1396375-3359e4fdb3369848.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈XMPP协议实现即时通讯功能 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈XMPP协议实现即时通讯功能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-07T19:36:18+08:00" content="2015-07-07">
+              2015-07-07
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”"><a href="#优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”" class="headerlink" title="优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”"></a><strong>优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”</strong></h4></blockquote>
+<p><br></p>
+<h2 id="XMPP简介"><a href="#XMPP简介" class="headerlink" title="XMPP简介"></a>XMPP简介</h2><blockquote>
+<h5 id="XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。"><a href="#XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。" class="headerlink" title="XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。"></a>XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。</h5></blockquote>
+<a id="more"></a>
+<p><img src="http://upload-images.jianshu.io/upload_images/1396375-3359e4fdb3369848.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><br></p>
+<h2 id="XMPP协议的实现原理过程"><a href="#XMPP协议的实现原理过程" class="headerlink" title="XMPP协议的实现原理过程"></a>XMPP协议的实现原理过程</h2><h4 id="当我们知道XMPP是一种协议的时候-我们如何通过objective-c-代码实现XMPP协议-进而实现我们的即时通讯功能呢-下面的图片就是为我们做了很好的解释"><a href="#当我们知道XMPP是一种协议的时候-我们如何通过objective-c-代码实现XMPP协议-进而实现我们的即时通讯功能呢-下面的图片就是为我们做了很好的解释" class="headerlink" title="当我们知道XMPP是一种协议的时候,我们如何通过objective-c 代码实现XMPP协议,进而实现我们的即时通讯功能呢? 下面的图片就是为我们做了很好的解释."></a>当我们知道XMPP是一种协议的时候,我们如何通过objective-c 代码实现XMPP协议,进而实现我们的即时通讯功能呢? 下面的图片就是为我们做了很好的解释.</h4><p><img src="http://upload-images.jianshu.io/upload_images/1396375-a4f88359f9667622.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><br></p>
+<h2 id="XMPP协议的代码实现"><a href="#XMPP协议的代码实现" class="headerlink" title="XMPP协议的代码实现"></a>XMPP协议的代码实现</h2><p></p>
+<h3 id="1-准备工作"><a href="#1-准备工作" class="headerlink" title="1.准备工作"></a>1.准备工作</h3><h4 id="我们做的客户端也服务器通讯通道的实现以及数据交流-那么首先要有我们自己的服务器-当然了-在公司的好说一些-如果是个人研究技术怎么办呢-我们可以自己搭建一个服务器或者使用leancloud这种第三方服务器-这里我给大家提供一些搭建服务器的工具-当然了-自己搭建的服务器生命比较脆弱-请大家好好爱护-还有就是leancloud也是我推荐的一种方法"><a href="#我们做的客户端也服务器通讯通道的实现以及数据交流-那么首先要有我们自己的服务器-当然了-在公司的好说一些-如果是个人研究技术怎么办呢-我们可以自己搭建一个服务器或者使用leancloud这种第三方服务器-这里我给大家提供一些搭建服务器的工具-当然了-自己搭建的服务器生命比较脆弱-请大家好好爱护-还有就是leancloud也是我推荐的一种方法" class="headerlink" title="我们做的客户端也服务器通讯通道的实现以及数据交流,那么首先要有我们自己的服务器,当然了,在公司的好说一些,如果是个人研究技术怎么办呢?我们可以自己搭建一个服务器或者使用leancloud这种第三方服务器,这里我给大家提供一些搭建服务器的工具,当然了,自己搭建的服务器生命比较脆弱,请大家好好爱护~还有就是leancloud也是我推荐的一种方法."></a>我们做的客户端也服务器通讯通道的实现以及数据交流,那么首先要有我们自己的服务器,当然了,在公司的好说一些,如果是个人研究技术怎么办呢?我们可以自己搭建一个服务器或者使用leancloud这种第三方服务器,这里我给大家提供一些搭建服务器的工具,当然了,自己搭建的服务器生命比较脆弱,请大家好好爱护~还有就是leancloud也是我推荐的一种方法.</h4><h4 id="—–-gt-点击前往LeanCloud官方网站"><a href="#—–-gt-点击前往LeanCloud官方网站" class="headerlink" title="—–&gt;点击前往LeanCloud官方网站"></a><a href="https://leancloud.cn/" target="_blank" rel="external">—–&gt;点击前往LeanCloud官方网站</a></h4><h4 id="—–-gt-XMPP本地服务器搭建工具下载"><a href="#—–-gt-XMPP本地服务器搭建工具下载" class="headerlink" title="—–&gt;XMPP本地服务器搭建工具下载"></a><a href="http://yun.baidu.com/share/link?shareid=3391082706&amp;uk=4079807053/" target="_blank" rel="external">—–&gt;XMPP本地服务器搭建工具下载</a></h4><p><br> </p>
+<h3 id="2-OC搭建Client和连接通道"><a href="#2-OC搭建Client和连接通道" class="headerlink" title="2.OC搭建Client和连接通道"></a>2.OC搭建Client和连接通道</h3><p></p>
+<h4 id="工程完成目标"><a href="#工程完成目标" class="headerlink" title="工程完成目标:"></a>工程完成目标:</h4><pre><code>1.创建通讯通道并完成账号密码的登录
+2.创建通道并完成账号的申请
+3.好友列表的获取和显示
+4.即时通讯功能的实现
+</code></pre><h4 id="首先-我们需要导入我们的所需要导入的-XMPPFramework-PS-点击打开下载-完成之后直接解压拖到工程中😃-还有手动的导入两个库-如下"><a href="#首先-我们需要导入我们的所需要导入的-XMPPFramework-PS-点击打开下载-完成之后直接解压拖到工程中😃-还有手动的导入两个库-如下" class="headerlink" title="首先,我们需要导入我们的所需要导入的 XMPPFramework (PS:点击打开下载,完成之后直接解压拖到工程中😃),还有手动的导入两个库.如下."></a>首先,我们需要导入我们的所需要导入的 <a href="http://yun.baidu.com/share/link?shareid=2277041742&amp;uk=4079807053" target="_blank" rel="external">XMPPFramework</a> (PS:点击打开下载,完成之后直接解压拖到工程中😃),还有手动的导入两个库.如下.</h4><blockquote>
+<p>libxml2.tbd</p>
+<p>libresolv.tbd</p>
+</blockquote>
+<h4 id="然后-我们就要配置我们的build-setting页面的设置-search-paths-选添加一个字段-添加如下"><a href="#然后-我们就要配置我们的build-setting页面的设置-search-paths-选添加一个字段-添加如下" class="headerlink" title="然后,我们就要配置我们的build setting页面的设置 search paths 选添加一个字段,添加如下"></a>然后,我们就要配置我们的build setting页面的设置 search paths 选添加一个字段,添加如下</h4><blockquote>
+<p>/usr/include/libxml2</p>
+</blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1396375-2f1a2715bc46a7d4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><br></p>
+<h4 id="完成上面的设置之后-我们需要创建一个单例类XMPPManager-用它来创建通讯通道实现上面的四个功能"><a href="#完成上面的设置之后-我们需要创建一个单例类XMPPManager-用它来创建通讯通道实现上面的四个功能" class="headerlink" title="完成上面的设置之后  我们需要创建一个单例类XMPPManager,用它来创建通讯通道实现上面的四个功能."></a>完成上面的设置之后  我们需要创建一个单例类XMPPManager,用它来创建通讯通道实现上面的四个功能.</h4><p>XMPPManager.h中如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">#import &quot;XMPPFramework.h&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@interface XMPPManager : NSObject</span><br><span class="line"></span><br><span class="line">//通讯管道</span><br><span class="line">@property(nonatomic,strong)XMPPStream *stream;</span><br><span class="line"></span><br><span class="line">//和通讯录对象很像,用来管理好友类~</span><br><span class="line">@property(nonatomic,strong)XMPPRoster *roster;</span><br><span class="line"></span><br><span class="line">//XMPP聊天消息本地化处理对象</span><br><span class="line">@property(nonatomic,strong)XMPPMessageArchiving *messageArchiving;</span><br><span class="line"></span><br><span class="line">//消息上下文对象</span><br><span class="line">@property(nonatomic,strong)NSManagedObjectContext *messageContext;</span><br><span class="line"></span><br><span class="line">+(instancetype)defaulManager;</span><br><span class="line"></span><br><span class="line">-(void)LoginWithUserName:(NSString *)name AndPassWord:(NSString *)password;</span><br><span class="line"></span><br><span class="line">-(void)RegiserWithUserName:(NSString *)name AndPassWord:(NSString *)password;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//与服务器断开链接</span><br><span class="line">-(void)disconnectWithServer;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="XMPPManager-h文件的解释"><a href="#XMPPManager-h文件的解释" class="headerlink" title="XMPPManager.h文件的解释:"></a>XMPPManager.h文件的解释:</h4><h5 id="stream-这是C和S之间的通讯通道"><a href="#stream-这是C和S之间的通讯通道" class="headerlink" title="stream : 这是C和S之间的通讯通道."></a>stream : 这是C和S之间的通讯通道.</h5><h5 id="roster-这个属性管理好友列表的一个属性"><a href="#roster-这个属性管理好友列表的一个属性" class="headerlink" title="roster : 这个属性管理好友列表的一个属性."></a>roster : 这个属性管理好友列表的一个属性.</h5><h5 id="messageArchiving-这个属性用来管理本地聊天记录的一个类"><a href="#messageArchiving-这个属性用来管理本地聊天记录的一个类" class="headerlink" title="messageArchiving : 这个属性用来管理本地聊天记录的一个类"></a>messageArchiving : 这个属性用来管理本地聊天记录的一个类</h5><h5 id="messageContext-消息上下文对象"><a href="#messageContext-消息上下文对象" class="headerlink" title="messageContext : 消息上下文对象."></a>messageContext : 消息上下文对象.</h5><h5 id="instancetype-defaulManager-创建单例的方法"><a href="#instancetype-defaulManager-创建单例的方法" class="headerlink" title="+(instancetype)defaulManager:创建单例的方法"></a>+(instancetype)defaulManager:创建单例的方法</h5><h5 id="void-LoginWithUserName-NSString-name-AndPassWord-NSString-password-登录的方法"><a href="#void-LoginWithUserName-NSString-name-AndPassWord-NSString-password-登录的方法" class="headerlink" title="-(void)LoginWithUserName:(NSString )name AndPassWord:(NSString )password : 登录的方法"></a>-(void)LoginWithUserName:(NSString <em>)name AndPassWord:(NSString </em>)password : 登录的方法</h5><h5 id="void-RegiserWithUserName-NSString-name-AndPassWord-NSString-password-注册新账号的方法"><a href="#void-RegiserWithUserName-NSString-name-AndPassWord-NSString-password-注册新账号的方法" class="headerlink" title="-(void)RegiserWithUserName:(NSString )name AndPassWord:(NSString )password : 注册新账号的方法"></a>-(void)RegiserWithUserName:(NSString <em>)name AndPassWord:(NSString </em>)password : 注册新账号的方法</h5><h5 id="void-disconnectWithServer-与服务器断开链接"><a href="#void-disconnectWithServer-与服务器断开链接" class="headerlink" title="-(void)disconnectWithServer;  与服务器断开链接"></a>-(void)disconnectWithServer;  与服务器断开链接</h5></blockquote>
+<p></p>
+<h4 id="了解完各个方法之后-我们就要在XMPPManager-m实现一下-实现如下"><a href="#了解完各个方法之后-我们就要在XMPPManager-m实现一下-实现如下" class="headerlink" title="了解完各个方法之后,我们就要在XMPPManager.m实现一下,实现如下"></a>了解完各个方法之后,我们就要在XMPPManager.m实现一下,实现如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &quot;XMPPManager.h&quot;</span><br><span class="line"></span><br><span class="line">//代表与服务器进行连接的类型.</span><br><span class="line">typedef enum : NSUInteger &#123;</span><br><span class="line">    DoLgin,</span><br><span class="line">    DORegiser,</span><br><span class="line">&#125; ConnetType;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@interface XMPPManager()&lt;XMPPStreamDelegate,XMPPRosterDelegate,XMPPMessageArchivingStorage&gt;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *password;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *regiserPassword;</span><br><span class="line"></span><br><span class="line">//声明一个属性 记录连接的类型</span><br><span class="line">@property(nonatomic,assign)ConnetType type;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@implementation XMPPManager</span><br><span class="line"></span><br><span class="line">static XMPPManager *manager;</span><br><span class="line"></span><br><span class="line">+(instancetype)defaulManager&#123;</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        </span><br><span class="line">        manager  = [[XMPPManager alloc]init];</span><br><span class="line">        </span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">    return manager;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(instancetype)init&#123;</span><br><span class="line"></span><br><span class="line">    if (self = [super init]) &#123;</span><br><span class="line">        </span><br><span class="line">        self.stream = [[XMPPStream alloc]init];</span><br><span class="line">        self.stream.hostName = kHostName;</span><br><span class="line">        self.stream.hostPort = kHostPort;</span><br><span class="line">        //设置stream的代理</span><br><span class="line">        [self.stream addDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        //下面这一堆其实是对roster对象进行初始化.</span><br><span class="line">        //系统写好的XMPP存储对象</span><br><span class="line">        XMPPRosterCoreDataStorage *dataStorage = [XMPPRosterCoreDataStorage sharedInstance];</span><br><span class="line">        </span><br><span class="line">        self.roster = [[XMPPRoster alloc]initWithRosterStorage:dataStorage dispatchQueue:dispatch_get_global_queue(0, 0)];</span><br><span class="line">        </span><br><span class="line">        //激活roster</span><br><span class="line">        [self.roster activate:self.stream];</span><br><span class="line">        </span><br><span class="line">        //给roster对象指定代理</span><br><span class="line">        [self.roster addDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        //初始化聊天记录管理对象</span><br><span class="line">        </span><br><span class="line">        XMPPMessageArchivingCoreDataStorage  *messageArchivingCoreDataStorage= [XMPPMessageArchivingCoreDataStorage sharedInstance];</span><br><span class="line">        </span><br><span class="line">        self.messageArchiving = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:messageArchivingCoreDataStorage dispatchQueue:dispatch_get_main_queue()];</span><br><span class="line">        </span><br><span class="line">        //激活管理对象</span><br><span class="line">        [self.messageArchiving activate:self.stream];</span><br><span class="line">        </span><br><span class="line">        //设置管理对象代理</span><br><span class="line">        [self.messageArchiving addDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line">        </span><br><span class="line">        self.messageContext = messageArchivingCoreDataStorage.mainThreadManagedObjectContext;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return self;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//与服务器的建立链接</span><br><span class="line">-(void)connectToServerWintUser:(NSString *)name&#123;</span><br><span class="line"></span><br><span class="line">    if ([self.stream isConnected]) &#123;</span><br><span class="line">        </span><br><span class="line">        [self.stream disconnect];</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //jid jabberID,是基于jabber协议的由用户名生成的唯一ID</span><br><span class="line">    self.stream.myJID = [XMPPJID jidWithUser:name domain:kDomin resource:kResource];</span><br><span class="line">    </span><br><span class="line">    NSError *error = nil;</span><br><span class="line">    </span><br><span class="line">    //与服务器建立链接.</span><br><span class="line">    [self.stream connectWithTimeout:30.0f error:&amp;error];</span><br><span class="line">    </span><br><span class="line">    if (error != nil) &#123;</span><br><span class="line">        </span><br><span class="line">        @throw [NSException exceptionWithName:@&quot;CQ_Error&quot; reason:@&quot;与服务器建立连接失败,请查看代码&quot; userInfo:nil];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//与服务器断开链接</span><br><span class="line">-(void)disconnectWithServer&#123;</span><br><span class="line">    </span><br><span class="line">    [self.stream disconnect];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)LoginWithUserName:(NSString *)name AndPassWord:(NSString *)password&#123;</span><br><span class="line"></span><br><span class="line">    self.password = password;</span><br><span class="line">    </span><br><span class="line">    self.type = DoLgin;</span><br><span class="line"></span><br><span class="line">    [self connectToServerWintUser:name];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//与服务器建立连接</span><br><span class="line">-(void)xmppStreamDidConnect:(XMPPStream *)sender&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;与服务器建立链接正常&quot;);</span><br><span class="line">    //与服务器进行登录认证</span><br><span class="line">    NSError *error = nil;</span><br><span class="line">    </span><br><span class="line">    switch (self.type) &#123;</span><br><span class="line">        case DoLgin:</span><br><span class="line">            [self.stream authenticateWithPassword:self.password error:&amp;error];</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            if (error != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                NSLog(@&quot;认证过程出错!&quot;);</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">            </span><br><span class="line">        case DORegiser:</span><br><span class="line">            </span><br><span class="line">            [self.stream registerWithPassword:self.regiserPassword error:&amp;error];</span><br><span class="line">            </span><br><span class="line">            if (error != nil) &#123;</span><br><span class="line">                </span><br><span class="line">                NSLog(@&quot;注册过程出错!&quot;);</span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            break;</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        default:</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)xmppStreamConnectDidTimeout:(XMPPStream *)sender&#123;</span><br><span class="line"></span><br><span class="line">@throw [NSException exceptionWithName:@&quot;CQ_Error&quot; reason:@&quot;与服务器建立连接超时,请查看代码&quot; userInfo:nil];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)RegiserWithUserName:(NSString *)name AndPassWord:(NSString *)password&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    self.type = DORegiser;</span><br><span class="line">    </span><br><span class="line">    self.regiserPassword = password;</span><br><span class="line">    </span><br><span class="line">    [self connectToServerWintUser:name];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="看完了上面的代码-连我自己都觉得乱乱的-所以-我们一个功能一个功能看这些代码的实现原理"><a href="#看完了上面的代码-连我自己都觉得乱乱的-所以-我们一个功能一个功能看这些代码的实现原理" class="headerlink" title="看完了上面的代码,连我自己都觉得乱乱的,所以 我们一个功能一个功能看这些代码的实现原理,"></a>看完了上面的代码,连我自己都觉得乱乱的,所以 我们一个功能一个功能看这些代码的实现原理,</h4><p><br></p>
+<h2 id="登录功能"><a href="#登录功能" class="headerlink" title="登录功能"></a>登录功能</h2><hr>
+<h3 id="我们想要登录我们的服务器-首先要有我们的账号和密码-然后我们就需要建立通道"><a href="#我们想要登录我们的服务器-首先要有我们的账号和密码-然后我们就需要建立通道" class="headerlink" title="我们想要登录我们的服务器,首先要有我们的账号和密码,然后我们就需要建立通道"></a>我们想要登录我们的服务器,首先要有我们的账号和密码,然后我们就需要建立通道</h3><p></p>
+<h4 id="a-defaulManager"><a href="#a-defaulManager" class="headerlink" title="(a)defaulManager"></a>(a)<strong><em>defaulManager</em></strong></h4><p></p>
+<h5 id="创建单例这个方法中就是创建了我们的单例"><a href="#创建单例这个方法中就是创建了我们的单例" class="headerlink" title="创建单例这个方法中就是创建了我们的单例."></a>创建单例这个方法中就是创建了我们的单例.</h5><p></p>
+<h4 id="b-init"><a href="#b-init" class="headerlink" title="(b)init"></a>(b)<strong><em>init</em></strong></h4><p></p>
+<h5 id="初始化这个方法中我们需要对我们的通讯管道属性stream进行初始化一下-设置stream服务器IP地址和服务器端口-还有就是设置stream的代理对象-实现XMPPStreamDelegate协议方法-这里设置代理对象的方法不同于以前-这里是使用runtime设计模式可以为stream设置多个代理对象"><a href="#初始化这个方法中我们需要对我们的通讯管道属性stream进行初始化一下-设置stream服务器IP地址和服务器端口-还有就是设置stream的代理对象-实现XMPPStreamDelegate协议方法-这里设置代理对象的方法不同于以前-这里是使用runtime设计模式可以为stream设置多个代理对象" class="headerlink" title="初始化这个方法中我们需要对我们的通讯管道属性stream进行初始化一下,设置stream服务器IP地址和服务器端口,还有就是设置stream的代理对象.实现XMPPStreamDelegate协议方法.这里设置代理对象的方法不同于以前,这里是使用runtime设计模式可以为stream设置多个代理对象."></a>初始化这个方法中我们需要对我们的通讯管道属性stream进行初始化一下,设置stream服务器IP地址和服务器端口,还有就是设置stream的代理对象.实现XMPPStreamDelegate协议方法.这里设置代理对象的方法不同于以前,这里是使用runtime设计模式可以为stream设置多个代理对象.</h5><p></p>
+<h4 id="c-LoginWithUserName-NSString-name-AndPassWord-NSString-password"><a href="#c-LoginWithUserName-NSString-name-AndPassWord-NSString-password" class="headerlink" title="(c)LoginWithUserName:(NSString )name AndPassWord:(NSString )password"></a>(c)<strong><em>LoginWithUserName:(NSString </em>)name AndPassWord:(NSString <em>)password</em></strong></h4><p></p>
+<h5 id="这个方法中首先我们需要保存我们的密码-用于传值到下一个方法中-self-type-DoLgin-这句代码有作何解释呢-因为不管是登录和注册-我们都要与我们的服务器创建联系-那么服务器是如何知道我们是创建的什么联系的呢-就是通过这句代码实现的-当然了-现在你可能听得糊涂-当看到下面的方法的时候你就明白了-self-connectToServerWintUser-name-这句代码就是要创建于服务器之间的联系-这时候-账号name就通过参数的形式传到了connectToServerWintUser这个函数-而password通过属性的传值到xmppStreamDidConnect-当完成通道的建立的时候执行的代理方法"><a href="#这个方法中首先我们需要保存我们的密码-用于传值到下一个方法中-self-type-DoLgin-这句代码有作何解释呢-因为不管是登录和注册-我们都要与我们的服务器创建联系-那么服务器是如何知道我们是创建的什么联系的呢-就是通过这句代码实现的-当然了-现在你可能听得糊涂-当看到下面的方法的时候你就明白了-self-connectToServerWintUser-name-这句代码就是要创建于服务器之间的联系-这时候-账号name就通过参数的形式传到了connectToServerWintUser这个函数-而password通过属性的传值到xmppStreamDidConnect-当完成通道的建立的时候执行的代理方法" class="headerlink" title="这个方法中首先我们需要保存我们的密码,用于传值到下一个方法中.self.type = DoLgin;这句代码有作何解释呢?因为不管是登录和注册,我们都要与我们的服务器创建联系,那么服务器是如何知道我们是创建的什么联系的呢?就是通过这句代码实现的,当然了,现在你可能听得糊涂,当看到下面的方法的时候你就明白了.[self connectToServerWintUser:name];这句代码就是要创建于服务器之间的联系.这时候,账号name就通过参数的形式传到了connectToServerWintUser这个函数,而password通过属性的传值到xmppStreamDidConnect(当完成通道的建立的时候执行的代理方法)."></a>这个方法中首先我们需要保存我们的密码,用于传值到下一个方法中.self.type = DoLgin;这句代码有作何解释呢?因为不管是登录和注册,我们都要与我们的服务器创建联系,那么服务器是如何知道我们是创建的什么联系的呢?就是通过这句代码实现的,当然了,现在你可能听得糊涂,当看到下面的方法的时候你就明白了.[self connectToServerWintUser:name];这句代码就是要创建于服务器之间的联系.这时候,账号name就通过参数的形式传到了connectToServerWintUser这个函数,而password通过属性的传值到xmppStreamDidConnect(当完成通道的建立的时候执行的代理方法).</h5><p></p>
+<h4 id="d-connectToServerWintUser"><a href="#d-connectToServerWintUser" class="headerlink" title="(d)connectToServerWintUser"></a>(d)<strong><em>connectToServerWintUser</em></strong></h4><p></p>
+<h5 id="self-stream-disconnect-这句代码就是让客户端断开连接通道-综合上面来看-当我们已经存在的连接的通道的时候-我们就会让通道断开-这是为什么呢-因为C与S之间的通道只能创建一条-当我们重复创建的时候-就会导致我们的程序崩溃-所以我们要保障我们的通道是只有一条的-self-stream-connectWithTimeout-30-0f-error-amp-error-这句代码就是我们创建通道-当然了等待时间是30秒"><a href="#self-stream-disconnect-这句代码就是让客户端断开连接通道-综合上面来看-当我们已经存在的连接的通道的时候-我们就会让通道断开-这是为什么呢-因为C与S之间的通道只能创建一条-当我们重复创建的时候-就会导致我们的程序崩溃-所以我们要保障我们的通道是只有一条的-self-stream-connectWithTimeout-30-0f-error-amp-error-这句代码就是我们创建通道-当然了等待时间是30秒" class="headerlink" title="[self.stream disconnect];这句代码就是让客户端断开连接通道,综合上面来看,当我们已经存在的连接的通道的时候,我们就会让通道断开,这是为什么呢?因为C与S之间的通道只能创建一条,当我们重复创建的时候,就会导致我们的程序崩溃.所以我们要保障我们的通道是只有一条的.    [self.stream connectWithTimeout:30.0f error:&amp;error];这句代码就是我们创建通道,当然了等待时间是30秒."></a>[self.stream disconnect];这句代码就是让客户端断开连接通道,综合上面来看,当我们已经存在的连接的通道的时候,我们就会让通道断开,这是为什么呢?因为C与S之间的通道只能创建一条,当我们重复创建的时候,就会导致我们的程序崩溃.所以我们要保障我们的通道是只有一条的.    [self.stream connectWithTimeout:30.0f error:&amp;error];这句代码就是我们创建通道,当然了等待时间是30秒.</h5><p></p>
+<h4 id="e-xmppStreamDidConnect"><a href="#e-xmppStreamDidConnect" class="headerlink" title="(e)xmppStreamDidConnect"></a>(e)<strong><em>xmppStreamDidConnect</em></strong></h4><p></p>
+<h5 id="这是一个代理的方法-当我们完成通道的创建之后-我们就会调用这个方法-在这个代理方法中我们需要做的就是对我们的密码进行验证-self-stream-authenticateWithPassword-self-password-error-amp-error-这就是登录验证我们的密码-验证成功之后就会调用-void-xmppStreamDidAuthenticate-XMPPStream-sender这个代理方法-验证失败就会调用-void-xmppStream-XMPPStream-sender-didNotAuthenticate-DDXMLElement-error-这个代理方法-当然了-这两个方法是写在我们的登录页面的-因为我们需要对使用者有个用户的交互不是-比如弹出一个弹窗-提醒一下用户-xmppStreamDidConnect不管是注册和登录都会调用-我们怎么区分呢-我们现在-m文件的顶部设置了一个枚举值-通过枚举值的值判断我们所需要的操作"><a href="#这是一个代理的方法-当我们完成通道的创建之后-我们就会调用这个方法-在这个代理方法中我们需要做的就是对我们的密码进行验证-self-stream-authenticateWithPassword-self-password-error-amp-error-这就是登录验证我们的密码-验证成功之后就会调用-void-xmppStreamDidAuthenticate-XMPPStream-sender这个代理方法-验证失败就会调用-void-xmppStream-XMPPStream-sender-didNotAuthenticate-DDXMLElement-error-这个代理方法-当然了-这两个方法是写在我们的登录页面的-因为我们需要对使用者有个用户的交互不是-比如弹出一个弹窗-提醒一下用户-xmppStreamDidConnect不管是注册和登录都会调用-我们怎么区分呢-我们现在-m文件的顶部设置了一个枚举值-通过枚举值的值判断我们所需要的操作" class="headerlink" title="这是一个代理的方法,当我们完成通道的创建之后,我们就会调用这个方法,在这个代理方法中我们需要做的就是对我们的密码进行验证.[self.stream authenticateWithPassword:self.password error:&amp;error];这就是登录验证我们的密码.验证成功之后就会调用-(void)xmppStreamDidAuthenticate:(XMPPStream )sender这个代理方法,验证失败就会调用-(void)xmppStream:(XMPPStream )sender didNotAuthenticate:(DDXMLElement *)error 这个代理方法,当然了,这两个方法是写在我们的登录页面的,因为我们需要对使用者有个用户的交互不是?比如弹出一个弹窗.提醒一下用户.xmppStreamDidConnect不管是注册和登录都会调用,我们怎么区分呢?我们现在.m文件的顶部设置了一个枚举值,通过枚举值的值判断我们所需要的操作."></a>这是一个代理的方法,当我们完成通道的创建之后,我们就会调用这个方法,在这个代理方法中我们需要做的就是对我们的密码进行验证.[self.stream authenticateWithPassword:self.password error:&amp;error];这就是登录验证我们的密码.验证成功之后就会调用-(void)xmppStreamDidAuthenticate:(XMPPStream <em>)sender这个代理方法,验证失败就会调用-(void)xmppStream:(XMPPStream </em>)sender didNotAuthenticate:(DDXMLElement *)error 这个代理方法,当然了,这两个方法是写在我们的登录页面的,因为我们需要对使用者有个用户的交互不是?比如弹出一个弹窗.提醒一下用户.xmppStreamDidConnect不管是注册和登录都会调用,我们怎么区分呢?我们现在.m文件的顶部设置了一个枚举值,通过枚举值的值判断我们所需要的操作.</h5><p></p>
+<h4 id="f-xmppStreamConnectDidTimeout"><a href="#f-xmppStreamConnectDidTimeout" class="headerlink" title="(f)xmppStreamConnectDidTimeout"></a>(f)<strong><em>xmppStreamConnectDidTimeout</em></strong></h4><p></p>
+<h5 id="这个方法就是说-当我们与服务器建立连接超时的时候会进行的操作-throw-NSException-exceptionWithName-”CQ-Error”-reason-”与服务器建立连接超时-请查看代码”-userInfo-nil-是我们手动的抛出一个异常"><a href="#这个方法就是说-当我们与服务器建立连接超时的时候会进行的操作-throw-NSException-exceptionWithName-”CQ-Error”-reason-”与服务器建立连接超时-请查看代码”-userInfo-nil-是我们手动的抛出一个异常" class="headerlink" title="这个方法就是说,当我们与服务器建立连接超时的时候会进行的操作.@throw [NSException exceptionWithName:@”CQ_Error” reason:@”与服务器建立连接超时,请查看代码” userInfo:nil];是我们手动的抛出一个异常."></a>这个方法就是说,当我们与服务器建立连接超时的时候会进行的操作.@throw [NSException exceptionWithName:@”CQ_Error” reason:@”与服务器建立连接超时,请查看代码” userInfo:nil];是我们手动的抛出一个异常.</h5><hr>
+<p><br></p>
+<h2 id="注册功能"><a href="#注册功能" class="headerlink" title="注册功能"></a>注册功能</h2><hr>
+<p>####注册功能与登录功能在实现上是相似的,下面的属性就是区别的开始.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *password;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *regiserPassword;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="xmppStreamDidConnect"><a href="#xmppStreamDidConnect" class="headerlink" title="xmppStreamDidConnect"></a><strong><em>xmppStreamDidConnect</em></strong></h3><p></p>
+<h5 id="在这个方法中-我们需要对我们的注册方法与登录方法分别开来-self-stream-registerWithPassword-self-regiserPassword-error-amp-error-这个方法就是我们把注册的密码传到服务器上保存的方法-当然了-当我们注册成功的时候-就会调动-void-xmppStreamDidRegister-XMPPStream-sender这个协议方法-当注册不成功的时候-我们就会调用-void-xmppStream-XMPPStream-sender-didNotRegister-DDXMLElement-error这个方法-这里我们也要拍给我们的用户一些交互-让我们用户知道自己注册的结果"><a href="#在这个方法中-我们需要对我们的注册方法与登录方法分别开来-self-stream-registerWithPassword-self-regiserPassword-error-amp-error-这个方法就是我们把注册的密码传到服务器上保存的方法-当然了-当我们注册成功的时候-就会调动-void-xmppStreamDidRegister-XMPPStream-sender这个协议方法-当注册不成功的时候-我们就会调用-void-xmppStream-XMPPStream-sender-didNotRegister-DDXMLElement-error这个方法-这里我们也要拍给我们的用户一些交互-让我们用户知道自己注册的结果" class="headerlink" title="在这个方法中,我们需要对我们的注册方法与登录方法分别开来.            [self.stream registerWithPassword:self.regiserPassword error:&amp;error];这个方法就是我们把注册的密码传到服务器上保存的方法.当然了,当我们注册成功的时候,就会调动-(void)xmppStreamDidRegister:(XMPPStream )sender这个协议方法,当注册不成功的时候,我们就会调用-(void)xmppStream:(XMPPStream )sender didNotRegister:(DDXMLElement *)error这个方法.这里我们也要拍给我们的用户一些交互,让我们用户知道自己注册的结果."></a>在这个方法中,我们需要对我们的注册方法与登录方法分别开来.            [self.stream registerWithPassword:self.regiserPassword error:&amp;error];这个方法就是我们把注册的密码传到服务器上保存的方法.当然了,当我们注册成功的时候,就会调动-(void)xmppStreamDidRegister:(XMPPStream <em>)sender这个协议方法,当注册不成功的时候,我们就会调用-(void)xmppStream:(XMPPStream </em>)sender didNotRegister:(DDXMLElement *)error这个方法.这里我们也要拍给我们的用户一些交互,让我们用户知道自己注册的结果.</h5><hr>
+<p><br></p>
+<h2 id="好友列表功能"><a href="#好友列表功能" class="headerlink" title="好友列表功能"></a>好友列表功能</h2><hr>
+<h4 id="在XMPPManager-m文件中-我们需要做的就是在-init-方法中对管理好友列表的roster对象进行一下初始化并且制定代理-这里需要注意一个地方-当我们设置roster的初始化的时候-我们需要使用-dispatch-get-global-queue-0-0-全局线程-不能使用主线程-原因是如果使用主线程会出现一些莫名其妙的Bug-self-roster-activate-self-stream-激活roster的意思就是给roster可以通过stream通道的权限-PS-大白话-😂"><a href="#在XMPPManager-m文件中-我们需要做的就是在-init-方法中对管理好友列表的roster对象进行一下初始化并且制定代理-这里需要注意一个地方-当我们设置roster的初始化的时候-我们需要使用-dispatch-get-global-queue-0-0-全局线程-不能使用主线程-原因是如果使用主线程会出现一些莫名其妙的Bug-self-roster-activate-self-stream-激活roster的意思就是给roster可以通过stream通道的权限-PS-大白话-😂" class="headerlink" title="在XMPPManager.m文件中,我们需要做的就是在  init  方法中对管理好友列表的roster对象进行一下初始化并且制定代理,这里需要注意一个地方,当我们设置roster的初始化的时候,我们需要使用  dispatch_get_global_queue(0, 0) 全局线程,不能使用主线程,原因是如果使用主线程会出现一些莫名其妙的Bug.        [self.roster activate:self.stream]; 激活roster的意思就是给roster可以通过stream通道的权限..(PS:大白话 😂)"></a>在XMPPManager.m文件中,我们需要做的就是在 <strong><em> init </em></strong> 方法中对管理好友列表的roster对象进行一下初始化并且制定代理,这里需要注意一个地方,当我们设置roster的初始化的时候,我们需要使用 <strong><em> dispatch_get_global_queue(0, 0) </em></strong>全局线程,不能使用主线程,原因是如果使用主线程会出现一些莫名其妙的Bug.        [self.roster activate:self.stream]; 激活roster的意思就是给roster可以通过stream通道的权限..(PS:大白话 😂)</h4><p><br></p>
+<h4 id="在我们的好友列表页面中-首先我们需要确定他是一个UITableViewController-然后我们需要从我们的服务器拿到我们的好友的列表数组-通道stream连接在我们的登录的时候已经完成了-所以我们不需要再管理通道了-我们需要在好友列表的控制器中实现XMPPRosterDelegate的代理方法来获取到我们的好友列表-代码如下"><a href="#在我们的好友列表页面中-首先我们需要确定他是一个UITableViewController-然后我们需要从我们的服务器拿到我们的好友的列表数组-通道stream连接在我们的登录的时候已经完成了-所以我们不需要再管理通道了-我们需要在好友列表的控制器中实现XMPPRosterDelegate的代理方法来获取到我们的好友列表-代码如下" class="headerlink" title="在我们的好友列表页面中,首先我们需要确定他是一个UITableViewController,然后我们需要从我们的服务器拿到我们的好友的列表数组.通道stream连接在我们的登录的时候已经完成了,所以我们不需要再管理通道了,我们需要在好友列表的控制器中实现XMPPRosterDelegate的代理方法来获取到我们的好友列表.代码如下"></a>在我们的好友列表页面中,首先我们需要确定他是一个UITableViewController,然后我们需要从我们的服务器拿到我们的好友的列表数组.通道stream连接在我们的登录的时候已经完成了,所以我们不需要再管理通道了,我们需要在好友列表的控制器中实现XMPPRosterDelegate的代理方法来获取到我们的好友列表.代码如下</h4><p><br>在MainTableViewController.m中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &quot;MainTableViewController.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;XMPPManager.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;ChatTableViewController.h&quot;</span><br><span class="line"></span><br><span class="line">@interface MainTableViewController ()&lt;XMPPRosterDelegate&gt;</span><br><span class="line"></span><br><span class="line">//用来存储所有的好友信息的.</span><br><span class="line">@property(nonatomic,strong)NSMutableArray *dataArray;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MainTableViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    self.dataArray = [NSMutableArray array];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    [[XMPPManager defaulManager].roster addDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//roster代理方法</span><br><span class="line">//开始获取好友列表的时候</span><br><span class="line">-(void)xmppRosterDidBeginPopulating:(XMPPRoster *)sender&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;开始获取好友列表&quot;);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//结束获取好友列表</span><br><span class="line">-(void)xmppRosterDidEndPopulating:(XMPPRoster *)sender&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;获取好友列表完成的时候.&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//获取好友信息的时候</span><br><span class="line">-(void)xmppRoster:(XMPPRoster *)sender didReceiveRosterItem:(DDXMLElement *)item&#123;</span><br><span class="line"></span><br><span class="line">//    //将每一个好友存储下来.</span><br><span class="line">//    NSLog(@&quot;%@&quot;,[item children]);</span><br><span class="line">//    </span><br><span class="line">//    NSLog(@&quot;%@&quot;,[item name]);</span><br><span class="line">    </span><br><span class="line">    NSString *SJid = [[item attributeForName:@&quot;jid&quot;] stringValue];</span><br><span class="line">    </span><br><span class="line">    //把字符串类型的JID转换成XMPPJID</span><br><span class="line">    XMPPJID *jid = [XMPPJID jidWithString:SJid];</span><br><span class="line">    </span><br><span class="line">    //把JID存储到数组中,相当修改数据源</span><br><span class="line">    [self.dataArray addObject:jid];</span><br><span class="line">    </span><br><span class="line">    //更新UI</span><br><span class="line">    NSIndexPath *path = [NSIndexPath indexPathForRow:self.dataArray.count-1 inSection:0];</span><br><span class="line">    </span><br><span class="line">    [self.tableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationBottom];</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark - Table view data source</span><br><span class="line"></span><br><span class="line">- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView &#123;</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section &#123;</span><br><span class="line">    return self.dataArray.count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">    </span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@&quot;MainCell&quot; forIndexPath:indexPath];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //把字符串类型的JID转换成XMPPJID</span><br><span class="line">    XMPPJID *jid = self.dataArray[indexPath.row];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    cell.textLabel.text = [NSString stringWithFormat:@&quot;%@    %@     %@&quot;,jid.user,jid.resource,jid.domain];</span><br><span class="line">    </span><br><span class="line">    return cell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender&#123;</span><br><span class="line"></span><br><span class="line">    UITableViewCell *cell = (UITableViewCell *)sender;</span><br><span class="line">    </span><br><span class="line">    //拿到下一步要跳转的controller对象</span><br><span class="line">    ChatTableViewController *chatVC = segue.destinationViewController;</span><br><span class="line">    </span><br><span class="line">    //判断选中的cell在当前的Table中的位置</span><br><span class="line">    NSIndexPath *path = [self.tableView indexPathForCell:cell];</span><br><span class="line">    </span><br><span class="line">    chatVC.chatToJID = self.dataArray[path.row];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="方法解释"><a href="#方法解释" class="headerlink" title="方法解释"></a>方法解释</h3><h4 id="在上面的代码中我们要解释的只有两个方法-一个是获取好友信息的时候调用的"><a href="#在上面的代码中我们要解释的只有两个方法-一个是获取好友信息的时候调用的" class="headerlink" title="在上面的代码中我们要解释的只有两个方法 ,一个是获取好友信息的时候调用的"></a>在上面的代码中我们要解释的只有两个方法 ,一个是获取好友信息的时候调用的</h4><p>-(void)xmppRoster:(XMPPRoster <em>)sender didReceiveRosterItem:(DDXMLElement </em>)item</p>
+<h4 id="另外一个是我们点击好友进入聊天页面所需要的方法"><a href="#另外一个是我们点击好友进入聊天页面所需要的方法" class="headerlink" title="另外一个是我们点击好友进入聊天页面所需要的方法."></a>另外一个是我们点击好友进入聊天页面所需要的方法.</h4><p>-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender</p>
+<p></p>
+<h3 id="void-xmppRoster-XMPPRoster-sender-didReceiveRosterItem-DDXMLElement-item"><a href="#void-xmppRoster-XMPPRoster-sender-didReceiveRosterItem-DDXMLElement-item" class="headerlink" title="-(void)xmppRoster:(XMPPRoster )sender didReceiveRosterItem:(DDXMLElement )item"></a><strong><em>-(void)xmppRoster:(XMPPRoster </em>)sender didReceiveRosterItem:(DDXMLElement <em>)item</em></strong></h3><p></p>
+<h5 id="这个是XMPPRosterDelegate协议中代理方法-如果我们有很多的好友-这个方法会调用很多次-知道我们的好友全部遍历完-NSString-SJid-item-attributeForName-”jid”-stringValue-和XMPPJID-jid-XMPPJID-jidWithString-SJid-这两个方法就是当我们从服务器接到我们的数据时候-我们要先将他转化成一下-转成成我们所需要的数据-然后存入我们的数据源数组中-更新UI-使用的方法是-self-tableView-insertRowsAtIndexPaths-path-withRowAnimation-UITableViewRowAnimationBottom-为什么使用这个方法呢-为什么不使用reloadData这个方法-因为这个代理方法会执行很多次-我们为了避免没有必要的内存负担-所以我们只需要更新一下我们最后一条数据就行-这样大大减少了内存的负担-提高了我们的工程效率"><a href="#这个是XMPPRosterDelegate协议中代理方法-如果我们有很多的好友-这个方法会调用很多次-知道我们的好友全部遍历完-NSString-SJid-item-attributeForName-”jid”-stringValue-和XMPPJID-jid-XMPPJID-jidWithString-SJid-这两个方法就是当我们从服务器接到我们的数据时候-我们要先将他转化成一下-转成成我们所需要的数据-然后存入我们的数据源数组中-更新UI-使用的方法是-self-tableView-insertRowsAtIndexPaths-path-withRowAnimation-UITableViewRowAnimationBottom-为什么使用这个方法呢-为什么不使用reloadData这个方法-因为这个代理方法会执行很多次-我们为了避免没有必要的内存负担-所以我们只需要更新一下我们最后一条数据就行-这样大大减少了内存的负担-提高了我们的工程效率" class="headerlink" title="这个是XMPPRosterDelegate协议中代理方法,如果我们有很多的好友,这个方法会调用很多次,知道我们的好友全部遍历完.    NSString SJid = [[item attributeForName:@”jid”] stringValue];  和XMPPJID jid = [XMPPJID jidWithString:SJid];这两个方法就是当我们从服务器接到我们的数据时候,我们要先将他转化成一下,转成成我们所需要的数据,然后存入我们的数据源数组中.更新UI 使用的方法是[self.tableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationBottom];  为什么使用这个方法呢?为什么不使用reloadData这个方法?因为这个代理方法会执行很多次,我们为了避免没有必要的内存负担,所以我们只需要更新一下我们最后一条数据就行,这样大大减少了内存的负担,提高了我们的工程效率."></a>这个是XMPPRosterDelegate协议中代理方法,如果我们有很多的好友,这个方法会调用很多次,知道我们的好友全部遍历完.    NSString <em>SJid = [[item attributeForName:@”jid”] stringValue];  和XMPPJID </em>jid = [XMPPJID jidWithString:SJid];这两个方法就是当我们从服务器接到我们的数据时候,我们要先将他转化成一下,转成成我们所需要的数据,然后存入我们的数据源数组中.更新UI 使用的方法是[self.tableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationBottom];  为什么使用这个方法呢?为什么不使用reloadData这个方法?因为这个代理方法会执行很多次,我们为了避免没有必要的内存负担,所以我们只需要更新一下我们最后一条数据就行,这样大大减少了内存的负担,提高了我们的工程效率.</h5><p></p>
+<h3 id="void-prepareForSegue-UIStoryboardSegue-segue-sender-id-sender"><a href="#void-prepareForSegue-UIStoryboardSegue-segue-sender-id-sender" class="headerlink" title="-(void)prepareForSegue:(UIStoryboardSegue )segue sender:(id)sender*"></a><strong><em>-(void)prepareForSegue:(UIStoryboardSegue </em>)segue sender:(id)sender*</strong></h3><p></p>
+<h5 id="这个方法是因为我使用storyboard的烟瘾-我们为了能正确找到我们点击对应的cell所使用的方法-传值的时候我们需要把JID传到聊天界面-这样服务器就会清楚的知道我们是对谁进行聊天了"><a href="#这个方法是因为我使用storyboard的烟瘾-我们为了能正确找到我们点击对应的cell所使用的方法-传值的时候我们需要把JID传到聊天界面-这样服务器就会清楚的知道我们是对谁进行聊天了" class="headerlink" title="这个方法是因为我使用storyboard的烟瘾,我们为了能正确找到我们点击对应的cell所使用的方法.传值的时候我们需要把JID传到聊天界面,这样服务器就会清楚的知道我们是对谁进行聊天了."></a>这个方法是因为我使用storyboard的烟瘾,我们为了能正确找到我们点击对应的cell所使用的方法.传值的时候我们需要把JID传到聊天界面,这样服务器就会清楚的知道我们是对谁进行聊天了.</h5><hr>
+<p><br></p>
+<h2 id="聊天界面功能"><a href="#聊天界面功能" class="headerlink" title="聊天界面功能"></a>聊天界面功能</h2><hr>
+<h4 id="对于聊天界面的搭建-我们也是使用到UITableViewController-逻辑是我们需要往服务器发送我们的消息-然后服务器在通过JID发送到指定的消息-发送者发送消息的时候和接收者接收到消息的时候刷新我们的UI"><a href="#对于聊天界面的搭建-我们也是使用到UITableViewController-逻辑是我们需要往服务器发送我们的消息-然后服务器在通过JID发送到指定的消息-发送者发送消息的时候和接收者接收到消息的时候刷新我们的UI" class="headerlink" title="对于聊天界面的搭建,我们也是使用到UITableViewController,逻辑是我们需要往服务器发送我们的消息,然后服务器在通过JID发送到指定的消息,发送者发送消息的时候和接收者接收到消息的时候刷新我们的UI."></a>对于聊天界面的搭建,我们也是使用到UITableViewController,逻辑是我们需要往服务器发送我们的消息,然后服务器在通过JID发送到指定的消息,发送者发送消息的时候和接收者接收到消息的时候刷新我们的UI.</h4><p></p>
+<h4 id="那我们就先看看在XMPPManager的类中我们需要做一些什么事情吧"><a href="#那我们就先看看在XMPPManager的类中我们需要做一些什么事情吧" class="headerlink" title="那我们就先看看在XMPPManager的类中我们需要做一些什么事情吧."></a>那我们就先看看在XMPPManager的类中我们需要做一些什么事情吧.</h4><h4 id="在XMPPManager-h中-我们创建了两个属性-一个是XMPP聊天消息本地化处理对象的messageArchiving-另外一个是消息上下文对象messageContext"><a href="#在XMPPManager-h中-我们创建了两个属性-一个是XMPP聊天消息本地化处理对象的messageArchiving-另外一个是消息上下文对象messageContext" class="headerlink" title="在XMPPManager.h中 我们创建了两个属性,一个是XMPP聊天消息本地化处理对象的messageArchiving,另外一个是消息上下文对象messageContext."></a>在XMPPManager.h中 我们创建了两个属性,一个是XMPP聊天消息本地化处理对象的messageArchiving,另外一个是消息上下文对象messageContext.</h4><h4 id="在XMPPManager-m中-的init方法中-我们对这两个属性进行了初始化-如下"><a href="#在XMPPManager-m中-的init方法中-我们对这两个属性进行了初始化-如下" class="headerlink" title="在XMPPManager.m中 的init方法中,我们对这两个属性进行了初始化.如下"></a>在XMPPManager.m中 的init方法中,我们对这两个属性进行了初始化.如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//初始化聊天记录管理对象</span><br><span class="line">        </span><br><span class="line">        XMPPMessageArchivingCoreDataStorage  *messageArchivingCoreDataStorage= [XMPPMessageArchivingCoreDataStorage sharedInstance];</span><br><span class="line">        </span><br><span class="line">        self.messageArchiving = [[XMPPMessageArchiving alloc]initWithMessageArchivingStorage:messageArchivingCoreDataStorage dispatchQueue:dispatch_get_main_queue()];</span><br><span class="line">        </span><br><span class="line">        //激活管理对象</span><br><span class="line">        [self.messageArchiving activate:self.stream];</span><br><span class="line">        </span><br><span class="line">        //设置管理对象代理</span><br><span class="line">        [self.messageArchiving addDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line">        </span><br><span class="line">        self.messageContext = messageArchivingCoreDataStorage.mainThreadManagedObjectContext;</span><br></pre></td></tr></table></figure>
+<h4 id="messageArchiving对象也是需要我们激活通道权限的-然后设置了代理"><a href="#messageArchiving对象也是需要我们激活通道权限的-然后设置了代理" class="headerlink" title="messageArchiving对象也是需要我们激活通道权限的.然后设置了代理."></a>messageArchiving对象也是需要我们激活通道权限的.然后设置了代理.</h4><p><br></p>
+<h4 id="在ChatTableViewController-h界面-我们需要设置一个XMPPJID对象-来接受好友列表传来的JID值-代码如下"><a href="#在ChatTableViewController-h界面-我们需要设置一个XMPPJID对象-来接受好友列表传来的JID值-代码如下" class="headerlink" title="在ChatTableViewController.h界面 我们需要设置一个XMPPJID对象  来接受好友列表传来的JID值.代码如下."></a>在ChatTableViewController.h界面 我们需要设置一个XMPPJID对象  来接受好友列表传来的JID值.代码如下.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#import &lt;UIKit/UIKit.h&gt;</span><br><span class="line"></span><br><span class="line">#import &quot;XMPPManager.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ChatTableViewController : UITableViewController</span><br><span class="line"></span><br><span class="line">//接收好友列表传来的JID</span><br><span class="line">@property(nonatomic,strong)XMPPJID *chatToJID;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>####在ChatTableViewController.m文件中,我们需要做的就是实现XMPPStreamDelegate的代理方法,从代理方法中实现往服务器发送数据和从服务器接收数据的操作.代码如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line">#import &quot;ChatTableViewController.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ChatTableViewController ()&lt;XMPPStreamDelegate&gt;</span><br><span class="line"></span><br><span class="line">//存放所有的消息</span><br><span class="line">@property(nonatomic,strong)NSMutableArray *messageArray;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ChatTableViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    self.messageArray = [NSMutableArray array];</span><br><span class="line">    </span><br><span class="line">    //添加代理</span><br><span class="line">    [[XMPPManager defaulManager].stream addDelegate:self delegateQueue:dispatch_get_main_queue()];</span><br><span class="line">    </span><br><span class="line">    //更新聊天记录信息</span><br><span class="line">    [self reloadMessage];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    // Uncomment the following line to preserve selection between presentations.</span><br><span class="line">    // self.clearsSelectionOnViewWillAppear = NO;</span><br><span class="line">    </span><br><span class="line">    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.</span><br><span class="line">    // self.navigationItem.rightBarButtonItem = self.editButtonItem;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//展现聊天记录</span><br><span class="line">-(void)reloadMessage&#123;</span><br><span class="line"></span><br><span class="line">    NSManagedObjectContext *context = [XMPPManager defaulManager].messageContext;</span><br><span class="line">    </span><br><span class="line">#pragma mark----直接一个 fet 下面全都出来了----</span><br><span class="line">    </span><br><span class="line">    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];</span><br><span class="line">    //这里面要填的是XMPPARChiver的coreData实例类型</span><br><span class="line">    NSEntityDescription *entity = [NSEntityDescription entityForName:@&quot;XMPPMessageArchiving_Message_CoreDataObject&quot; inManagedObjectContext:context];</span><br><span class="line">    [fetchRequest setEntity:entity];</span><br><span class="line">    // Specify criteria for filtering which objects to fetch</span><br><span class="line">    </span><br><span class="line">    //对取到的数据进行过滤,传入过滤条件.</span><br><span class="line">    NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;streamBareJidStr == %@ AND bareJidStr == %@&quot;, [XMPPManager defaulManager].stream.myJID.bare,self.chatToJID.bare];</span><br><span class="line">    [fetchRequest setPredicate:predicate];</span><br><span class="line">    // Specify how the fetched objects should be sorted</span><br><span class="line">    </span><br><span class="line">    //设置排序的关键字</span><br><span class="line">    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@&quot;timestamp&quot;</span><br><span class="line">                                                                   ascending:YES];</span><br><span class="line">    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];</span><br><span class="line">    </span><br><span class="line">    NSError *error = nil;</span><br><span class="line">    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&amp;error];</span><br><span class="line">    if (fetchedObjects == nil) &#123;</span><br><span class="line"></span><br><span class="line">        //完成之后干什么?</span><br><span class="line">        NSLog(@&quot;和此人的激情交谈&quot;);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    /********获取和这个人所有的聊天记录***************/</span><br><span class="line">    </span><br><span class="line">    //清空聊天数组中的消息</span><br><span class="line">    [self.messageArray removeAllObjects];</span><br><span class="line">    </span><br><span class="line">    //将新的聊天记录添加到数组中</span><br><span class="line">    self.messageArray = [NSMutableArray arrayWithArray:fetchedObjects];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%ld&quot;,self.messageArray.count);</span><br><span class="line">    </span><br><span class="line">    //刷新UI</span><br><span class="line">    [self.tableView reloadData];</span><br><span class="line">    </span><br><span class="line">    //将tableview直接滑动到最底部</span><br><span class="line">    NSIndexPath * indexpath = [NSIndexPath indexPathForRow: self.messageArray.count-1 inSection:0];</span><br><span class="line">    </span><br><span class="line">    if (indexpath.row &gt; 0) &#123;</span><br><span class="line">        </span><br><span class="line">        [self.tableView selectRowAtIndexPath:indexpath animated:YES scrollPosition:UITableViewScrollPositionBottom];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)didReceiveMemoryWarning &#123;</span><br><span class="line">    [super didReceiveMemoryWarning];</span><br><span class="line">    // Dispose of any resources that can be recreated.</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#pragma mark - Table view data source</span><br><span class="line"></span><br><span class="line">- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView &#123;</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section &#123;</span><br><span class="line">    return self.messageArray.count;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath &#123;</span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@&quot;ChatCell&quot; forIndexPath:indexPath];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //取到我们对应的信息</span><br><span class="line">    XMPPMessageArchiving_Message_CoreDataObject *message = self.messageArray[indexPath.row];</span><br><span class="line">    </span><br><span class="line">    if (message.isOutgoing == YES) &#123;</span><br><span class="line">        </span><br><span class="line">        cell.detailTextLabel.text  = message.body;</span><br><span class="line">        </span><br><span class="line">        cell.textLabel.text = @&quot;&quot;;</span><br><span class="line">        </span><br><span class="line">    &#125;else &#123;</span><br><span class="line">    </span><br><span class="line">        cell.textLabel.text = message.body;</span><br><span class="line">        </span><br><span class="line">        cell.detailTextLabel.text = @&quot;&quot;;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    return cell;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//发送消息</span><br><span class="line">- (IBAction)sendAction:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    XMPPMessage *message = [XMPPMessage messageWithType:@&quot;chat&quot; to:self.chatToJID];</span><br><span class="line">    </span><br><span class="line">    [message addBody:@&quot;nice to meet you&quot;];</span><br><span class="line">    </span><br><span class="line">    //发送消息</span><br><span class="line">    [[XMPPManager defaulManager].stream sendElement:message];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">-(void)xmppStream:(XMPPStream *)sender didSendMessage:(XMPPMessage *)message&#123;</span><br><span class="line"></span><br><span class="line">//    tipWithMessage(@&quot;消息发送成功!&quot;);</span><br><span class="line">    </span><br><span class="line">    [self reloadMessage];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)xmppStream:(XMPPStream *)sender didFailToSendMessage:(XMPPMessage *)message error:(NSError *)error&#123;</span><br><span class="line"></span><br><span class="line">    tipWithMessage(@&quot;消息发送失败&quot;);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)xmppStream:(XMPPStream *)sender didReceiveMessage:(XMPPMessage *)message&#123;</span><br><span class="line">    </span><br><span class="line">    [self reloadMessage];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="页面的逻辑"><a href="#页面的逻辑" class="headerlink" title="页面的逻辑:"></a>页面的逻辑:</h3><h4 id="当我们进入聊天界面的时候-我们会先调用reloadMessage这个方法-从服务器下载当前用户与这个JID的聊天记录-当我们点击发送消息的时候-我们就会调用sendAction这个方法-发送到服务器上去-当我们发送成功后调用didSendMessage这个协议方法-然后在这协议方法中调用reloadMessage这个方法重新从服务器下载新的聊天记录并且刷新UI-然后服务器上有当前用户新的消息的时候-就会调用didReceiveMessage这个代理方法-我们只需要在这个方法中再次调用reloadMessage方法就可-PS-因为我用的是storyboard-所有有些地方会有所不同😃"><a href="#当我们进入聊天界面的时候-我们会先调用reloadMessage这个方法-从服务器下载当前用户与这个JID的聊天记录-当我们点击发送消息的时候-我们就会调用sendAction这个方法-发送到服务器上去-当我们发送成功后调用didSendMessage这个协议方法-然后在这协议方法中调用reloadMessage这个方法重新从服务器下载新的聊天记录并且刷新UI-然后服务器上有当前用户新的消息的时候-就会调用didReceiveMessage这个代理方法-我们只需要在这个方法中再次调用reloadMessage方法就可-PS-因为我用的是storyboard-所有有些地方会有所不同😃" class="headerlink" title="当我们进入聊天界面的时候,我们会先调用reloadMessage这个方法,从服务器下载当前用户与这个JID的聊天记录,当我们点击发送消息的时候,我们就会调用sendAction这个方法,发送到服务器上去,当我们发送成功后调用didSendMessage这个协议方法,然后在这协议方法中调用reloadMessage这个方法重新从服务器下载新的聊天记录并且刷新UI,然后服务器上有当前用户新的消息的时候,就会调用didReceiveMessage这个代理方法,我们只需要在这个方法中再次调用reloadMessage方法就可.(PS:因为我用的是storyboard  所有有些地方会有所不同😃)"></a>当我们进入聊天界面的时候,我们会先调用reloadMessage这个方法,从服务器下载当前用户与这个JID的聊天记录,当我们点击发送消息的时候,我们就会调用sendAction这个方法,发送到服务器上去,当我们发送成功后调用didSendMessage这个协议方法,然后在这协议方法中调用reloadMessage这个方法重新从服务器下载新的聊天记录并且刷新UI,然后服务器上有当前用户新的消息的时候,就会调用didReceiveMessage这个代理方法,我们只需要在这个方法中再次调用reloadMessage方法就可.(PS:因为我用的是storyboard  所有有些地方会有所不同😃)</h4><hr>
+<p><br></p>
+<h3 id="方法解释-1"><a href="#方法解释-1" class="headerlink" title="方法解释:"></a>方法解释:</h3><hr>
+<h4 id="void-reloadMessage"><a href="#void-reloadMessage" class="headerlink" title="-(void)reloadMessage"></a><strong><em>-(void)reloadMessage</em></strong></h4><h4 id="这个方法是整个聊天界面的核心-我们在这里面做的就是从服务器下载我们的数据-当我们下载完数据的时候-就要把我们数据源数组中所有的元素清空-然后将所有从服务器中下载的元素添加到我们的数组中-然后刷新我们的UI-当我一刷新之后tableView就会重头开始了-所以我们设置让最后一个cell显示在屏幕上-还有就是下面的一段代码-这是我们先前写好的-我们需要敲出-fetch-就会给我们提示-是不是很简答-😂-这段代码就是从网上下载我们所需要的数据-当然了-我们需要使用谓词对这些数据进行过滤-过滤后的数据才是我们所需要的数据"><a href="#这个方法是整个聊天界面的核心-我们在这里面做的就是从服务器下载我们的数据-当我们下载完数据的时候-就要把我们数据源数组中所有的元素清空-然后将所有从服务器中下载的元素添加到我们的数组中-然后刷新我们的UI-当我一刷新之后tableView就会重头开始了-所以我们设置让最后一个cell显示在屏幕上-还有就是下面的一段代码-这是我们先前写好的-我们需要敲出-fetch-就会给我们提示-是不是很简答-😂-这段代码就是从网上下载我们所需要的数据-当然了-我们需要使用谓词对这些数据进行过滤-过滤后的数据才是我们所需要的数据" class="headerlink" title="这个方法是整个聊天界面的核心.我们在这里面做的就是从服务器下载我们的数据.当我们下载完数据的时候,就要把我们数据源数组中所有的元素清空,然后将所有从服务器中下载的元素添加到我们的数组中.然后刷新我们的UI,当我一刷新之后tableView就会重头开始了,所以我们设置让最后一个cell显示在屏幕上.还有就是下面的一段代码,这是我们先前写好的,我们需要敲出  fetch   就会给我们提示,是不是很简答?😂 这段代码就是从网上下载我们所需要的数据.当然了,我们需要使用谓词对这些数据进行过滤.过滤后的数据才是我们所需要的数据."></a>这个方法是整个聊天界面的核心.我们在这里面做的就是从服务器下载我们的数据.当我们下载完数据的时候,就要把我们数据源数组中所有的元素清空,然后将所有从服务器中下载的元素添加到我们的数组中.然后刷新我们的UI,当我一刷新之后tableView就会重头开始了,所以我们设置让最后一个cell显示在屏幕上.还有就是下面的一段代码,这是我们先前写好的,我们需要敲出 <strong><em> fetch  </em></strong> 就会给我们提示,是不是很简答?😂 这段代码就是从网上下载我们所需要的数据.当然了,我们需要使用谓词对这些数据进行过滤.过滤后的数据才是我们所需要的数据.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line">NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];</span><br><span class="line">//这里面要填的是XMPPARChiver的coreData实例类型</span><br><span class="line">NSEntityDescription *entity = [NSEntityDescription entityForName:@&quot;XMPPMessageArchiving_Message_CoreDataObject&quot; inManagedObjectContext:context];</span><br><span class="line">[fetchRequest setEntity:entity];</span><br><span class="line">// Specify criteria for filtering which objects to fetch</span><br><span class="line"></span><br><span class="line">//对取到的数据进行过滤,传入过滤条件.</span><br><span class="line">NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;streamBareJidStr == %@ AND bareJidStr == %@&quot;, [XMPPManager defaulManager].stream.myJID.bare,self.chatToJID.bare];</span><br><span class="line">[fetchRequest setPredicate:predicate];</span><br><span class="line">// Specify how the fetched objects should be sorted</span><br><span class="line"></span><br><span class="line">//设置排序的关键字</span><br><span class="line">NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@&quot;timestamp&quot;</span><br><span class="line">                                                               ascending:YES];</span><br><span class="line">[fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];</span><br><span class="line"></span><br><span class="line">NSError *error = nil;</span><br><span class="line">NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&amp;error];</span><br><span class="line">if (fetchedObjects == nil) &#123;</span><br><span class="line"></span><br><span class="line">    //完成之后干什么?</span><br><span class="line">    NSLog(@&quot;和此人的激情交谈&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="XMPP协议实现即时通讯的过程大体就是这样了-当然了-我还有一些功能没有完善-比如添加好友的功能-这将在后期进行再次的完善-谢谢大家的查看"><a href="#XMPP协议实现即时通讯的过程大体就是这样了-当然了-我还有一些功能没有完善-比如添加好友的功能-这将在后期进行再次的完善-谢谢大家的查看" class="headerlink" title="XMPP协议实现即时通讯的过程大体就是这样了,当然了,我还有一些功能没有完善,比如添加好友的功能.这将在后期进行再次的完善.谢谢大家的查看.."></a>XMPP协议实现即时通讯的过程大体就是这样了,当然了,我还有一些功能没有完善,比如添加好友的功能.这将在后期进行再次的完善.谢谢大家的查看..</h4><h1 id="—-gt-XMPP的Demo资源下载"><a href="#—-gt-XMPP的Demo资源下载" class="headerlink" title="—&gt;XMPP的Demo资源下载 "></a><a href="http://yun.baidu.com/share/link?shareid=3488044018&amp;uk=4079807053" target="_blank" rel="external">—&gt;XMPP的Demo资源下载 </a></h1><p><br><br><br></p>
+<blockquote>
+<h4 id="在Demo拿到手的时候-我们首先要对我们的服务器IP进行设置-在XMPPConfig-h文件中设置服务器相关信息"><a href="#在Demo拿到手的时候-我们首先要对我们的服务器IP进行设置-在XMPPConfig-h文件中设置服务器相关信息" class="headerlink" title="在Demo拿到手的时候,我们首先要对我们的服务器IP进行设置.在XMPPConfig.h文件中设置服务器相关信息!!!"></a>在Demo拿到手的时候,我们首先要对我们的服务器IP进行设置.在XMPPConfig.h文件中设置服务器相关信息!!!</h4></blockquote>
+<p><img src="http://upload-images.jianshu.io/upload_images/1396375-7e9dc835d66f2971.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><br></p>
+<h4 id="如果有有什么疑问-可以回复-谢谢大家"><a href="#如果有有什么疑问-可以回复-谢谢大家" class="headerlink" title="如果有有什么疑问,可以回复,谢谢大家"></a>如果有有什么疑问,可以回复,谢谢大家</h4>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/22/华山论剑之浅谈iOS单例对象/" rel="next" title="华山论剑之浅谈iOS单例对象.">
+                <i class="fa fa-chevron-left"></i> 华山论剑之浅谈iOS单例对象.
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/08/原谅我一生/" rel="prev" title="原谅我一生放荡不羁爱自由">
+                原谅我一生放荡不羁爱自由 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”"><span class="nav-number">1.</span> <span class="nav-text">优秀的代码是它自己最好的文档。当你考虑要添加一个注释时，问问自己，“如何能改进这段代码，以让它不需要注释？”</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XMPP简介"><span class="nav-number"></span> <span class="nav-text">XMPP简介</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。"><span class="nav-number">0.1.</span> <span class="nav-text">XMPP是一种基于标准通用标记语言的子集XML的协议，它继承了在XML环境中灵活的发展性。因此，基于XMPP的应用具有超强的可扩展性。经过扩展以后的XMPP可以通过发送扩展的信息来处理用户的需求，以及在XMPP的顶端建立如内容发布系统和基于地址的服务等应用程序。而且，XMPP包含了针对服务器端的软件协议，使之能与另一个进行通话，这使得开发者更容易建立客户应用程序或给一个配好系统添加功能。</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XMPP协议的实现原理过程"><span class="nav-number"></span> <span class="nav-text">XMPP协议的实现原理过程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们知道XMPP是一种协议的时候-我们如何通过objective-c-代码实现XMPP协议-进而实现我们的即时通讯功能呢-下面的图片就是为我们做了很好的解释"><span class="nav-number">1.</span> <span class="nav-text">当我们知道XMPP是一种协议的时候,我们如何通过objective-c 代码实现XMPP协议,进而实现我们的即时通讯功能呢? 下面的图片就是为我们做了很好的解释.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#XMPP协议的代码实现"><span class="nav-number"></span> <span class="nav-text">XMPP协议的代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-准备工作"><span class="nav-number"></span> <span class="nav-text">1.准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们做的客户端也服务器通讯通道的实现以及数据交流-那么首先要有我们自己的服务器-当然了-在公司的好说一些-如果是个人研究技术怎么办呢-我们可以自己搭建一个服务器或者使用leancloud这种第三方服务器-这里我给大家提供一些搭建服务器的工具-当然了-自己搭建的服务器生命比较脆弱-请大家好好爱护-还有就是leancloud也是我推荐的一种方法"><span class="nav-number">1.</span> <span class="nav-text">我们做的客户端也服务器通讯通道的实现以及数据交流,那么首先要有我们自己的服务器,当然了,在公司的好说一些,如果是个人研究技术怎么办呢?我们可以自己搭建一个服务器或者使用leancloud这种第三方服务器,这里我给大家提供一些搭建服务器的工具,当然了,自己搭建的服务器生命比较脆弱,请大家好好爱护~还有就是leancloud也是我推荐的一种方法.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#—–-gt-点击前往LeanCloud官方网站"><span class="nav-number">2.</span> <span class="nav-text">—–>点击前往LeanCloud官方网站</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#—–-gt-XMPP本地服务器搭建工具下载"><span class="nav-number">3.</span> <span class="nav-text">—–>XMPP本地服务器搭建工具下载</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-OC搭建Client和连接通道"><span class="nav-number"></span> <span class="nav-text">2.OC搭建Client和连接通道</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工程完成目标"><span class="nav-number">1.</span> <span class="nav-text">工程完成目标:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首先-我们需要导入我们的所需要导入的-XMPPFramework-PS-点击打开下载-完成之后直接解压拖到工程中😃-还有手动的导入两个库-如下"><span class="nav-number">2.</span> <span class="nav-text">首先,我们需要导入我们的所需要导入的 XMPPFramework (PS:点击打开下载,完成之后直接解压拖到工程中😃),还有手动的导入两个库.如下.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们就要配置我们的build-setting页面的设置-search-paths-选添加一个字段-添加如下"><span class="nav-number">3.</span> <span class="nav-text">然后,我们就要配置我们的build setting页面的设置 search paths 选添加一个字段,添加如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成上面的设置之后-我们需要创建一个单例类XMPPManager-用它来创建通讯通道实现上面的四个功能"><span class="nav-number">4.</span> <span class="nav-text">完成上面的设置之后  我们需要创建一个单例类XMPPManager,用它来创建通讯通道实现上面的四个功能.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XMPPManager-h文件的解释"><span class="nav-number">5.</span> <span class="nav-text">XMPPManager.h文件的解释:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#stream-这是C和S之间的通讯通道"><span class="nav-number">5.1.</span> <span class="nav-text">stream : 这是C和S之间的通讯通道.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#roster-这个属性管理好友列表的一个属性"><span class="nav-number">5.2.</span> <span class="nav-text">roster : 这个属性管理好友列表的一个属性.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#messageArchiving-这个属性用来管理本地聊天记录的一个类"><span class="nav-number">5.3.</span> <span class="nav-text">messageArchiving : 这个属性用来管理本地聊天记录的一个类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#messageContext-消息上下文对象"><span class="nav-number">5.4.</span> <span class="nav-text">messageContext : 消息上下文对象.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#instancetype-defaulManager-创建单例的方法"><span class="nav-number">5.5.</span> <span class="nav-text">+(instancetype)defaulManager:创建单例的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-LoginWithUserName-NSString-name-AndPassWord-NSString-password-登录的方法"><span class="nav-number">5.6.</span> <span class="nav-text">-(void)LoginWithUserName:(NSString )name AndPassWord:(NSString )password : 登录的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-RegiserWithUserName-NSString-name-AndPassWord-NSString-password-注册新账号的方法"><span class="nav-number">5.7.</span> <span class="nav-text">-(void)RegiserWithUserName:(NSString )name AndPassWord:(NSString )password : 注册新账号的方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#void-disconnectWithServer-与服务器断开链接"><span class="nav-number">5.8.</span> <span class="nav-text">-(void)disconnectWithServer;  与服务器断开链接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#了解完各个方法之后-我们就要在XMPPManager-m实现一下-实现如下"><span class="nav-number">6.</span> <span class="nav-text">了解完各个方法之后,我们就要在XMPPManager.m实现一下,实现如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#看完了上面的代码-连我自己都觉得乱乱的-所以-我们一个功能一个功能看这些代码的实现原理"><span class="nav-number">7.</span> <span class="nav-text">看完了上面的代码,连我自己都觉得乱乱的,所以 我们一个功能一个功能看这些代码的实现原理,</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登录功能"><span class="nav-number"></span> <span class="nav-text">登录功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#我们想要登录我们的服务器-首先要有我们的账号和密码-然后我们就需要建立通道"><span class="nav-number"></span> <span class="nav-text">我们想要登录我们的服务器,首先要有我们的账号和密码,然后我们就需要建立通道</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#a-defaulManager"><span class="nav-number">1.</span> <span class="nav-text">(a)defaulManager</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建单例这个方法中就是创建了我们的单例"><span class="nav-number">1.1.</span> <span class="nav-text">创建单例这个方法中就是创建了我们的单例.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#b-init"><span class="nav-number">2.</span> <span class="nav-text">(b)init</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#初始化这个方法中我们需要对我们的通讯管道属性stream进行初始化一下-设置stream服务器IP地址和服务器端口-还有就是设置stream的代理对象-实现XMPPStreamDelegate协议方法-这里设置代理对象的方法不同于以前-这里是使用runtime设计模式可以为stream设置多个代理对象"><span class="nav-number">2.1.</span> <span class="nav-text">初始化这个方法中我们需要对我们的通讯管道属性stream进行初始化一下,设置stream服务器IP地址和服务器端口,还有就是设置stream的代理对象.实现XMPPStreamDelegate协议方法.这里设置代理对象的方法不同于以前,这里是使用runtime设计模式可以为stream设置多个代理对象.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#c-LoginWithUserName-NSString-name-AndPassWord-NSString-password"><span class="nav-number">3.</span> <span class="nav-text">(c)LoginWithUserName:(NSString )name AndPassWord:(NSString )password</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这个方法中首先我们需要保存我们的密码-用于传值到下一个方法中-self-type-DoLgin-这句代码有作何解释呢-因为不管是登录和注册-我们都要与我们的服务器创建联系-那么服务器是如何知道我们是创建的什么联系的呢-就是通过这句代码实现的-当然了-现在你可能听得糊涂-当看到下面的方法的时候你就明白了-self-connectToServerWintUser-name-这句代码就是要创建于服务器之间的联系-这时候-账号name就通过参数的形式传到了connectToServerWintUser这个函数-而password通过属性的传值到xmppStreamDidConnect-当完成通道的建立的时候执行的代理方法"><span class="nav-number">3.1.</span> <span class="nav-text">这个方法中首先我们需要保存我们的密码,用于传值到下一个方法中.self.type = DoLgin;这句代码有作何解释呢?因为不管是登录和注册,我们都要与我们的服务器创建联系,那么服务器是如何知道我们是创建的什么联系的呢?就是通过这句代码实现的,当然了,现在你可能听得糊涂,当看到下面的方法的时候你就明白了.[self connectToServerWintUser:name];这句代码就是要创建于服务器之间的联系.这时候,账号name就通过参数的形式传到了connectToServerWintUser这个函数,而password通过属性的传值到xmppStreamDidConnect(当完成通道的建立的时候执行的代理方法).</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#d-connectToServerWintUser"><span class="nav-number">4.</span> <span class="nav-text">(d)connectToServerWintUser</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#self-stream-disconnect-这句代码就是让客户端断开连接通道-综合上面来看-当我们已经存在的连接的通道的时候-我们就会让通道断开-这是为什么呢-因为C与S之间的通道只能创建一条-当我们重复创建的时候-就会导致我们的程序崩溃-所以我们要保障我们的通道是只有一条的-self-stream-connectWithTimeout-30-0f-error-amp-error-这句代码就是我们创建通道-当然了等待时间是30秒"><span class="nav-number">4.1.</span> <span class="nav-text">[self.stream disconnect];这句代码就是让客户端断开连接通道,综合上面来看,当我们已经存在的连接的通道的时候,我们就会让通道断开,这是为什么呢?因为C与S之间的通道只能创建一条,当我们重复创建的时候,就会导致我们的程序崩溃.所以我们要保障我们的通道是只有一条的.    [self.stream connectWithTimeout:30.0f error:&error];这句代码就是我们创建通道,当然了等待时间是30秒.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#e-xmppStreamDidConnect"><span class="nav-number">5.</span> <span class="nav-text">(e)xmppStreamDidConnect</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这是一个代理的方法-当我们完成通道的创建之后-我们就会调用这个方法-在这个代理方法中我们需要做的就是对我们的密码进行验证-self-stream-authenticateWithPassword-self-password-error-amp-error-这就是登录验证我们的密码-验证成功之后就会调用-void-xmppStreamDidAuthenticate-XMPPStream-sender这个代理方法-验证失败就会调用-void-xmppStream-XMPPStream-sender-didNotAuthenticate-DDXMLElement-error-这个代理方法-当然了-这两个方法是写在我们的登录页面的-因为我们需要对使用者有个用户的交互不是-比如弹出一个弹窗-提醒一下用户-xmppStreamDidConnect不管是注册和登录都会调用-我们怎么区分呢-我们现在-m文件的顶部设置了一个枚举值-通过枚举值的值判断我们所需要的操作"><span class="nav-number">5.1.</span> <span class="nav-text">这是一个代理的方法,当我们完成通道的创建之后,我们就会调用这个方法,在这个代理方法中我们需要做的就是对我们的密码进行验证.[self.stream authenticateWithPassword:self.password error:&error];这就是登录验证我们的密码.验证成功之后就会调用-(void)xmppStreamDidAuthenticate:(XMPPStream )sender这个代理方法,验证失败就会调用-(void)xmppStream:(XMPPStream )sender didNotAuthenticate:(DDXMLElement *)error 这个代理方法,当然了,这两个方法是写在我们的登录页面的,因为我们需要对使用者有个用户的交互不是?比如弹出一个弹窗.提醒一下用户.xmppStreamDidConnect不管是注册和登录都会调用,我们怎么区分呢?我们现在.m文件的顶部设置了一个枚举值,通过枚举值的值判断我们所需要的操作.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#f-xmppStreamConnectDidTimeout"><span class="nav-number">6.</span> <span class="nav-text">(f)xmppStreamConnectDidTimeout</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这个方法就是说-当我们与服务器建立连接超时的时候会进行的操作-throw-NSException-exceptionWithName-”CQ-Error”-reason-”与服务器建立连接超时-请查看代码”-userInfo-nil-是我们手动的抛出一个异常"><span class="nav-number">6.1.</span> <span class="nav-text">这个方法就是说,当我们与服务器建立连接超时的时候会进行的操作.@throw [NSException exceptionWithName:@”CQ_Error” reason:@”与服务器建立连接超时,请查看代码” userInfo:nil];是我们手动的抛出一个异常.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注册功能"><span class="nav-number"></span> <span class="nav-text">注册功能</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#xmppStreamDidConnect"><span class="nav-number"></span> <span class="nav-text">xmppStreamDidConnect</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在这个方法中-我们需要对我们的注册方法与登录方法分别开来-self-stream-registerWithPassword-self-regiserPassword-error-amp-error-这个方法就是我们把注册的密码传到服务器上保存的方法-当然了-当我们注册成功的时候-就会调动-void-xmppStreamDidRegister-XMPPStream-sender这个协议方法-当注册不成功的时候-我们就会调用-void-xmppStream-XMPPStream-sender-didNotRegister-DDXMLElement-error这个方法-这里我们也要拍给我们的用户一些交互-让我们用户知道自己注册的结果"><span class="nav-number">0.1.</span> <span class="nav-text">在这个方法中,我们需要对我们的注册方法与登录方法分别开来.            [self.stream registerWithPassword:self.regiserPassword error:&error];这个方法就是我们把注册的密码传到服务器上保存的方法.当然了,当我们注册成功的时候,就会调动-(void)xmppStreamDidRegister:(XMPPStream )sender这个协议方法,当注册不成功的时候,我们就会调用-(void)xmppStream:(XMPPStream )sender didNotRegister:(DDXMLElement *)error这个方法.这里我们也要拍给我们的用户一些交互,让我们用户知道自己注册的结果.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#好友列表功能"><span class="nav-number"></span> <span class="nav-text">好友列表功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在XMPPManager-m文件中-我们需要做的就是在-init-方法中对管理好友列表的roster对象进行一下初始化并且制定代理-这里需要注意一个地方-当我们设置roster的初始化的时候-我们需要使用-dispatch-get-global-queue-0-0-全局线程-不能使用主线程-原因是如果使用主线程会出现一些莫名其妙的Bug-self-roster-activate-self-stream-激活roster的意思就是给roster可以通过stream通道的权限-PS-大白话-😂"><span class="nav-number">1.</span> <span class="nav-text">在XMPPManager.m文件中,我们需要做的就是在  init  方法中对管理好友列表的roster对象进行一下初始化并且制定代理,这里需要注意一个地方,当我们设置roster的初始化的时候,我们需要使用  dispatch_get_global_queue(0, 0) 全局线程,不能使用主线程,原因是如果使用主线程会出现一些莫名其妙的Bug.        [self.roster activate:self.stream]; 激活roster的意思就是给roster可以通过stream通道的权限..(PS:大白话 😂)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在我们的好友列表页面中-首先我们需要确定他是一个UITableViewController-然后我们需要从我们的服务器拿到我们的好友的列表数组-通道stream连接在我们的登录的时候已经完成了-所以我们不需要再管理通道了-我们需要在好友列表的控制器中实现XMPPRosterDelegate的代理方法来获取到我们的好友列表-代码如下"><span class="nav-number">2.</span> <span class="nav-text">在我们的好友列表页面中,首先我们需要确定他是一个UITableViewController,然后我们需要从我们的服务器拿到我们的好友的列表数组.通道stream连接在我们的登录的时候已经完成了,所以我们不需要再管理通道了,我们需要在好友列表的控制器中实现XMPPRosterDelegate的代理方法来获取到我们的好友列表.代码如下</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法解释"><span class="nav-number"></span> <span class="nav-text">方法解释</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在上面的代码中我们要解释的只有两个方法-一个是获取好友信息的时候调用的"><span class="nav-number">1.</span> <span class="nav-text">在上面的代码中我们要解释的只有两个方法 ,一个是获取好友信息的时候调用的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#另外一个是我们点击好友进入聊天页面所需要的方法"><span class="nav-number">2.</span> <span class="nav-text">另外一个是我们点击好友进入聊天页面所需要的方法.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-xmppRoster-XMPPRoster-sender-didReceiveRosterItem-DDXMLElement-item"><span class="nav-number"></span> <span class="nav-text">-(void)xmppRoster:(XMPPRoster )sender didReceiveRosterItem:(DDXMLElement )item</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这个是XMPPRosterDelegate协议中代理方法-如果我们有很多的好友-这个方法会调用很多次-知道我们的好友全部遍历完-NSString-SJid-item-attributeForName-”jid”-stringValue-和XMPPJID-jid-XMPPJID-jidWithString-SJid-这两个方法就是当我们从服务器接到我们的数据时候-我们要先将他转化成一下-转成成我们所需要的数据-然后存入我们的数据源数组中-更新UI-使用的方法是-self-tableView-insertRowsAtIndexPaths-path-withRowAnimation-UITableViewRowAnimationBottom-为什么使用这个方法呢-为什么不使用reloadData这个方法-因为这个代理方法会执行很多次-我们为了避免没有必要的内存负担-所以我们只需要更新一下我们最后一条数据就行-这样大大减少了内存的负担-提高了我们的工程效率"><span class="nav-number">0.1.</span> <span class="nav-text">这个是XMPPRosterDelegate协议中代理方法,如果我们有很多的好友,这个方法会调用很多次,知道我们的好友全部遍历完.    NSString SJid = [[item attributeForName:@”jid”] stringValue];  和XMPPJID jid = [XMPPJID jidWithString:SJid];这两个方法就是当我们从服务器接到我们的数据时候,我们要先将他转化成一下,转成成我们所需要的数据,然后存入我们的数据源数组中.更新UI 使用的方法是[self.tableView insertRowsAtIndexPaths:@[path] withRowAnimation:UITableViewRowAnimationBottom];  为什么使用这个方法呢?为什么不使用reloadData这个方法?因为这个代理方法会执行很多次,我们为了避免没有必要的内存负担,所以我们只需要更新一下我们最后一条数据就行,这样大大减少了内存的负担,提高了我们的工程效率.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-prepareForSegue-UIStoryboardSegue-segue-sender-id-sender"><span class="nav-number"></span> <span class="nav-text">-(void)prepareForSegue:(UIStoryboardSegue )segue sender:(id)sender*</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#这个方法是因为我使用storyboard的烟瘾-我们为了能正确找到我们点击对应的cell所使用的方法-传值的时候我们需要把JID传到聊天界面-这样服务器就会清楚的知道我们是对谁进行聊天了"><span class="nav-number">0.1.</span> <span class="nav-text">这个方法是因为我使用storyboard的烟瘾,我们为了能正确找到我们点击对应的cell所使用的方法.传值的时候我们需要把JID传到聊天界面,这样服务器就会清楚的知道我们是对谁进行聊天了.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聊天界面功能"><span class="nav-number"></span> <span class="nav-text">聊天界面功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对于聊天界面的搭建-我们也是使用到UITableViewController-逻辑是我们需要往服务器发送我们的消息-然后服务器在通过JID发送到指定的消息-发送者发送消息的时候和接收者接收到消息的时候刷新我们的UI"><span class="nav-number">1.</span> <span class="nav-text">对于聊天界面的搭建,我们也是使用到UITableViewController,逻辑是我们需要往服务器发送我们的消息,然后服务器在通过JID发送到指定的消息,发送者发送消息的时候和接收者接收到消息的时候刷新我们的UI.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#那我们就先看看在XMPPManager的类中我们需要做一些什么事情吧"><span class="nav-number">2.</span> <span class="nav-text">那我们就先看看在XMPPManager的类中我们需要做一些什么事情吧.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在XMPPManager-h中-我们创建了两个属性-一个是XMPP聊天消息本地化处理对象的messageArchiving-另外一个是消息上下文对象messageContext"><span class="nav-number">3.</span> <span class="nav-text">在XMPPManager.h中 我们创建了两个属性,一个是XMPP聊天消息本地化处理对象的messageArchiving,另外一个是消息上下文对象messageContext.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在XMPPManager-m中-的init方法中-我们对这两个属性进行了初始化-如下"><span class="nav-number">4.</span> <span class="nav-text">在XMPPManager.m中 的init方法中,我们对这两个属性进行了初始化.如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#messageArchiving对象也是需要我们激活通道权限的-然后设置了代理"><span class="nav-number">5.</span> <span class="nav-text">messageArchiving对象也是需要我们激活通道权限的.然后设置了代理.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在ChatTableViewController-h界面-我们需要设置一个XMPPJID对象-来接受好友列表传来的JID值-代码如下"><span class="nav-number">6.</span> <span class="nav-text">在ChatTableViewController.h界面 我们需要设置一个XMPPJID对象  来接受好友列表传来的JID值.代码如下.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#页面的逻辑"><span class="nav-number"></span> <span class="nav-text">页面的逻辑:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们进入聊天界面的时候-我们会先调用reloadMessage这个方法-从服务器下载当前用户与这个JID的聊天记录-当我们点击发送消息的时候-我们就会调用sendAction这个方法-发送到服务器上去-当我们发送成功后调用didSendMessage这个协议方法-然后在这协议方法中调用reloadMessage这个方法重新从服务器下载新的聊天记录并且刷新UI-然后服务器上有当前用户新的消息的时候-就会调用didReceiveMessage这个代理方法-我们只需要在这个方法中再次调用reloadMessage方法就可-PS-因为我用的是storyboard-所有有些地方会有所不同😃"><span class="nav-number">1.</span> <span class="nav-text">当我们进入聊天界面的时候,我们会先调用reloadMessage这个方法,从服务器下载当前用户与这个JID的聊天记录,当我们点击发送消息的时候,我们就会调用sendAction这个方法,发送到服务器上去,当我们发送成功后调用didSendMessage这个协议方法,然后在这协议方法中调用reloadMessage这个方法重新从服务器下载新的聊天记录并且刷新UI,然后服务器上有当前用户新的消息的时候,就会调用didReceiveMessage这个代理方法,我们只需要在这个方法中再次调用reloadMessage方法就可.(PS:因为我用的是storyboard  所有有些地方会有所不同😃)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法解释-1"><span class="nav-number"></span> <span class="nav-text">方法解释:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#void-reloadMessage"><span class="nav-number">1.</span> <span class="nav-text">-(void)reloadMessage</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这个方法是整个聊天界面的核心-我们在这里面做的就是从服务器下载我们的数据-当我们下载完数据的时候-就要把我们数据源数组中所有的元素清空-然后将所有从服务器中下载的元素添加到我们的数组中-然后刷新我们的UI-当我一刷新之后tableView就会重头开始了-所以我们设置让最后一个cell显示在屏幕上-还有就是下面的一段代码-这是我们先前写好的-我们需要敲出-fetch-就会给我们提示-是不是很简答-😂-这段代码就是从网上下载我们所需要的数据-当然了-我们需要使用谓词对这些数据进行过滤-过滤后的数据才是我们所需要的数据"><span class="nav-number">2.</span> <span class="nav-text">这个方法是整个聊天界面的核心.我们在这里面做的就是从服务器下载我们的数据.当我们下载完数据的时候,就要把我们数据源数组中所有的元素清空,然后将所有从服务器中下载的元素添加到我们的数组中.然后刷新我们的UI,当我一刷新之后tableView就会重头开始了,所以我们设置让最后一个cell显示在屏幕上.还有就是下面的一段代码,这是我们先前写好的,我们需要敲出  fetch   就会给我们提示,是不是很简答?😂 这段代码就是从网上下载我们所需要的数据.当然了,我们需要使用谓词对这些数据进行过滤.过滤后的数据才是我们所需要的数据.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#XMPP协议实现即时通讯的过程大体就是这样了-当然了-我还有一些功能没有完善-比如添加好友的功能-这将在后期进行再次的完善-谢谢大家的查看"><span class="nav-number">3.</span> <span class="nav-text">XMPP协议实现即时通讯的过程大体就是这样了,当然了,我还有一些功能没有完善,比如添加好友的功能.这将在后期进行再次的完善.谢谢大家的查看..</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#—-gt-XMPP的Demo资源下载"><span class="nav-number"></span> <span class="nav-text">—>XMPP的Demo资源下载 </span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在Demo拿到手的时候-我们首先要对我们的服务器IP进行设置-在XMPPConfig-h文件中设置服务器相关信息"><span class="nav-number">1.</span> <span class="nav-text">在Demo拿到手的时候,我们首先要对我们的服务器IP进行设置.在XMPPConfig.h文件中设置服务器相关信息!!!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果有有什么疑问-可以回复-谢谢大家"><span class="nav-number">2.</span> <span class="nav-text">如果有有什么疑问,可以回复,谢谢大家</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
