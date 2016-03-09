@@ -63,13 +63,15 @@
 <meta property="og:url" content="http://yoursite.com/2015/06/08/华山论剑之浅谈iOS的-target-action设计模式-和-代理模式-以及Bolck/index.html">
 <meta property="og:site_name" content="Coder-Dong">
 <meta property="og:description" content="当我们觉得一件事情是理所当然的时候,那正是我们失去它的时候.">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-569495d7b6767517.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-0d4db57f0e39cc31.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-03-08T09:40:30.000Z">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/0060lm7Tgw1f1qkswd3bqj30m80m8gnd.jpg
+">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/8446c8c7gw1f1qkwnwjv5j20m80m8wgg.jpg">
+<meta property="og:updated_time" content="2016-03-09T06:10:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="华山论剑之浅谈iOS的 target - action设计模式 和 代理模式 以及Bolck">
 <meta name="twitter:description" content="当我们觉得一件事情是理所当然的时候,那正是我们失去它的时候.">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/1396375-569495d7b6767517.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/large/0060lm7Tgw1f1qkswd3bqj30m80m8gnd.jpg
+">
 
 
 
@@ -258,7 +260,8 @@
 <h3 id="当我们觉得一件事情是理所当然的时候-那正是我们失去它的时候"><a href="#当我们觉得一件事情是理所当然的时候-那正是我们失去它的时候" class="headerlink" title="当我们觉得一件事情是理所当然的时候,那正是我们失去它的时候."></a>当我们觉得一件事情是理所当然的时候,那正是我们失去它的时候.</h3></blockquote>
 <a id="more"></a>
 <p> </p>
-<h4 id="target-action设计模式-和-代理模式-以及Bolck-不管是哪一个-都是我们在编程过程中比较常用的-但是真正有多少人还记得他们的实现原理的-今天我就浅谈一下target-action设计模式-和-代理模式-以及Bolck-这三个模块-在谈之前-我们先看一张搞笑的图片-让我们对三种模式有个初步的了解"><a href="#target-action设计模式-和-代理模式-以及Bolck-不管是哪一个-都是我们在编程过程中比较常用的-但是真正有多少人还记得他们的实现原理的-今天我就浅谈一下target-action设计模式-和-代理模式-以及Bolck-这三个模块-在谈之前-我们先看一张搞笑的图片-让我们对三种模式有个初步的了解" class="headerlink" title="target - action设计模式 和 代理模式 以及Bolck 不管是哪一个,都是我们在编程过程中比较常用的,但是真正有多少人还记得他们的实现原理的?今天我就浅谈一下target - action设计模式 和 代理模式 以及Bolck 这三个模块.在谈之前,我们先看一张搞笑的图片,让我们对三种模式有个初步的了解."></a>target - action设计模式 和 代理模式 以及Bolck 不管是哪一个,都是我们在编程过程中比较常用的,但是真正有多少人还记得他们的实现原理的?今天我就浅谈一下target - action设计模式 和 代理模式 以及Bolck 这三个模块.在谈之前,我们先看一张搞笑的图片,让我们对三种模式有个初步的了解.</h4><p><img src="http://upload-images.jianshu.io/upload_images/1396375-569495d7b6767517.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="设计模式"></p>
+<h4 id="target-action设计模式-和-代理模式-以及Bolck-不管是哪一个-都是我们在编程过程中比较常用的-但是真正有多少人还记得他们的实现原理的-今天我就浅谈一下target-action设计模式-和-代理模式-以及Bolck-这三个模块-在谈之前-我们先看一张搞笑的图片-让我们对三种模式有个初步的了解"><a href="#target-action设计模式-和-代理模式-以及Bolck-不管是哪一个-都是我们在编程过程中比较常用的-但是真正有多少人还记得他们的实现原理的-今天我就浅谈一下target-action设计模式-和-代理模式-以及Bolck-这三个模块-在谈之前-我们先看一张搞笑的图片-让我们对三种模式有个初步的了解" class="headerlink" title="target - action设计模式 和 代理模式 以及Bolck 不管是哪一个,都是我们在编程过程中比较常用的,但是真正有多少人还记得他们的实现原理的?今天我就浅谈一下target - action设计模式 和 代理模式 以及Bolck 这三个模块.在谈之前,我们先看一张搞笑的图片,让我们对三种模式有个初步的了解."></a>target - action设计模式 和 代理模式 以及Bolck 不管是哪一个,都是我们在编程过程中比较常用的,但是真正有多少人还记得他们的实现原理的?今天我就浅谈一下target - action设计模式 和 代理模式 以及Bolck 这三个模块.在谈之前,我们先看一张搞笑的图片,让我们对三种模式有个初步的了解.</h4><p><img src="http://ww4.sinaimg.cn/large/0060lm7Tgw1f1qkswd3bqj30m80m8gnd.jpg
+" alt="“神经骚栋”/"></p>
 <p><br> </p>
 <h1 id="target-action设计模式"><a href="#target-action设计模式" class="headerlink" title="target - action设计模式"></a>target - action设计模式</h1><hr>
 <h4 id="target-action设计模式-是一种比较常见的设计模式-比如我们在用button的时候-给button添加一个事件-我们就用到了target-action设计模式-现在我们就用target-action设计模式-做一个button-还原button的设计原理-当然了-我们还要加上tap手势"><a href="#target-action设计模式-是一种比较常见的设计模式-比如我们在用button的时候-给button添加一个事件-我们就用到了target-action设计模式-现在我们就用target-action设计模式-做一个button-还原button的设计原理-当然了-我们还要加上tap手势" class="headerlink" title="target - action设计模式 是一种比较常见的设计模式,比如我们在用button的时候,给button添加一个事件,我们就用到了target - action设计模式.现在我们就用target - action设计模式 做一个button,还原button的设计原理,当然了 我们还要加上tap手势."></a>target - action设计模式 是一种比较常见的设计模式,比如我们在用button的时候,给button添加一个事件,我们就用到了target - action设计模式.现在我们就用target - action设计模式 做一个button,还原button的设计原理,当然了 我们还要加上tap手势.</h4><p></p>
@@ -376,7 +379,7 @@ self.otherVC.block = ^(NSString *string){
 </code></pre><p>}</p>
 <p>@end</p>
 <p>```</p>
-<h4 id="现在我们用图说明一下block传值的实现原理"><a href="#现在我们用图说明一下block传值的实现原理" class="headerlink" title="现在我们用图说明一下block传值的实现原理."></a>现在我们用图说明一下block传值的实现原理.</h4><p><img src="http://upload-images.jianshu.io/upload_images/1396375-0d4db57f0e39cc31.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="block设计模式"></p>
+<h4 id="现在我们用图说明一下block传值的实现原理"><a href="#现在我们用图说明一下block传值的实现原理" class="headerlink" title="现在我们用图说明一下block传值的实现原理."></a>现在我们用图说明一下block传值的实现原理.</h4><p><img src="http://ww4.sinaimg.cn/mw690/8446c8c7gw1f1qkwnwjv5j20m80m8wgg.jpg" alt="“神经骚栋”/"></p>
 <p><br></p>
 <p><br></p>
 <h3 id="target-action设计模式-和-代理模式-以及Bolck在编程过程中用的比较多-这里就做一下简单的介绍-希望大家能够喜欢这篇文章"><a href="#target-action设计模式-和-代理模式-以及Bolck在编程过程中用的比较多-这里就做一下简单的介绍-希望大家能够喜欢这篇文章" class="headerlink" title="target - action设计模式 和 代理模式 以及Bolck在编程过程中用的比较多,这里就做一下简单的介绍.希望大家能够喜欢这篇文章."></a>target - action设计模式 和 代理模式 以及Bolck在编程过程中用的比较多,这里就做一下简单的介绍.希望大家能够喜欢这篇文章.</h3>
