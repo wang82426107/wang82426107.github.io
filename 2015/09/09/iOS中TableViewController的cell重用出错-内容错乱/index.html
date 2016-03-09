@@ -1,0 +1,676 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="用我的双手,成就你的梦想  —栋哥
+今天我的心爱的程序又出现bug,对于我这个小菜来说,不得不说是非常苦恼的,主要是cell加载的时候因为重用池的问题而出现各种的bug,虽然程序没有崩掉,但是大大影响到我的心情,下面是最主要的一个问题 ,就是cell的重用问题, cell因为从重用池中调取,没有及时删除上面的内容而导致内容的各种出现,  这里有几个解决方案.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS中TableViewController的cell重用出错(内容错乱)">
+<meta property="og:url" content="http://yoursite.com/2015/09/09/iOS中TableViewController的cell重用出错-内容错乱/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="用我的双手,成就你的梦想  —栋哥
+今天我的心爱的程序又出现bug,对于我这个小菜来说,不得不说是非常苦恼的,主要是cell加载的时候因为重用池的问题而出现各种的bug,虽然程序没有崩掉,但是大大影响到我的心情,下面是最主要的一个问题 ,就是cell的重用问题, cell因为从重用池中调取,没有及时删除上面的内容而导致内容的各种出现,  这里有几个解决方案.">
+<meta property="og:updated_time" content="2016-03-09T13:52:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS中TableViewController的cell重用出错(内容错乱)">
+<meta name="twitter:description" content="用我的双手,成就你的梦想  —栋哥
+今天我的心爱的程序又出现bug,对于我这个小菜来说,不得不说是非常苦恼的,主要是cell加载的时候因为重用池的问题而出现各种的bug,虽然程序没有崩掉,但是大大影响到我的心情,下面是最主要的一个问题 ,就是cell的重用问题, cell因为从重用池中调取,没有及时删除上面的内容而导致内容的各种出现,  这里有几个解决方案.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS中TableViewController的cell重用出错(内容错乱) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS中TableViewController的cell重用出错(内容错乱)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-09T21:47:10+08:00" content="2015-09-09">
+              2015-09-09
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="用我的双手-成就你的梦想-—栋哥"><a href="#用我的双手-成就你的梦想-—栋哥" class="headerlink" title="用我的双手,成就你的梦想  —栋哥"></a>用我的双手,成就你的梦想  —栋哥</h5></blockquote>
+<h4 id="今天我的心爱的程序又出现bug-对于我这个小菜来说-不得不说是非常苦恼的-主要是cell加载的时候因为重用池的问题而出现各种的bug-虽然程序没有崩掉-但是大大影响到我的心情-下面是最主要的一个问题-就是cell的重用问题-cell因为从重用池中调取-没有及时删除上面的内容而导致内容的各种出现-这里有几个解决方案"><a href="#今天我的心爱的程序又出现bug-对于我这个小菜来说-不得不说是非常苦恼的-主要是cell加载的时候因为重用池的问题而出现各种的bug-虽然程序没有崩掉-但是大大影响到我的心情-下面是最主要的一个问题-就是cell的重用问题-cell因为从重用池中调取-没有及时删除上面的内容而导致内容的各种出现-这里有几个解决方案" class="headerlink" title="今天我的心爱的程序又出现bug,对于我这个小菜来说,不得不说是非常苦恼的,主要是cell加载的时候因为重用池的问题而出现各种的bug,虽然程序没有崩掉,但是大大影响到我的心情,下面是最主要的一个问题 ,就是cell的重用问题, cell因为从重用池中调取,没有及时删除上面的内容而导致内容的各种出现,  这里有几个解决方案."></a>今天我的心爱的程序又出现bug,对于我这个小菜来说,不得不说是非常苦恼的,主要是cell加载的时候因为重用池的问题而出现各种的bug,虽然程序没有崩掉,但是大大影响到我的心情,下面是最主要的一个问题 ,就是cell的重用问题, cell因为从重用池中调取,没有及时删除上面的内容而导致内容的各种出现,  这里有几个解决方案.</h4><a id="more"></a>
+<h4 id="UITableView继承自UIScrollview-是苹果为我们封装好的一个基于scroll的控件。上面主要是一个个的UITableViewCell-可以让UITableViewCell响应一些点击事件，也可以在UITableViewCell中加入UITextField或者UITextView等子视图，使得可以在cell上进行文字编辑。"><a href="#UITableView继承自UIScrollview-是苹果为我们封装好的一个基于scroll的控件。上面主要是一个个的UITableViewCell-可以让UITableViewCell响应一些点击事件，也可以在UITableViewCell中加入UITextField或者UITextView等子视图，使得可以在cell上进行文字编辑。" class="headerlink" title="UITableView继承自UIScrollview,是苹果为我们封装好的一个基于scroll的控件。上面主要是一个个的UITableViewCell,可以让UITableViewCell响应一些点击事件，也可以在UITableViewCell中加入UITextField或者UITextView等子视图，使得可以在cell上进行文字编辑。"></a>UITableView继承自UIScrollview,是苹果为我们封装好的一个基于scroll的控件。上面主要是一个个的UITableViewCell,可以让UITableViewCell响应一些点击事件，也可以在UITableViewCell中加入UITextField或者UITextView等子视图，使得可以在cell上进行文字编辑。</h4><h4 id="UITableView中的cell可以有很多，一般会通过重用cell来达到节省内存的目的-通过为每个cell指定一个重用标识符-reuseIdentifier-即指定了单元格的种类-当cell滚出屏幕时-会将滚出屏幕的单元格放入重用的queue中，当某个未在屏幕上的单元格要显示的时候，就从这个queue中取出单元格进行重用。"><a href="#UITableView中的cell可以有很多，一般会通过重用cell来达到节省内存的目的-通过为每个cell指定一个重用标识符-reuseIdentifier-即指定了单元格的种类-当cell滚出屏幕时-会将滚出屏幕的单元格放入重用的queue中，当某个未在屏幕上的单元格要显示的时候，就从这个queue中取出单元格进行重用。" class="headerlink" title="UITableView中的cell可以有很多，一般会通过重用cell来达到节省内存的目的:通过为每个cell指定一个重用标识符(reuseIdentifier),即指定了单元格的种类,当cell滚出屏幕时,会将滚出屏幕的单元格放入重用的queue中，当某个未在屏幕上的单元格要显示的时候，就从这个queue中取出单元格进行重用。"></a>UITableView中的cell可以有很多，一般会通过重用cell来达到节省内存的目的:通过为每个cell指定一个重用标识符(reuseIdentifier),即指定了单元格的种类,当cell滚出屏幕时,会将滚出屏幕的单元格放入重用的queue中，当某个未在屏幕上的单元格要显示的时候，就从这个queue中取出单元格进行重用。</h4><h4 id="但对于多变的自定义cell，有时这种重用机制会出错。比如，当一个cell含有一个UITextField的子类并被放在重用queue中以待重用，这时如果一个未包含任何子视图的cell要显示在屏幕上，就会取出并使用这个重用的cell显示在无任何子视图的cell中，这时候就会出错。"><a href="#但对于多变的自定义cell，有时这种重用机制会出错。比如，当一个cell含有一个UITextField的子类并被放在重用queue中以待重用，这时如果一个未包含任何子视图的cell要显示在屏幕上，就会取出并使用这个重用的cell显示在无任何子视图的cell中，这时候就会出错。" class="headerlink" title="但对于多变的自定义cell，有时这种重用机制会出错。比如，当一个cell含有一个UITextField的子类并被放在重用queue中以待重用，这时如果一个未包含任何子视图的cell要显示在屏幕上，就会取出并使用这个重用的cell显示在无任何子视图的cell中，这时候就会出错。"></a>但对于多变的自定义cell，有时这种重用机制会出错。比如，当一个cell含有一个UITextField的子类并被放在重用queue中以待重用，这时如果一个未包含任何子视图的cell要显示在屏幕上，就会取出并使用这个重用的cell显示在无任何子视图的cell中，这时候就会出错。</h4><h4 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h4><h4 id="三种方法各有利端"><a href="#三种方法各有利端" class="headerlink" title="三种方法各有利端,"></a>三种方法各有利端,</h4><p><br></p>
+<h5 id="方法1-将获得cell的方法从-UITableViewCell-dequeueReusableCellWithIdentifier-NSString-identifier-换为-UITableViewCell-cellForRowAtIndexPath-NSIndexPath-indexPath"><a href="#方法1-将获得cell的方法从-UITableViewCell-dequeueReusableCellWithIdentifier-NSString-identifier-换为-UITableViewCell-cellForRowAtIndexPath-NSIndexPath-indexPath" class="headerlink" title="方法1 将获得cell的方法从- (UITableViewCell)dequeueReusableCellWithIdentifier:(NSString)identifier 换为-(UITableViewCell )cellForRowAtIndexPath:(NSIndexPath )indexPath"></a>方法1 将获得cell的方法从- (UITableViewCell<em>)dequeueReusableCellWithIdentifier:(NSString</em>)identifier 换为-(UITableViewCell <em>)cellForRowAtIndexPath:(NSIndexPath </em>)indexPath</h5><h5 id="重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“出列可重用的cell”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，虽然可能会浪费一些空间。"><a href="#重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“出列可重用的cell”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，虽然可能会浪费一些空间。" class="headerlink" title="重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“出列可重用的cell”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，虽然可能会浪费一些空间。"></a>重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“出列可重用的cell”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，虽然可能会浪费一些空间。</h5><p><br></p>
+<h5 id="示例代码："><a href="#示例代码：" class="headerlink" title="示例代码："></a>示例代码：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath </span><br><span class="line">&#123; </span><br><span class="line">    static NSString *CellIdentifier = @&quot;Cell&quot;; </span><br><span class="line">    // UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //改为以下的方法 </span><br><span class="line">    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath]; //根据indexPath准确地取出一行，而不是从cell重用队列中取出 </span><br><span class="line">    if (cell == nil) &#123; </span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; </span><br><span class="line">    &#125; </span><br><span class="line">     //...其他代码                               </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">    static NSString *CellIdentifier = @&quot;Cell&quot;;</span><br><span class="line">    // UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //改为以下的方法</span><br><span class="line">    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath]; //根据indexPath准确地取出一行，而不是从cell重用队列中取出</span><br><span class="line">    if (cell == nil) &#123;</span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];</span><br><span class="line">    &#125;</span><br><span class="line">     //...其他代码                              </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> <br></p>
+<h5 id="方法2-通过为每个cell指定不同的重用标识符-reuseIdentifier-来解决。"><a href="#方法2-通过为每个cell指定不同的重用标识符-reuseIdentifier-来解决。" class="headerlink" title="方法2 通过为每个cell指定不同的重用标识符(reuseIdentifier)来解决。"></a>方法2 通过为每个cell指定不同的重用标识符(reuseIdentifier)来解决。</h5><h5 id="重用机制是根据相同的标识符来重用cell的，标识符不同的cell不能彼此重用。于是我们将每个cell的标识符都设置为不同，就可以避免不同cell重用的问题了。"><a href="#重用机制是根据相同的标识符来重用cell的，标识符不同的cell不能彼此重用。于是我们将每个cell的标识符都设置为不同，就可以避免不同cell重用的问题了。" class="headerlink" title="重用机制是根据相同的标识符来重用cell的，标识符不同的cell不能彼此重用。于是我们将每个cell的标识符都设置为不同，就可以避免不同cell重用的问题了。"></a>重用机制是根据相同的标识符来重用cell的，标识符不同的cell不能彼此重用。于是我们将每个cell的标识符都设置为不同，就可以避免不同cell重用的问题了。</h5><p><br></p>
+<h5 id="示例代码：-1"><a href="#示例代码：-1" class="headerlink" title="示例代码："></a>示例代码：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath </span><br><span class="line">&#123; </span><br><span class="line">     </span><br><span class="line">    NSString *CellIdentifier = [NSString stringWithFormat:@&quot;Cell%d%d&quot;, [indexPath section], [indexPath row]];//以indexPath来唯一确定cell </span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //出列可重用的cell </span><br><span class="line">    if (cell == nil) &#123; </span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; </span><br><span class="line">    &#125; </span><br><span class="line">    //...其他代码 </span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath</span><br><span class="line">&#123;</span><br><span class="line">   </span><br><span class="line">    NSString *CellIdentifier = [NSString stringWithFormat:@&quot;Cell%d%d&quot;, [indexPath section], [indexPath row]];//以indexPath来唯一确定cell</span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //出列可重用的cell</span><br><span class="line">    if (cell == nil) &#123;</span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];</span><br><span class="line">    &#125;</span><br><span class="line">    //...其他代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="方法3-删除重用cell的所有子视图"><a href="#方法3-删除重用cell的所有子视图" class="headerlink" title="方法3 删除重用cell的所有子视图"></a>方法3 删除重用cell的所有子视图</h5><h5 id="这个方法是通过删除重用的cell的所有子视图，从而得到一个没有特殊格式的cell，供其他cell重用。"><a href="#这个方法是通过删除重用的cell的所有子视图，从而得到一个没有特殊格式的cell，供其他cell重用。" class="headerlink" title="这个方法是通过删除重用的cell的所有子视图，从而得到一个没有特殊格式的cell，供其他cell重用。"></a>这个方法是通过删除重用的cell的所有子视图，从而得到一个没有特殊格式的cell，供其他cell重用。</h5><p><br></p>
+<h5 id="示例代码：-2"><a href="#示例代码：-2" class="headerlink" title="示例代码："></a>示例代码：</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath </span><br><span class="line">&#123; </span><br><span class="line">    static NSString *CellIdentifier = @&quot;Cell&quot;; </span><br><span class="line">    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier]; //出列可重用的cell </span><br><span class="line">    if (cell == nil) &#123; </span><br><span class="line">        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier]; </span><br><span class="line">    &#125; </span><br><span class="line">    else </span><br><span class="line">    &#123; </span><br><span class="line">        //删除cell的所有子视图 </span><br><span class="line">        while ([cell.contentView.subviews lastObject] != nil) </span><br><span class="line">        &#123; </span><br><span class="line">            [(UIView*)[cell.contentView.subviews lastObject] removeFromSuperview]; </span><br><span class="line">        &#125; </span><br><span class="line">    &#125; </span><br><span class="line">    //...其他代码 </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="希望本篇文章对大家有所帮助-你的收获是我的幸福"><a href="#希望本篇文章对大家有所帮助-你的收获是我的幸福" class="headerlink" title="希望本篇文章对大家有所帮助,你的收获是我的幸福~"></a>希望本篇文章对大家有所帮助,你的收获是我的幸福~</h5>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/22/App-store-项目被拒的理由-综合各种大神的被拒理由/" rel="next" title="App  store 项目被拒的理由(综合各种大神的被拒理由~)">
+                <i class="fa fa-chevron-left"></i> App  store 项目被拒的理由(综合各种大神的被拒理由~)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/11/06/华山论剑之iOS动画/" rel="prev" title="华山论剑之iOS动画">
+                华山论剑之iOS动画 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#用我的双手-成就你的梦想-—栋哥"><span class="nav-number">1.</span> <span class="nav-text">用我的双手,成就你的梦想  —栋哥</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#今天我的心爱的程序又出现bug-对于我这个小菜来说-不得不说是非常苦恼的-主要是cell加载的时候因为重用池的问题而出现各种的bug-虽然程序没有崩掉-但是大大影响到我的心情-下面是最主要的一个问题-就是cell的重用问题-cell因为从重用池中调取-没有及时删除上面的内容而导致内容的各种出现-这里有几个解决方案"><span class="nav-number"></span> <span class="nav-text">今天我的心爱的程序又出现bug,对于我这个小菜来说,不得不说是非常苦恼的,主要是cell加载的时候因为重用池的问题而出现各种的bug,虽然程序没有崩掉,但是大大影响到我的心情,下面是最主要的一个问题 ,就是cell的重用问题, cell因为从重用池中调取,没有及时删除上面的内容而导致内容的各种出现,  这里有几个解决方案.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UITableView继承自UIScrollview-是苹果为我们封装好的一个基于scroll的控件。上面主要是一个个的UITableViewCell-可以让UITableViewCell响应一些点击事件，也可以在UITableViewCell中加入UITextField或者UITextView等子视图，使得可以在cell上进行文字编辑。"><span class="nav-number"></span> <span class="nav-text">UITableView继承自UIScrollview,是苹果为我们封装好的一个基于scroll的控件。上面主要是一个个的UITableViewCell,可以让UITableViewCell响应一些点击事件，也可以在UITableViewCell中加入UITextField或者UITextView等子视图，使得可以在cell上进行文字编辑。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UITableView中的cell可以有很多，一般会通过重用cell来达到节省内存的目的-通过为每个cell指定一个重用标识符-reuseIdentifier-即指定了单元格的种类-当cell滚出屏幕时-会将滚出屏幕的单元格放入重用的queue中，当某个未在屏幕上的单元格要显示的时候，就从这个queue中取出单元格进行重用。"><span class="nav-number"></span> <span class="nav-text">UITableView中的cell可以有很多，一般会通过重用cell来达到节省内存的目的:通过为每个cell指定一个重用标识符(reuseIdentifier),即指定了单元格的种类,当cell滚出屏幕时,会将滚出屏幕的单元格放入重用的queue中，当某个未在屏幕上的单元格要显示的时候，就从这个queue中取出单元格进行重用。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#但对于多变的自定义cell，有时这种重用机制会出错。比如，当一个cell含有一个UITextField的子类并被放在重用queue中以待重用，这时如果一个未包含任何子视图的cell要显示在屏幕上，就会取出并使用这个重用的cell显示在无任何子视图的cell中，这时候就会出错。"><span class="nav-number"></span> <span class="nav-text">但对于多变的自定义cell，有时这种重用机制会出错。比如，当一个cell含有一个UITextField的子类并被放在重用queue中以待重用，这时如果一个未包含任何子视图的cell要显示在屏幕上，就会取出并使用这个重用的cell显示在无任何子视图的cell中，这时候就会出错。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码如下"><span class="nav-number"></span> <span class="nav-text">代码如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三种方法各有利端"><span class="nav-number"></span> <span class="nav-text">三种方法各有利端,</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#方法1-将获得cell的方法从-UITableViewCell-dequeueReusableCellWithIdentifier-NSString-identifier-换为-UITableViewCell-cellForRowAtIndexPath-NSIndexPath-indexPath"><span class="nav-number">1.</span> <span class="nav-text">方法1 将获得cell的方法从- (UITableViewCell)dequeueReusableCellWithIdentifier:(NSString)identifier 换为-(UITableViewCell )cellForRowAtIndexPath:(NSIndexPath )indexPath</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“出列可重用的cell”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，虽然可能会浪费一些空间。"><span class="nav-number">2.</span> <span class="nav-text">重用机制调用的就是dequeueReusableCellWithIdentifier这个方法，方法的意思就是“出列可重用的cell”，因而只要将它换为cellForRowAtIndexPath（只从要更新的cell的那一行取出cell），就可以不使用重用机制，因而问题就可以得到解决，虽然可能会浪费一些空间。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例代码："><span class="nav-number">3.</span> <span class="nav-text">示例代码：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法2-通过为每个cell指定不同的重用标识符-reuseIdentifier-来解决。"><span class="nav-number">4.</span> <span class="nav-text">方法2 通过为每个cell指定不同的重用标识符(reuseIdentifier)来解决。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#重用机制是根据相同的标识符来重用cell的，标识符不同的cell不能彼此重用。于是我们将每个cell的标识符都设置为不同，就可以避免不同cell重用的问题了。"><span class="nav-number">5.</span> <span class="nav-text">重用机制是根据相同的标识符来重用cell的，标识符不同的cell不能彼此重用。于是我们将每个cell的标识符都设置为不同，就可以避免不同cell重用的问题了。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例代码：-1"><span class="nav-number">6.</span> <span class="nav-text">示例代码：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#方法3-删除重用cell的所有子视图"><span class="nav-number">7.</span> <span class="nav-text">方法3 删除重用cell的所有子视图</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这个方法是通过删除重用的cell的所有子视图，从而得到一个没有特殊格式的cell，供其他cell重用。"><span class="nav-number">8.</span> <span class="nav-text">这个方法是通过删除重用的cell的所有子视图，从而得到一个没有特殊格式的cell，供其他cell重用。</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#示例代码：-2"><span class="nav-number">9.</span> <span class="nav-text">示例代码：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#希望本篇文章对大家有所帮助-你的收获是我的幸福"><span class="nav-number">10.</span> <span class="nav-text">希望本篇文章对大家有所帮助,你的收获是我的幸福~</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

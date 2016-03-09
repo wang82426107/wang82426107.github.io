@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="曾经有人问我,什么样的人最可怕, 我回答,那些有执念的人才是最可怕的. —栋哥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之NSNotification(通知)与KVO(观察者模式)">
+<meta property="og:url" content="http://yoursite.com/2016/10/19/华山论剑之NSNotification-通知-与KVO-观察者模式/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="曾经有人问我,什么样的人最可怕, 我回答,那些有执念的人才是最可怕的. —栋哥">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qzc253elj20we0qwabc.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzcrsljzj20pi0r575j.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qzd50ye8j20yg0j376s.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzdi71ntj20yg0i8wgp.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qze5nuc6j20yg0i8gmr.jpg">
+<meta property="og:updated_time" content="2016-03-09T14:30:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之NSNotification(通知)与KVO(观察者模式)">
+<meta name="twitter:description" content="曾经有人问我,什么样的人最可怕, 我回答,那些有执念的人才是最可怕的. —栋哥">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qzc253elj20we0qwabc.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之NSNotification(通知)与KVO(观察者模式) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之NSNotification(通知)与KVO(观察者模式)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-19T22:20:54+08:00" content="2016-10-19">
+              2016-10-19
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="曾经有人问我-什么样的人最可怕-我回答-那些有执念的人才是最可怕的-—栋哥"><a href="#曾经有人问我-什么样的人最可怕-我回答-那些有执念的人才是最可怕的-—栋哥" class="headerlink" title="曾经有人问我,什么样的人最可怕, 我回答,那些有执念的人才是最可怕的. —栋哥"></a>曾经有人问我,什么样的人最可怕, 我回答,那些有执念的人才是最可怕的. —栋哥</h4></blockquote>
+<a id="more"></a>
+<h4 id="前几天才接触NSNotification-通知-与KVO-观察者模式-这两个模块的时候不知道怎么用-这两天逐渐发现其强大之处-因为NSNotificationCenter-通知中心-可以到处发布消息-把一些本来没有关系的视图控制器联系了起来-这样就完成了传值的工作"><a href="#前几天才接触NSNotification-通知-与KVO-观察者模式-这两个模块的时候不知道怎么用-这两天逐渐发现其强大之处-因为NSNotificationCenter-通知中心-可以到处发布消息-把一些本来没有关系的视图控制器联系了起来-这样就完成了传值的工作" class="headerlink" title="前几天才接触NSNotification(通知)与KVO(观察者模式)这两个模块的时候不知道怎么用.这两天逐渐发现其强大之处,因为NSNotificationCenter(通知中心)可以到处发布消息,把一些本来没有关系的视图控制器联系了起来,这样就完成了传值的工作."></a>前几天才接触NSNotification(通知)与KVO(观察者模式)这两个模块的时候不知道怎么用.这两天逐渐发现其强大之处,因为NSNotificationCenter(通知中心)可以到处发布消息,把一些本来没有关系的视图控制器联系了起来,这样就完成了传值的工作.</h4><p></p>
+<h4 id="KVO-观察者模式-是什么-KVO模式就如一个老师一样-如果同学们没有好好的自习-然后他通过监视同学看到了同学们的状态由学习状态转化为疯玩状态-他就会采取对应的措施-让班长来制止同学的疯玩-老师扮演的就是一个观察者-同学们就扮演被监视者-班长扮演的角色就是执行者"><a href="#KVO-观察者模式-是什么-KVO模式就如一个老师一样-如果同学们没有好好的自习-然后他通过监视同学看到了同学们的状态由学习状态转化为疯玩状态-他就会采取对应的措施-让班长来制止同学的疯玩-老师扮演的就是一个观察者-同学们就扮演被监视者-班长扮演的角色就是执行者" class="headerlink" title="KVO(观察者模式)是什么?KVO模式就如一个老师一样,如果同学们没有好好的自习,然后他通过监视同学看到了同学们的状态由学习状态转化为疯玩状态,他就会采取对应的措施,让班长来制止同学的疯玩.老师扮演的就是一个观察者,同学们就扮演被监视者.班长扮演的角色就是执行者."></a>KVO(观察者模式)是什么?KVO模式就如一个老师一样,如果同学们没有好好的自习,然后他通过监视同学看到了同学们的状态由学习状态转化为疯玩状态,他就会采取对应的措施,让班长来制止同学的疯玩.老师扮演的就是一个观察者,同学们就扮演被监视者.班长扮演的角色就是执行者.</h4><p></p>
+<h4 id="现在就看看我们的NSNotification-通知-相关的知识-首先我们先来张图缓和一些紧张的气氛-下面这张图就是一个很简单的通知"><a href="#现在就看看我们的NSNotification-通知-相关的知识-首先我们先来张图缓和一些紧张的气氛-下面这张图就是一个很简单的通知" class="headerlink" title="现在就看看我们的NSNotification(通知)相关的知识,首先我们先来张图缓和一些紧张的气氛,下面这张图就是一个很简单的通知,"></a>现在就看看我们的NSNotification(通知)相关的知识,首先我们先来张图缓和一些紧张的气氛,下面这张图就是一个很简单的通知,</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qzc253elj20we0qwabc.jpg" alt="“神经骚栋”/"></p>
+<h4 id="上面这张图的意思就是黄图哥是发送者-栋哥是接受者-同时栋哥也是执行者"><a href="#上面这张图的意思就是黄图哥是发送者-栋哥是接受者-同时栋哥也是执行者" class="headerlink" title="上面这张图的意思就是黄图哥是发送者,栋哥是接受者,同时栋哥也是执行者."></a>上面这张图的意思就是黄图哥是发送者,栋哥是接受者,同时栋哥也是执行者.</h4><h4 id="如果现在栋哥不方便执行图上的动作-他会怎么做呢-他就会指派一个人-也就是指派一个执行者做这个图上的动作"><a href="#如果现在栋哥不方便执行图上的动作-他会怎么做呢-他就会指派一个人-也就是指派一个执行者做这个图上的动作" class="headerlink" title="如果现在栋哥不方便执行图上的动作,他会怎么做呢?他就会指派一个人,也就是指派一个执行者做这个图上的动作."></a>如果现在栋哥不方便执行图上的动作,他会怎么做呢?他就会指派一个人,也就是指派一个执行者做这个图上的动作.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzcrsljzj20pi0r575j.jpg" alt="“神经骚栋”/"></p>
+<h4 id="这就是通知的生活应用-然后我们就讲讲iOS通知是如何使用的-很简单就是两行核心代码-一个是发送消息-一个是接受消息做出对应的动作"><a href="#这就是通知的生活应用-然后我们就讲讲iOS通知是如何使用的-很简单就是两行核心代码-一个是发送消息-一个是接受消息做出对应的动作" class="headerlink" title="这就是通知的生活应用,然后我们就讲讲iOS通知是如何使用的,很简单就是两行核心代码 ,一个是发送消息,一个是接受消息做出对应的动作"></a>这就是通知的生活应用,然后我们就讲讲iOS通知是如何使用的,很简单就是两行核心代码 ,一个是发送消息,一个是接受消息做出对应的动作</h4><p></p>
+<h2 id="发消息语句"><a href="#发消息语句" class="headerlink" title="发消息语句"></a>发消息语句</h2><blockquote>
+<p>[[NSNotificationCenter defaultCenter] postNotificationName:@”这里的name就相当于唯一标示符一样” object:@”这里传值,可传任意类型”];</p>
+</blockquote>
+<h2 id="接受者语句-通知下用了KVO-添加了观察者"><a href="#接受者语句-通知下用了KVO-添加了观察者" class="headerlink" title="接受者语句  (通知下用了KVO(添加了观察者))"></a>接受者语句  (通知下用了KVO(添加了观察者))</h2><blockquote>
+<p>  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeView:) name:@”这里的name就相当于唯一标示符一样” object:nil];</p>
+</blockquote>
+<h3 id="现在我们就可以对比上面的黄图哥事件来进行我们的对号入座了-不说了-直接来张图吧"><a href="#现在我们就可以对比上面的黄图哥事件来进行我们的对号入座了-不说了-直接来张图吧" class="headerlink" title="现在我们就可以对比上面的黄图哥事件来进行我们的对号入座了,不说了,直接来张图吧"></a>现在我们就可以对比上面的黄图哥事件来进行我们的对号入座了,不说了,直接来张图吧</h3><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qzd50ye8j20yg0j376s.jpg" alt="“神经骚栋”/"></p>
+<h4 id="当然了-你发送消息者和接收消息者可以在任意两个页面之间-我这里知识为了方便所以才写在一个页面的"><a href="#当然了-你发送消息者和接收消息者可以在任意两个页面之间-我这里知识为了方便所以才写在一个页面的" class="headerlink" title="当然了,你发送消息者和接收消息者可以在任意两个页面之间,我这里知识为了方便所以才写在一个页面的."></a>当然了,你发送消息者和接收消息者可以在<strong><em>任意两个页面</em></strong>之间,我这里知识为了方便所以才写在一个页面的.</h4><p><br></p>
+<h3 id="接着我们就来说一说我们的传值问题-通知中心的也是设计很巧妙的-我们用图片看看到底是怎么传递吧"><a href="#接着我们就来说一说我们的传值问题-通知中心的也是设计很巧妙的-我们用图片看看到底是怎么传递吧" class="headerlink" title="接着我们就来说一说我们的传值问题,通知中心的也是设计很巧妙的.我们用图片看看到底是怎么传递吧"></a>接着我们就来说一说我们的传值问题,通知中心的也是设计很巧妙的.我们用图片看看到底是怎么传递吧</h3><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzdi71ntj20yg0i8wgp.jpg" alt="“神经骚栋”/"></p>
+<h3 id="这就是通知中心的基本用法-但是最重要的一点不是在用它的使用-而是它的观察者释放问题-观察者不释放-会出现什么问题呢-我们还是用图来说话"><a href="#这就是通知中心的基本用法-但是最重要的一点不是在用它的使用-而是它的观察者释放问题-观察者不释放-会出现什么问题呢-我们还是用图来说话" class="headerlink" title="这就是通知中心的基本用法,但是最重要的一点不是在用它的使用,而是它的观察者释放问题,观察者不释放,会出现什么问题呢?我们还是用图来说话."></a>这就是通知中心的基本用法,但是最重要的一点不是在用它的使用,而是它的观察者释放问题,观察者不释放,会出现什么问题呢?我们还是用图来说话.</h3><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qze5nuc6j20yg0i8gmr.jpg" alt="“神经骚栋”/"></p>
+<h3 id="不但如此-而且因为大量的栋哥的存在-导致了内存的堵塞…又是崩溃-又是堵塞-谁受得了"><a href="#不但如此-而且因为大量的栋哥的存在-导致了内存的堵塞…又是崩溃-又是堵塞-谁受得了" class="headerlink" title="不但如此,而且因为大量的栋哥的存在,导致了内存的堵塞…又是崩溃,又是堵塞.谁受得了~"></a>不但如此,而且因为大量的栋哥的存在,导致了内存的堵塞…又是崩溃,又是堵塞.谁受得了~</h3><h3 id="解决方法很简单-就是我们重写dealloc方法-把栋哥释放掉就行了-PS-为什么-栋哥肿么了-为什么要释放掉我"><a href="#解决方法很简单-就是我们重写dealloc方法-把栋哥释放掉就行了-PS-为什么-栋哥肿么了-为什么要释放掉我" class="headerlink" title="解决方法很简单,就是我们重写dealloc方法,把栋哥释放掉就行了(PS:为什么,栋哥肿么了,为什么要释放掉我!)"></a>解决方法很简单,就是我们重写dealloc方法,把栋哥释放掉就行了(PS:为什么,栋哥肿么了,为什么要释放掉我!)</h3><p>下面是我给大家展示的代码部分(可以当CV战士)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    //发送消息</span><br><span class="line">    [[NSNotificationCenter defaultCenter] postNotificationName:@&quot;这里的name就相当于唯一标示符一样&quot; object:@&quot;这里传值,可传任意类型&quot;];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //接收消息</span><br><span class="line">    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(exchangeView:) name:@&quot;这里的name就相当于唯一标示符一样&quot; object:nil];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)exchangeView:(NSNotification *)sender&#123;</span><br><span class="line"></span><br><span class="line">    //传值的接收者</span><br><span class="line">    NSString *string = [sender object];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //执行者的动作</span><br><span class="line">    NSLog(@&quot;做出鄙视的动作&quot;);</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;不给黄图哥技术支持&quot;);</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;殴打黄图哥&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//移除观察者</span><br><span class="line">-(void)dealloc&#123;</span><br><span class="line"></span><br><span class="line">    [[NSNotificationCenter defaultCenter] removeObserver:self];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<h4 id="通知中心NSNotificationCenter一定要在最后移除-且写且珍惜…-不要乱用"><a href="#通知中心NSNotificationCenter一定要在最后移除-且写且珍惜…-不要乱用" class="headerlink" title="@通知中心NSNotificationCenter一定要在最后移除 且写且珍惜…(不要乱用!!)"></a>@通知中心NSNotificationCenter一定要在最后移除 且写且珍惜…(不要乱用!!)</h4><p><br></p>
+</blockquote>
+<h4 id="虽然简单希望大家能够喜欢"><a href="#虽然简单希望大家能够喜欢" class="headerlink" title="虽然简单希望大家能够喜欢."></a>虽然简单希望大家能够喜欢.</h4>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/11/iOS浅谈webView的JS一种用法-去掉web显示页的广告/" rel="next" title="iOS浅谈webView的JS一种用法.(去掉web显示页的广告)">
+                <i class="fa fa-chevron-left"></i> iOS浅谈webView的JS一种用法.(去掉web显示页的广告)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#曾经有人问我-什么样的人最可怕-我回答-那些有执念的人才是最可怕的-—栋哥"><span class="nav-number">1.</span> <span class="nav-text">曾经有人问我,什么样的人最可怕, 我回答,那些有执念的人才是最可怕的. —栋哥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#前几天才接触NSNotification-通知-与KVO-观察者模式-这两个模块的时候不知道怎么用-这两天逐渐发现其强大之处-因为NSNotificationCenter-通知中心-可以到处发布消息-把一些本来没有关系的视图控制器联系了起来-这样就完成了传值的工作"><span class="nav-number">2.</span> <span class="nav-text">前几天才接触NSNotification(通知)与KVO(观察者模式)这两个模块的时候不知道怎么用.这两天逐渐发现其强大之处,因为NSNotificationCenter(通知中心)可以到处发布消息,把一些本来没有关系的视图控制器联系了起来,这样就完成了传值的工作.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#KVO-观察者模式-是什么-KVO模式就如一个老师一样-如果同学们没有好好的自习-然后他通过监视同学看到了同学们的状态由学习状态转化为疯玩状态-他就会采取对应的措施-让班长来制止同学的疯玩-老师扮演的就是一个观察者-同学们就扮演被监视者-班长扮演的角色就是执行者"><span class="nav-number">3.</span> <span class="nav-text">KVO(观察者模式)是什么?KVO模式就如一个老师一样,如果同学们没有好好的自习,然后他通过监视同学看到了同学们的状态由学习状态转化为疯玩状态,他就会采取对应的措施,让班长来制止同学的疯玩.老师扮演的就是一个观察者,同学们就扮演被监视者.班长扮演的角色就是执行者.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现在就看看我们的NSNotification-通知-相关的知识-首先我们先来张图缓和一些紧张的气氛-下面这张图就是一个很简单的通知"><span class="nav-number">4.</span> <span class="nav-text">现在就看看我们的NSNotification(通知)相关的知识,首先我们先来张图缓和一些紧张的气氛,下面这张图就是一个很简单的通知,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上面这张图的意思就是黄图哥是发送者-栋哥是接受者-同时栋哥也是执行者"><span class="nav-number">5.</span> <span class="nav-text">上面这张图的意思就是黄图哥是发送者,栋哥是接受者,同时栋哥也是执行者.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果现在栋哥不方便执行图上的动作-他会怎么做呢-他就会指派一个人-也就是指派一个执行者做这个图上的动作"><span class="nav-number">6.</span> <span class="nav-text">如果现在栋哥不方便执行图上的动作,他会怎么做呢?他就会指派一个人,也就是指派一个执行者做这个图上的动作.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这就是通知的生活应用-然后我们就讲讲iOS通知是如何使用的-很简单就是两行核心代码-一个是发送消息-一个是接受消息做出对应的动作"><span class="nav-number">7.</span> <span class="nav-text">这就是通知的生活应用,然后我们就讲讲iOS通知是如何使用的,很简单就是两行核心代码 ,一个是发送消息,一个是接受消息做出对应的动作</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#发消息语句"><span class="nav-number"></span> <span class="nav-text">发消息语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#接受者语句-通知下用了KVO-添加了观察者"><span class="nav-number"></span> <span class="nav-text">接受者语句  (通知下用了KVO(添加了观察者))</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#现在我们就可以对比上面的黄图哥事件来进行我们的对号入座了-不说了-直接来张图吧"><span class="nav-number"></span> <span class="nav-text">现在我们就可以对比上面的黄图哥事件来进行我们的对号入座了,不说了,直接来张图吧</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当然了-你发送消息者和接收消息者可以在任意两个页面之间-我这里知识为了方便所以才写在一个页面的"><span class="nav-number">1.</span> <span class="nav-text">当然了,你发送消息者和接收消息者可以在任意两个页面之间,我这里知识为了方便所以才写在一个页面的.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接着我们就来说一说我们的传值问题-通知中心的也是设计很巧妙的-我们用图片看看到底是怎么传递吧"><span class="nav-number"></span> <span class="nav-text">接着我们就来说一说我们的传值问题,通知中心的也是设计很巧妙的.我们用图片看看到底是怎么传递吧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#这就是通知中心的基本用法-但是最重要的一点不是在用它的使用-而是它的观察者释放问题-观察者不释放-会出现什么问题呢-我们还是用图来说话"><span class="nav-number"></span> <span class="nav-text">这就是通知中心的基本用法,但是最重要的一点不是在用它的使用,而是它的观察者释放问题,观察者不释放,会出现什么问题呢?我们还是用图来说话.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#不但如此-而且因为大量的栋哥的存在-导致了内存的堵塞…又是崩溃-又是堵塞-谁受得了"><span class="nav-number"></span> <span class="nav-text">不但如此,而且因为大量的栋哥的存在,导致了内存的堵塞…又是崩溃,又是堵塞.谁受得了~</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方法很简单-就是我们重写dealloc方法-把栋哥释放掉就行了-PS-为什么-栋哥肿么了-为什么要释放掉我"><span class="nav-number"></span> <span class="nav-text">解决方法很简单,就是我们重写dealloc方法,把栋哥释放掉就行了(PS:为什么,栋哥肿么了,为什么要释放掉我!)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#通知中心NSNotificationCenter一定要在最后移除-且写且珍惜…-不要乱用"><span class="nav-number">1.</span> <span class="nav-text">@通知中心NSNotificationCenter一定要在最后移除 且写且珍惜…(不要乱用!!)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虽然简单希望大家能够喜欢"><span class="nav-number">2.</span> <span class="nav-text">虽然简单希望大家能够喜欢.</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

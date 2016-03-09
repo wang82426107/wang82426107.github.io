@@ -72,10 +72,9 @@
 <meta property="og:image" content="http://ww4.sinaimg.cn/mw690/8446c8c7gw1f1ql28sy81j20yg0p30uy.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql29a46tj20p10ca3yp.jpg">
 <meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql29z4o2j20yg0dyjsl.jpg">
-<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql2brmfrj20yg0kjwga.jpg">
 <meta property="og:image" content="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql2b7kexj20yg0k441k.jpg">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1396375-50797fef763ed14b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2016-03-09T06:19:38.000Z">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql2brmfrj20yg0kjwga.jpg">
+<meta property="og:updated_time" content="2016-03-09T06:26:40.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="华山论剑之iOS内存,内存管理,copy(拷贝)">
 <meta name="twitter:description" content="我想大部分人都知道通常一个程序员会具有的美德。当然了，有三种：懒惰，暴躁，傲慢。  —-Perl语言发明者Larry Wall 
@@ -333,16 +332,14 @@
 <p><br></p>
 <h2 id="拷贝"><a href="#拷贝" class="headerlink" title="拷贝"></a>拷贝</h2><p>对于拷贝,也是让大多数人头疼的,因为拷贝烤着烤着就把自己给弄糊涂了,所以,今天最后我还要说一下这个copy相关的问题,首先拷贝分为可变拷贝和不可变的拷贝.来看一下实际的范例吧</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">NSString * p1 =@&quot;Jobs&quot;;</span><br><span class="line">        </span><br><span class="line">        NSString *p2 = [NSString stringWithFormat:@&quot;wang&quot;];</span><br><span class="line">        </span><br><span class="line">        NSString *p3 = [[NSString alloc]initWithString:p1];</span><br><span class="line">        </span><br><span class="line">        NSString *p4 = [NSString stringWithString:p1];</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p1,p1);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p2,p2);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p3,p3);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p4,p4);</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;%p&quot;,p1);</span><br></pre></td></tr></table></figure>
-<p>然后打印结果是这样的..</p>
-<p><img src="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql2brmfrj20yg0kjwga.jpg" alt="“神经骚栋”/"></p>
-<p>这样我们不难发现,p3和p4只是指针的重指向而已.</p>
+<p>根据代言结果,我们不难发现,p3和p4只是指针的重指向而已.</p>
 <p><br></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSString * p1 =@&quot;Jobs&quot;;</span><br><span class="line"></span><br><span class="line">       NSLog(@&quot;%p&quot;,p1);</span><br><span class="line">       </span><br><span class="line">       //可变字符串对象  指向   不可变拷贝的数据</span><br><span class="line">       NSMutableString * p2 = [p1 copy];</span><br><span class="line">       </span><br><span class="line">       NSLog(@&quot;%p&quot;,p2);</span><br><span class="line">       </span><br><span class="line">       //如果上面使用的是 copy,那么此处就会crash,如果使用的是,mutableCopy那么将会改变</span><br><span class="line">       </span><br><span class="line">       [p2 appendString:@&quot;steve&quot;];</span><br></pre></td></tr></table></figure>
 <p><img src="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql2b7kexj20yg0k441k.jpg" alt="“神经骚栋”/"></p>
 <p><br></p>
 <h4 id="可变拷贝"><a href="#可变拷贝" class="headerlink" title="可变拷贝"></a>可变拷贝</h4><p>如果我们将上面的过程换成可变的拷贝,然后再进行字符串的拼接会有什么情况的产生呢?</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSString * p1 =@&quot;Jobs&quot;;</span><br><span class="line"></span><br><span class="line">      NSLog(@&quot;%p&quot;,p1);</span><br><span class="line">      </span><br><span class="line">      //可变字符串对象  指向   不可变拷贝的数据</span><br><span class="line">      NSMutableString * p2 = [p1 mutableCopy];</span><br><span class="line">      </span><br><span class="line">      NSLog(@&quot;%p&quot;,p2);</span><br><span class="line">      </span><br><span class="line">      //如果上面使用的是 copy,那么此处就会crash,如果使用的是,mutableCopy那么将会改变</span><br><span class="line">      </span><br><span class="line">      [p2 appendString:@&quot;steve&quot;];</span><br></pre></td></tr></table></figure>
-<p><img src="http://upload-images.jianshu.io/upload_images/1396375-50797fef763ed14b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="可变拷贝的打印结果"></p>
+<p><img src="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql2brmfrj20yg0kjwga.jpg" alt="“神经骚栋”/"></p>
 <p>通过上面的两个实例,我们简单的对可变拷贝和不可变拷贝做一下总结,用于以后的工作中</p>
 <blockquote>
 <h2 id="上述总结"><a href="#上述总结" class="headerlink" title="上述总结:"></a>上述总结:</h2><h4 id="copy-不可变拷贝-如果使用了不可变拷贝-那么接收的对象不管是可变对象还是不可变的对象-都不能改变拷贝过来的内容"><a href="#copy-不可变拷贝-如果使用了不可变拷贝-那么接收的对象不管是可变对象还是不可变的对象-都不能改变拷贝过来的内容" class="headerlink" title="copy(不可变拷贝),如果使用了不可变拷贝,那么接收的对象不管是可变对象还是不可变的对象,都不能改变拷贝过来的内容"></a>copy(不可变拷贝),如果使用了不可变拷贝,那么接收的对象不管是可变对象还是不可变的对象,都不能改变拷贝过来的内容</h4><h4 id="mutableCopy-可变拷贝-如果使用了可变拷贝-那么接收对象不管是可变的还是不可变的对象-都可以改变拷贝过来的内容"><a href="#mutableCopy-可变拷贝-如果使用了可变拷贝-那么接收对象不管是可变的还是不可变的对象-都可以改变拷贝过来的内容" class="headerlink" title="mutableCopy(可变拷贝),如果使用了可变拷贝,那么接收对象不管是可变的还是不可变的对象,都可以改变拷贝过来的内容"></a>mutableCopy(可变拷贝),如果使用了可变拷贝,那么接收对象不管是可变的还是不可变的对象,都可以改变拷贝过来的内容</h4></blockquote>
@@ -449,7 +446,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">14</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

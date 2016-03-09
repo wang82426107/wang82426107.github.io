@@ -1,0 +1,714 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="写外挂不是为了玩游戏,而是为了妹子! —辉哥
+
+这两天闲着没事就想像那些大神一样 研究研究腾讯的第三方登录.发现一个很好的平台 就是友盟平台 ,里面提供了第三方的分享和登录,现在,我就教大家一个最简单的第三方登录,就拿QQ空间登录举例说明(QQ登录这两天有问题,SSO不知道,但是网页登录程序容易崩!).">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之友盟第三方登录初体验">
+<meta property="og:url" content="http://yoursite.com/2016/08/22/华山论剑之友盟第三方登录初体验/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="写外挂不是为了玩游戏,而是为了妹子! —辉哥
+
+这两天闲着没事就想像那些大神一样 研究研究腾讯的第三方登录.发现一个很好的平台 就是友盟平台 ,里面提供了第三方的分享和登录,现在,我就教大家一个最简单的第三方登录,就拿QQ空间登录举例说明(QQ登录这两天有问题,SSO不知道,但是网页登录程序容易崩!).">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyhre0nij20yg07w3z6.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyi9xypqj20oy0gyaaq.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qyit3rawj20uk0ap74j.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyj9vezuj20yg0cydgl.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qyk1km55j20tb0o4tbf.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyknx29hj20yg0ildhn.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qyl58m4lj20oz0k23z9.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qylkj705j20yg0c3405.jpg">
+<meta property="og:updated_time" content="2016-03-09T14:06:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之友盟第三方登录初体验">
+<meta name="twitter:description" content="写外挂不是为了玩游戏,而是为了妹子! —辉哥
+
+这两天闲着没事就想像那些大神一样 研究研究腾讯的第三方登录.发现一个很好的平台 就是友盟平台 ,里面提供了第三方的分享和登录,现在,我就教大家一个最简单的第三方登录,就拿QQ空间登录举例说明(QQ登录这两天有问题,SSO不知道,但是网页登录程序容易崩!).">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyhre0nij20yg07w3z6.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之友盟第三方登录初体验 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之友盟第三方登录初体验
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-08-22T21:53:13+08:00" content="2016-08-22">
+              2016-08-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>写外挂不是为了玩游戏,而是为了妹子!<br><br> —辉哥</p>
+</blockquote>
+<h4 id="这两天闲着没事就想像那些大神一样-研究研究腾讯的第三方登录-发现一个很好的平台-就是友盟平台-里面提供了第三方的分享和登录-现在-我就教大家一个最简单的第三方登录-就拿QQ空间登录举例说明-QQ登录这两天有问题-SSO不知道-但是网页登录程序容易崩"><a href="#这两天闲着没事就想像那些大神一样-研究研究腾讯的第三方登录-发现一个很好的平台-就是友盟平台-里面提供了第三方的分享和登录-现在-我就教大家一个最简单的第三方登录-就拿QQ空间登录举例说明-QQ登录这两天有问题-SSO不知道-但是网页登录程序容易崩" class="headerlink" title="这两天闲着没事就想像那些大神一样 研究研究腾讯的第三方登录.发现一个很好的平台 就是友盟平台 ,里面提供了第三方的分享和登录,现在,我就教大家一个最简单的第三方登录,就拿QQ空间登录举例说明(QQ登录这两天有问题,SSO不知道,但是网页登录程序容易崩!)."></a>这两天闲着没事就想像那些大神一样 研究研究腾讯的第三方登录.发现一个很好的平台 就是友盟平台 ,里面提供了第三方的分享和登录,现在,我就教大家一个最简单的第三方登录,就拿QQ空间登录举例说明(QQ登录这两天有问题,SSO不知道,但是网页登录程序容易崩!).</h4><a id="more"></a>
+<p><br></p>
+<h3 id="1-第一步-注册友盟-点击此处进入友盟注册中心"><a href="#1-第一步-注册友盟-点击此处进入友盟注册中心" class="headerlink" title="1.第一步:注册友盟.  点击此处进入友盟注册中心"></a>1.第一步:注册友盟.  <a href="http://www.umeng.com/users/sign_up" target="_blank" rel="external">点击此处进入友盟注册中心</a></h3><p><br></p>
+<h3 id="2-第二步-给你的应用程序注册Appkey-Appkey是你能用友盟的SDK的重要一步-如下图"><a href="#2-第二步-给你的应用程序注册Appkey-Appkey是你能用友盟的SDK的重要一步-如下图" class="headerlink" title="2.第二步:给你的应用程序注册Appkey,Appkey是你能用友盟的SDK的重要一步!(如下图)"></a>2.第二步:给你的应用程序注册Appkey,Appkey是你能用友盟的SDK的重要一步!(如下图)</h3><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyhre0nij20yg07w3z6.jpg" alt="“神经骚栋”/"></p>
+<h4 id="接着"><a href="#接着" class="headerlink" title="接着"></a>接着</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyi9xypqj20oy0gyaaq.jpg" alt="“神经骚栋”/"></p>
+<h4 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qyit3rawj20uk0ap74j.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h3 id="3-第三步-下载SDK-点击进入下载界面"><a href="#3-第三步-下载SDK-点击进入下载界面" class="headerlink" title="3.第三步:下载SDK 点击进入下载界面"></a>3.第三步:下载SDK <a href="http://dev.umeng.com/social/ios/sdk-download" target="_blank" rel="external">点击进入下载界面</a></h3><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyj9vezuj20yg0cydgl.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qyk1km55j20tb0o4tbf.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h3 id="4-第四步-也是最重要的一步就是对程序进行配置以及进行相关的操作"><a href="#4-第四步-也是最重要的一步就是对程序进行配置以及进行相关的操作" class="headerlink" title="4.第四步:也是最重要的一步就是对程序进行配置以及进行相关的操作."></a>4.第四步:也是最重要的一步就是对程序进行配置以及进行相关的操作.</h3><p><br></p>
+<h4 id="4-1打开我们的工程-进入配置页面"><a href="#4-1打开我们的工程-进入配置页面" class="headerlink" title="4.1打开我们的工程,进入配置页面"></a>4.1打开我们的工程,进入配置页面</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyknx29hj20yg0ildhn.jpg" alt="“神经骚栋”/"></p>
+<h4 id="4-2我们要配置的库和文件如下-你们直接复制黏贴就行"><a href="#4-2我们要配置的库和文件如下-你们直接复制黏贴就行" class="headerlink" title="4.2我们要配置的库和文件如下(你们直接复制黏贴就行 )"></a>4.2我们要配置的库和文件如下(你们直接复制黏贴就行 )</h4><pre><code>Security.framework
+libiconv.tbd
+SystemConfiguration.framework
+CoreGraphics.Framework
+libsqlite3.tbd
+CoreTelephony.framework
+libstdc++.tbd
+libz.tbd
+</code></pre><blockquote>
+<p> 请记住:都别忘了plist文件的配置!!!NSAppTransprotSecurity <br>(PS:当年的我可是写了120遍这个单词!!!)</p>
+</blockquote>
+<p><br></p>
+<h4 id="4-3导入SDK"><a href="#4-3导入SDK" class="headerlink" title="4.3导入SDK"></a>4.3导入SDK</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qyl58m4lj20oz0k23z9.jpg" alt="“神经骚栋”/"></p>
+<h4 id="4-4导入头文件-APPKey的一系列操作"><a href="#4-4导入头文件-APPKey的一系列操作" class="headerlink" title="4.4导入头文件,APPKey的一系列操作"></a>4.4导入头文件,APPKey的一系列操作</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qylkj705j20yg0c3405.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h3 id="4-5-鸡冻的时刻-吼吼-随便整一个Controller-然后添加一个Button-再添加一个方法-完成一切"><a href="#4-5-鸡冻的时刻-吼吼-随便整一个Controller-然后添加一个Button-再添加一个方法-完成一切" class="headerlink" title="4.5(鸡冻的时刻) 吼吼!!! 随便整一个Controller,然后添加一个Button,再添加一个方法,完成一切!"></a>4.5(鸡冻的时刻) 吼吼!!! 随便整一个Controller,然后添加一个Button,再添加一个方法,完成一切!</h3><h4 id="代码如下"><a href="#代码如下" class="headerlink" title="代码如下"></a>代码如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line"></span><br><span class="line">    self.view.backgroundColor = [UIColor whiteColor];</span><br><span class="line">    </span><br><span class="line">    _button = [UIButton buttonWithType:UIButtonTypeRoundedRect];</span><br><span class="line">    </span><br><span class="line">    _button.frame = CGRectMake(100, 100, 100, 100);</span><br><span class="line">    </span><br><span class="line">    [_button setTitle:@&quot;登录&quot; forState:UIControlStateNormal];</span><br><span class="line">    </span><br><span class="line">    [_button addTarget:self action:@selector(otherLogin:) forControlEvents:UIControlEventTouchUpInside];</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    [self.view addSubview:_button];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)otherLogin:(UIButton *)sender&#123;</span><br><span class="line">    </span><br><span class="line">    UMSocialSnsPlatform *snsPlatform = [UMSocialSnsPlatformManager getSocialPlatformWithName:UMShareToQzone];</span><br><span class="line">    </span><br><span class="line">    snsPlatform.loginClickHandler(self,[UMSocialControllerService defaultControllerService],YES,^(UMSocialResponseEntity *response)&#123;</span><br><span class="line">        </span><br><span class="line">        //          获取微博用户名、uid、token等</span><br><span class="line">        </span><br><span class="line">        if (response.responseCode == UMSResponseCodeSuccess) &#123;</span><br><span class="line">            </span><br><span class="line">            UMSocialAccountEntity *snsAccount = [[UMSocialAccountManager socialAccountDictionary] valueForKey:UMShareToQzone];</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;username is %@, uid is %@, token is %@ url is %@&quot;,snsAccount.userName,snsAccount.usid,snsAccount.accessToken,snsAccount.iconURL);</span><br><span class="line">            </span><br><span class="line">        &#125;&#125;);</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<h4 id="注意-push出来的页面的是一个导航视图控制器"><a href="#注意-push出来的页面的是一个导航视图控制器" class="headerlink" title="注意,push出来的页面的是一个导航视图控制器!"></a>注意,push出来的页面的是一个导航视图控制器!</h4></blockquote>
+<p><br></p>
+<blockquote>
+<h4 id="虽然-友盟的第三方登录比较简单-但是一些问题-我们还是要注意的-比如一些登录界面的修改-还有就是腾讯登录注意的问题-简易不适用腾讯方面的登录-因为腾讯会强制你下载应用-而上线的时候会因为这个而被拒的"><a href="#虽然-友盟的第三方登录比较简单-但是一些问题-我们还是要注意的-比如一些登录界面的修改-还有就是腾讯登录注意的问题-简易不适用腾讯方面的登录-因为腾讯会强制你下载应用-而上线的时候会因为这个而被拒的" class="headerlink" title="虽然,友盟的第三方登录比较简单,但是一些问题,我们还是要注意的,比如一些登录界面的修改,还有就是腾讯登录注意的问题,简易不适用腾讯方面的登录,因为腾讯会强制你下载应用,而上线的时候会因为这个而被拒的."></a>虽然,友盟的第三方登录比较简单,但是一些问题,我们还是要注意的,比如一些登录界面的修改,还有就是腾讯登录注意的问题,简易不适用腾讯方面的登录,因为腾讯会强制你下载应用,而上线的时候会因为这个而被拒的.</h4></blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/08/原谅我一生/" rel="next" title="原谅我一生放荡不羁爱自由">
+                <i class="fa fa-chevron-left"></i> 原谅我一生放荡不羁爱自由
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/11/iOS浅谈webView的JS一种用法-去掉web显示页的广告/" rel="prev" title="iOS浅谈webView的JS一种用法.(去掉web显示页的广告)">
+                iOS浅谈webView的JS一种用法.(去掉web显示页的广告) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#这两天闲着没事就想像那些大神一样-研究研究腾讯的第三方登录-发现一个很好的平台-就是友盟平台-里面提供了第三方的分享和登录-现在-我就教大家一个最简单的第三方登录-就拿QQ空间登录举例说明-QQ登录这两天有问题-SSO不知道-但是网页登录程序容易崩"><span class="nav-number">1.</span> <span class="nav-text">这两天闲着没事就想像那些大神一样 研究研究腾讯的第三方登录.发现一个很好的平台 就是友盟平台 ,里面提供了第三方的分享和登录,现在,我就教大家一个最简单的第三方登录,就拿QQ空间登录举例说明(QQ登录这两天有问题,SSO不知道,但是网页登录程序容易崩!).</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-第一步-注册友盟-点击此处进入友盟注册中心"><span class="nav-number"></span> <span class="nav-text">1.第一步:注册友盟.  点击此处进入友盟注册中心</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-第二步-给你的应用程序注册Appkey-Appkey是你能用友盟的SDK的重要一步-如下图"><span class="nav-number"></span> <span class="nav-text">2.第二步:给你的应用程序注册Appkey,Appkey是你能用友盟的SDK的重要一步!(如下图)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#接着"><span class="nav-number">1.</span> <span class="nav-text">接着</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后"><span class="nav-number">2.</span> <span class="nav-text">最后</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-第三步-下载SDK-点击进入下载界面"><span class="nav-number"></span> <span class="nav-text">3.第三步:下载SDK 点击进入下载界面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-第四步-也是最重要的一步就是对程序进行配置以及进行相关的操作"><span class="nav-number"></span> <span class="nav-text">4.第四步:也是最重要的一步就是对程序进行配置以及进行相关的操作.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1打开我们的工程-进入配置页面"><span class="nav-number">1.</span> <span class="nav-text">4.1打开我们的工程,进入配置页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2我们要配置的库和文件如下-你们直接复制黏贴就行"><span class="nav-number">2.</span> <span class="nav-text">4.2我们要配置的库和文件如下(你们直接复制黏贴就行 )</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3导入SDK"><span class="nav-number">3.</span> <span class="nav-text">4.3导入SDK</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4导入头文件-APPKey的一系列操作"><span class="nav-number">4.</span> <span class="nav-text">4.4导入头文件,APPKey的一系列操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-5-鸡冻的时刻-吼吼-随便整一个Controller-然后添加一个Button-再添加一个方法-完成一切"><span class="nav-number"></span> <span class="nav-text">4.5(鸡冻的时刻) 吼吼!!! 随便整一个Controller,然后添加一个Button,再添加一个方法,完成一切!</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码如下"><span class="nav-number">1.</span> <span class="nav-text">代码如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-push出来的页面的是一个导航视图控制器"><span class="nav-number">2.</span> <span class="nav-text">注意,push出来的页面的是一个导航视图控制器!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#虽然-友盟的第三方登录比较简单-但是一些问题-我们还是要注意的-比如一些登录界面的修改-还有就是腾讯登录注意的问题-简易不适用腾讯方面的登录-因为腾讯会强制你下载应用-而上线的时候会因为这个而被拒的"><span class="nav-number">3.</span> <span class="nav-text">虽然,友盟的第三方登录比较简单,但是一些问题,我们还是要注意的,比如一些登录界面的修改,还有就是腾讯登录注意的问题,简易不适用腾讯方面的登录,因为腾讯会强制你下载应用,而上线的时候会因为这个而被拒的.</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

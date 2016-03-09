@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="你觉得累吗? 累就对了,因为舒服是给死人准备的 ..">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS浅谈webView的JS一种用法.(去掉web显示页的广告)">
+<meta property="og:url" content="http://yoursite.com/2016/10/11/iOS浅谈webView的JS一种用法-去掉web显示页的广告/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="你觉得累吗? 累就对了,因为舒服是给死人准备的 ..">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qywhjuz8j20jj0mjdh8.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyxm4rlij20vh0r5q5m.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qyy20h4mj20uh0qi42v.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyyhtzlej20ps07vt9p.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyz791qpj20uh0qiaea.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyzni4hpj20tb0q1wib.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qz0fq2vmj20mm0760te.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qz1ep3b8j20n40hdta2.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qz2xao5qj20ri0cnabe.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qz2gb4yrj20td0nl0vm.jpg">
+<meta property="og:updated_time" content="2016-03-09T14:19:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS浅谈webView的JS一种用法.(去掉web显示页的广告)">
+<meta name="twitter:description" content="你觉得累吗? 累就对了,因为舒服是给死人准备的 ..">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qywhjuz8j20jj0mjdh8.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> iOS浅谈webView的JS一种用法.(去掉web显示页的广告) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                iOS浅谈webView的JS一种用法.(去掉web显示页的广告)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-10-11T22:05:59+08:00" content="2016-10-11">
+              2016-10-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>你觉得累吗? 累就对了,因为舒服是给死人准备的 ..</p>
+</blockquote>
+<a id="more"></a>
+<h4 id="今天遇到了webView-中网页显示的问题-大家都知道webView的强大之处-因为webView根据url-统一资源定位符-不但可以显示本地的资源-而且还可以显示网络上的一些数据-大大减少了我们代码量-只要看好了一个网页我们直接拿来了用就行-但是往往这些网页中有一些是我们所不需要的东西-比如广告了-一些链接啦-大大降低了我们的应用程序的美观-如下图"><a href="#今天遇到了webView-中网页显示的问题-大家都知道webView的强大之处-因为webView根据url-统一资源定位符-不但可以显示本地的资源-而且还可以显示网络上的一些数据-大大减少了我们代码量-只要看好了一个网页我们直接拿来了用就行-但是往往这些网页中有一些是我们所不需要的东西-比如广告了-一些链接啦-大大降低了我们的应用程序的美观-如下图" class="headerlink" title="今天遇到了webView 中网页显示的问题,大家都知道webView的强大之处,因为webView根据url(统一资源定位符)不但可以显示本地的资源,而且还可以显示网络上的一些数据,大大减少了我们代码量,只要看好了一个网页我们直接拿来了用就行,但是往往这些网页中有一些是我们所不需要的东西.比如广告了,一些链接啦,大大降低了我们的应用程序的美观.如下图"></a>今天遇到了webView 中网页显示的问题,大家都知道webView的强大之处,因为webView根据url(统一资源定位符)不但可以显示本地的资源,而且还可以显示网络上的一些数据,大大减少了我们代码量,只要看好了一个网页我们直接拿来了用就行,但是往往这些网页中有一些是我们所不需要的东西.比如广告了,一些链接啦,大大降低了我们的应用程序的美观.如下图</h4><p><br></p>
+<h4 id="下载链接-分享都不是我们所需要的"><a href="#下载链接-分享都不是我们所需要的" class="headerlink" title="下载链接 ,分享都不是我们所需要的"></a>下载链接 ,分享都不是我们所需要的</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qywhjuz8j20jj0mjdh8.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="对于这样的问题-像我这小菜鸟真是脑洞再大也解决不了-幸得大神帮助-给我推荐一篇的博客-成功的解决了问题"><a href="#对于这样的问题-像我这小菜鸟真是脑洞再大也解决不了-幸得大神帮助-给我推荐一篇的博客-成功的解决了问题" class="headerlink" title="对于这样的问题,像我这小菜鸟真是脑洞再大也解决不了,幸得大神帮助,给我推荐一篇的博客.成功的解决了问题."></a>对于这样的问题,像我这小菜鸟真是脑洞再大也解决不了,幸得大神帮助,给我推荐一篇的博客.成功的解决了问题.</h4><p><br></p>
+<p> <a href="http://jwdev.cn/2015/09/28/use-javascript-to-delete-web-element/" target="_blank" rel="external"> 点击此处进入原文博客</a></p>
+<p><br></p>
+<h4 id="根据大牛的思路-总共分这么几步"><a href="#根据大牛的思路-总共分这么几步" class="headerlink" title="根据大牛的思路,总共分这么几步"></a>根据大牛的思路,总共分这么几步</h4><p><br></p>
+<h4 id="1-使用工具获取到你想要获取到页面上的控件-ccs操作-不懂…-选择谷歌浏览器-打开开发者工具"><a href="#1-使用工具获取到你想要获取到页面上的控件-ccs操作-不懂…-选择谷歌浏览器-打开开发者工具" class="headerlink" title="1.使用工具获取到你想要获取到页面上的控件(ccs操作???不懂…)选择谷歌浏览器,打开开发者工具"></a>1.使用工具获取到你想要获取到页面上的控件(ccs操作???不懂…)选择谷歌浏览器,打开开发者工具</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyxm4rlij20vh0r5q5m.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="2-打开开发者工具-我们用到的地方如下图"><a href="#2-打开开发者工具-我们用到的地方如下图" class="headerlink" title="2.打开开发者工具 ,我们用到的地方如下图"></a>2.打开开发者工具 ,我们用到的地方如下图</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qyy20h4mj20uh0qi42v.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="Device-你要选择在那种情境下显示网页-通俗来说-就是模拟器"><a href="#Device-你要选择在那种情境下显示网页-通俗来说-就是模拟器" class="headerlink" title="Device:你要选择在那种情境下显示网页,通俗来说,就是模拟器"></a>Device:你要选择在那种情境下显示网页,通俗来说,就是模拟器</h4><h4 id="放大镜-你可以通过放大镜对网页上的控件进行选取-然后找到html代码-重要的第一步呀"><a href="#放大镜-你可以通过放大镜对网页上的控件进行选取-然后找到html代码-重要的第一步呀" class="headerlink" title="放大镜:你可以通过放大镜对网页上的控件进行选取,然后找到html代码.(重要的第一步呀)"></a>放大镜:你可以通过放大镜对网页上的控件进行选取,然后找到html代码.(重要的第一步呀)</h4><h4 id="手机-转化为手机模式-但是前提必须要转换Device的模式-要不然-光是视图上的转变-没有实际的转变-注意-我现在拿手机的网页做示例-所有我需要转化-当你做的电脑的就不需要转换这些了"><a href="#手机-转化为手机模式-但是前提必须要转换Device的模式-要不然-光是视图上的转变-没有实际的转变-注意-我现在拿手机的网页做示例-所有我需要转化-当你做的电脑的就不需要转换这些了" class="headerlink" title="手机:转化为手机模式,但是前提必须要转换Device的模式,要不然,光是视图上的转变,没有实际的转变(注意:我现在拿手机的网页做示例,所有我需要转化,当你做的电脑的就不需要转换这些了)"></a>手机:转化为手机模式,但是前提必须要转换Device的模式,要不然,光是视图上的转变,没有实际的转变(注意:我现在拿手机的网页做示例,所有我需要转化,当你做的电脑的就不需要转换这些了)</h4><p><br></p>
+<h3 id="3-查找到我们所需要的控件-JS操作"><a href="#3-查找到我们所需要的控件-JS操作" class="headerlink" title="3.查找到我们所需要的控件(JS操作)"></a>3.查找到我们所需要的控件(JS操作)</h3><h4 id="3-1点击放大镜-这样我们就可以对网页上的控件进行选取了"><a href="#3-1点击放大镜-这样我们就可以对网页上的控件进行选取了" class="headerlink" title="3.1点击放大镜,这样我们就可以对网页上的控件进行选取了;"></a>3.1点击放大镜,这样我们就可以对网页上的控件进行选取了;</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyyhtzlej20ps07vt9p.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="3-2选取你要取消网页上的控件-单击就行-这时候你就会发现html代码有一部分被选中-右下边可以直接被编辑"><a href="#3-2选取你要取消网页上的控件-单击就行-这时候你就会发现html代码有一部分被选中-右下边可以直接被编辑" class="headerlink" title="3.2选取你要取消网页上的控件(单击就行),这时候你就会发现html代码有一部分被选中(右下边可以直接被编辑)"></a>3.2选取你要取消网页上的控件(单击就行),这时候你就会发现html代码有一部分被选中(右下边可以直接被编辑)</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1qyz791qpj20uh0qiaea.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="3-3我们在右下边可以直接填上下面这行代码-直接完成广告的去除-但这不是我们要的效果-我们要的效果是通过OC来去除广告-心急吃不了热豆腐-请执行下面代码"><a href="#3-3我们在右下边可以直接填上下面这行代码-直接完成广告的去除-但这不是我们要的效果-我们要的效果是通过OC来去除广告-心急吃不了热豆腐-请执行下面代码" class="headerlink" title="3.3我们在右下边可以直接填上下面这行代码,直接完成广告的去除,但这不是我们要的效果,我们要的效果是通过OC来去除广告,心急吃不了热豆腐,请执行下面代码"></a>3.3我们在右下边可以直接填上下面这行代码,直接完成广告的去除,但这不是我们要的效果,我们要的效果是通过OC来去除广告,心急吃不了热豆腐,请执行下面代码</h4><blockquote>
+<h5 id="display-none-这行代码这右下边的编辑区任意地方写就行-如图"><a href="#display-none-这行代码这右下边的编辑区任意地方写就行-如图" class="headerlink" title="display:none (这行代码这右下边的编辑区任意地方写就行  如图)"></a>display:none (这行代码这右下边的编辑区任意地方写就行  如图)</h5></blockquote>
+<p><br></p>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qyzni4hpj20tb0q1wib.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="3-4上面就是给你个希望而已-不要激动-精彩的在后面-我们看到了取出效果之后-我们就要找到class内的字符串-这里我们就要’g-mnc1’就行"><a href="#3-4上面就是给你个希望而已-不要激动-精彩的在后面-我们看到了取出效果之后-我们就要找到class内的字符串-这里我们就要’g-mnc1’就行" class="headerlink" title="3.4上面就是给你个希望而已,不要激动,精彩的在后面,我们看到了取出效果之后,我们就要找到class内的字符串,这里我们就要’g-mnc1’就行."></a>3.4上面就是给你个希望而已,不要激动,精彩的在后面,我们看到了取出效果之后,我们就要找到class内的字符串,这里我们就要’g-mnc1’就行.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qz0fq2vmj20mm0760te.jpg" alt="“神经骚栋”/"></p>
+<h6 id="紧接着打开控制台Console-输入如下代码-回车"><a href="#紧接着打开控制台Console-输入如下代码-回车" class="headerlink" title="紧接着打开控制台Console  输入如下代码 回车"></a>紧接着打开控制台Console  输入如下代码 回车</h6><blockquote>
+<h5 id="document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’"><a href="#document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’" class="headerlink" title="document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)"></a>document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)</h5></blockquote>
+<h4 id="如图所示"><a href="#如图所示" class="headerlink" title="如图所示"></a>如图所示</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qz1ep3b8j20n40hdta2.jpg" alt="“神经骚栋”/"></p>
+<h5 id="紧接着打开数组中的第一个元素-输入如下代码-回车"><a href="#紧接着打开数组中的第一个元素-输入如下代码-回车" class="headerlink" title="紧接着打开数组中的第一个元素 输入如下代码 回车"></a>紧接着打开数组中的第一个元素 输入如下代码 回车</h5><blockquote>
+<h5 id="document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0"><a href="#document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0" class="headerlink" title="document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0]"></a>document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0]</h5></blockquote>
+<h4 id="如图所示-1"><a href="#如图所示-1" class="headerlink" title="如图所示"></a>如图所示</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qz2xao5qj20ri0cnabe.jpg" alt="“神经骚栋”/"></p>
+<h4 id="又接着-我是真够了又接着了…重复呀-够够的了-这才是我们最终所需要的-注意啦"><a href="#又接着-我是真够了又接着了…重复呀-够够的了-这才是我们最终所需要的-注意啦" class="headerlink" title="又接着,我是真够了又接着了…重复呀!!够够的了.(这才是我们最终所需要的!!!注意啦)"></a>又接着,我是真够了又接着了…重复呀!!够够的了.(这才是我们最终所需要的!!!注意啦)</h4><p><br></p>
+<blockquote>
+<h5 id="document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0-style-display-‘none’"><a href="#document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0-style-display-‘none’" class="headerlink" title="document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0].style.display = ‘none’"></a>document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0].style.display = ‘none’</h5></blockquote>
+<p><br></p>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1qz2gb4yrj20td0nl0vm.jpg" alt="“神经骚栋”/"></p>
+<h3 id="4-验证完成之后-我们就需要对我们的UIwebView进行操作了-这里我就直接引用大牛的文章了-iOS操作-这两天身体不适-改天再写了-抱歉了"><a href="#4-验证完成之后-我们就需要对我们的UIwebView进行操作了-这里我就直接引用大牛的文章了-iOS操作-这两天身体不适-改天再写了-抱歉了" class="headerlink" title="4.验证完成之后,我们就需要对我们的UIwebView进行操作了,这里我就直接引用大牛的文章了(iOS操作)(这两天身体不适,改天再写了,抱歉了)"></a>4.验证完成之后,我们就需要对我们的UIwebView进行操作了,这里我就直接引用大牛的文章了(iOS操作)(这两天身体不适,改天再写了,抱歉了)</h3><p><br></p>
+<h4 id="1-创建UIWebView"><a href="#1-创建UIWebView" class="headerlink" title="1.创建UIWebView"></a>1.创建UIWebView</h4><h4 id="2-设置代理"><a href="#2-设置代理" class="headerlink" title="2.设置代理"></a>2.设置代理</h4><h4 id="3-加载网络请求"><a href="#3-加载网络请求" class="headerlink" title="3.加载网络请求"></a>3.加载网络请求</h4><blockquote>
+<h5 id="注意-顺序问题很重要-不懂的直接当CV战士吧-尽情的复制黏贴吧-吼吼"><a href="#注意-顺序问题很重要-不懂的直接当CV战士吧-尽情的复制黏贴吧-吼吼" class="headerlink" title="注意:顺序问题很重要,不懂的直接当CV战士吧,尽情的复制黏贴吧,吼吼"></a>注意:顺序问题很重要,不懂的直接当CV战士吧,尽情的复制黏贴吧,吼吼</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//创建webview</span><br><span class="line">self.webview = [[UIWebView alloc] initWithFrame:self.view.frame];</span><br><span class="line">[self.view addSubview:_webview];</span><br><span class="line">//设置代理</span><br><span class="line">self.webview.delegate = self;</span><br><span class="line">//发送请求</span><br><span class="line">[_webview loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@&quot;http://m.haodou.com/topic-327282.html?id=327282&quot;]]];</span><br></pre></td></tr></table></figure>
+<h4 id="我们可以通过webView的代理方法进行我们-JS操作-如下-方法"><a href="#我们可以通过webView的代理方法进行我们-JS操作-如下-方法" class="headerlink" title="我们可以通过webView的代理方法进行我们 JS操作(如下)  方法:"></a>我们可以通过webView的代理方法进行我们 JS操作(如下)  方法:</h4><h3 id="void-webViewDidFinishLoad-UIWebView-webView"><a href="#void-webViewDidFinishLoad-UIWebView-webView" class="headerlink" title="- (void)webViewDidFinishLoad:(UIWebView *)webView"></a>- (void)webViewDidFinishLoad:(UIWebView *)webView</h3><p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark - UIWebViewDelegate</span><br><span class="line">- (void)webViewDidFinishLoad:(UIWebView *)webView&#123;</span><br><span class="line">    [webView stringByEvaluatingJavaScriptFromString:@&quot;document.documentElement.getElementsByClassName(&apos;adpic&apos;)[0].style.display = &apos;none&apos;&quot;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="然后我们所需要的效果就出来了-新鲜的-来两口-屏蔽webView中的广告完成"><a href="#然后我们所需要的效果就出来了-新鲜的-来两口-屏蔽webView中的广告完成" class="headerlink" title="然后我们所需要的效果就出来了;新鲜的,来两口 .屏蔽webView中的广告完成."></a>然后我们所需要的效果就出来了;新鲜的,来两口 .屏蔽webView中的广告完成.</h4><blockquote>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><h5 id="document-documentElement-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0-style-display-‘none’-是我们今天的重点"><a href="#document-documentElement-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0-style-display-‘none’-是我们今天的重点" class="headerlink" title="document.documentElement.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0].style.display = ‘none’      是我们今天的重点"></a>document.documentElement.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0].style.display = ‘none’      是我们今天的重点</h5></blockquote>
+<p>最后感谢大牛的博客  <br></p>
+<p>  ##—-&gt; <a href="http://jwdev.cn/2015/09/28/use-javascript-to-delete-web-element/" target="_blank" rel="external">点击此处进入原文博客</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/22/华山论剑之友盟第三方登录初体验/" rel="next" title="华山论剑之友盟第三方登录初体验">
+                <i class="fa fa-chevron-left"></i> 华山论剑之友盟第三方登录初体验
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/19/华山论剑之NSNotification-通知-与KVO-观察者模式/" rel="prev" title="华山论剑之NSNotification(通知)与KVO(观察者模式)">
+                华山论剑之NSNotification(通知)与KVO(观察者模式) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#今天遇到了webView-中网页显示的问题-大家都知道webView的强大之处-因为webView根据url-统一资源定位符-不但可以显示本地的资源-而且还可以显示网络上的一些数据-大大减少了我们代码量-只要看好了一个网页我们直接拿来了用就行-但是往往这些网页中有一些是我们所不需要的东西-比如广告了-一些链接啦-大大降低了我们的应用程序的美观-如下图"><span class="nav-number">1.</span> <span class="nav-text">今天遇到了webView 中网页显示的问题,大家都知道webView的强大之处,因为webView根据url(统一资源定位符)不但可以显示本地的资源,而且还可以显示网络上的一些数据,大大减少了我们代码量,只要看好了一个网页我们直接拿来了用就行,但是往往这些网页中有一些是我们所不需要的东西.比如广告了,一些链接啦,大大降低了我们的应用程序的美观.如下图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载链接-分享都不是我们所需要的"><span class="nav-number">2.</span> <span class="nav-text">下载链接 ,分享都不是我们所需要的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对于这样的问题-像我这小菜鸟真是脑洞再大也解决不了-幸得大神帮助-给我推荐一篇的博客-成功的解决了问题"><span class="nav-number">3.</span> <span class="nav-text">对于这样的问题,像我这小菜鸟真是脑洞再大也解决不了,幸得大神帮助,给我推荐一篇的博客.成功的解决了问题.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#根据大牛的思路-总共分这么几步"><span class="nav-number">4.</span> <span class="nav-text">根据大牛的思路,总共分这么几步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-使用工具获取到你想要获取到页面上的控件-ccs操作-不懂…-选择谷歌浏览器-打开开发者工具"><span class="nav-number">5.</span> <span class="nav-text">1.使用工具获取到你想要获取到页面上的控件(ccs操作???不懂…)选择谷歌浏览器,打开开发者工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-打开开发者工具-我们用到的地方如下图"><span class="nav-number">6.</span> <span class="nav-text">2.打开开发者工具 ,我们用到的地方如下图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Device-你要选择在那种情境下显示网页-通俗来说-就是模拟器"><span class="nav-number">7.</span> <span class="nav-text">Device:你要选择在那种情境下显示网页,通俗来说,就是模拟器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#放大镜-你可以通过放大镜对网页上的控件进行选取-然后找到html代码-重要的第一步呀"><span class="nav-number">8.</span> <span class="nav-text">放大镜:你可以通过放大镜对网页上的控件进行选取,然后找到html代码.(重要的第一步呀)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手机-转化为手机模式-但是前提必须要转换Device的模式-要不然-光是视图上的转变-没有实际的转变-注意-我现在拿手机的网页做示例-所有我需要转化-当你做的电脑的就不需要转换这些了"><span class="nav-number">9.</span> <span class="nav-text">手机:转化为手机模式,但是前提必须要转换Device的模式,要不然,光是视图上的转变,没有实际的转变(注意:我现在拿手机的网页做示例,所有我需要转化,当你做的电脑的就不需要转换这些了)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-查找到我们所需要的控件-JS操作"><span class="nav-number"></span> <span class="nav-text">3.查找到我们所需要的控件(JS操作)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1点击放大镜-这样我们就可以对网页上的控件进行选取了"><span class="nav-number">1.</span> <span class="nav-text">3.1点击放大镜,这样我们就可以对网页上的控件进行选取了;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2选取你要取消网页上的控件-单击就行-这时候你就会发现html代码有一部分被选中-右下边可以直接被编辑"><span class="nav-number">2.</span> <span class="nav-text">3.2选取你要取消网页上的控件(单击就行),这时候你就会发现html代码有一部分被选中(右下边可以直接被编辑)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3我们在右下边可以直接填上下面这行代码-直接完成广告的去除-但这不是我们要的效果-我们要的效果是通过OC来去除广告-心急吃不了热豆腐-请执行下面代码"><span class="nav-number">3.</span> <span class="nav-text">3.3我们在右下边可以直接填上下面这行代码,直接完成广告的去除,但这不是我们要的效果,我们要的效果是通过OC来去除广告,心急吃不了热豆腐,请执行下面代码</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#display-none-这行代码这右下边的编辑区任意地方写就行-如图"><span class="nav-number">3.1.</span> <span class="nav-text">display:none (这行代码这右下边的编辑区任意地方写就行  如图)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4上面就是给你个希望而已-不要激动-精彩的在后面-我们看到了取出效果之后-我们就要找到class内的字符串-这里我们就要’g-mnc1’就行"><span class="nav-number">4.</span> <span class="nav-text">3.4上面就是给你个希望而已,不要激动,精彩的在后面,我们看到了取出效果之后,我们就要找到class内的字符串,这里我们就要’g-mnc1’就行.</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#紧接着打开控制台Console-输入如下代码-回车"><span class="nav-number">4.0.1.</span> <span class="nav-text">紧接着打开控制台Console  输入如下代码 回车</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’"><span class="nav-number">4.1.</span> <span class="nav-text">document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如图所示"><span class="nav-number">5.</span> <span class="nav-text">如图所示</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#紧接着打开数组中的第一个元素-输入如下代码-回车"><span class="nav-number">5.1.</span> <span class="nav-text">紧接着打开数组中的第一个元素 输入如下代码 回车</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0"><span class="nav-number">5.2.</span> <span class="nav-text">document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0]</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如图所示-1"><span class="nav-number">6.</span> <span class="nav-text">如图所示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#又接着-我是真够了又接着了…重复呀-够够的了-这才是我们最终所需要的-注意啦"><span class="nav-number">7.</span> <span class="nav-text">又接着,我是真够了又接着了…重复呀!!够够的了.(这才是我们最终所需要的!!!注意啦)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#document-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0-style-display-‘none’"><span class="nav-number">7.1.</span> <span class="nav-text">document.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0].style.display = ‘none’</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-验证完成之后-我们就需要对我们的UIwebView进行操作了-这里我就直接引用大牛的文章了-iOS操作-这两天身体不适-改天再写了-抱歉了"><span class="nav-number"></span> <span class="nav-text">4.验证完成之后,我们就需要对我们的UIwebView进行操作了,这里我就直接引用大牛的文章了(iOS操作)(这两天身体不适,改天再写了,抱歉了)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-创建UIWebView"><span class="nav-number">1.</span> <span class="nav-text">1.创建UIWebView</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-设置代理"><span class="nav-number">2.</span> <span class="nav-text">2.设置代理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-加载网络请求"><span class="nav-number">3.</span> <span class="nav-text">3.加载网络请求</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注意-顺序问题很重要-不懂的直接当CV战士吧-尽情的复制黏贴吧-吼吼"><span class="nav-number">3.1.</span> <span class="nav-text">注意:顺序问题很重要,不懂的直接当CV战士吧,尽情的复制黏贴吧,吼吼</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我们可以通过webView的代理方法进行我们-JS操作-如下-方法"><span class="nav-number">4.</span> <span class="nav-text">我们可以通过webView的代理方法进行我们 JS操作(如下)  方法:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#void-webViewDidFinishLoad-UIWebView-webView"><span class="nav-number"></span> <span class="nav-text">- (void)webViewDidFinishLoad:(UIWebView *)webView</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#然后我们所需要的效果就出来了-新鲜的-来两口-屏蔽webView中的广告完成"><span class="nav-number">1.</span> <span class="nav-text">然后我们所需要的效果就出来了;新鲜的,来两口 .屏蔽webView中的广告完成.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结:</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#document-documentElement-getElementsByClassName-‘这里写你要消除的空间的class里面的字符串’-0-style-display-‘none’-是我们今天的重点"><span class="nav-number">2.1.</span> <span class="nav-text">document.documentElement.getElementsByClassName(‘这里写你要消除的空间的class里面的字符串’)[0].style.display = ‘none’      是我们今天的重点</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,689 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="废话是人际关系的第一句. —-栋哥
+今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之iOS的数据持久化">
+<meta property="og:url" content="http://yoursite.com/2016/01/01/华山论剑之iOS的数据持久化/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="废话是人际关系的第一句. —-栋哥
+今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术.">
+<meta property="og:updated_time" content="2016-03-09T14:54:19.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之iOS的数据持久化">
+<meta name="twitter:description" content="废话是人际关系的第一句. —-栋哥
+今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之iOS的数据持久化 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之iOS的数据持久化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-01-01T22:49:12+08:00" content="2016-01-01">
+              2016-01-01
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="废话是人际关系的第一句-—-栋哥"><a href="#废话是人际关系的第一句-—-栋哥" class="headerlink" title="废话是人际关系的第一句. —-栋哥"></a>废话是人际关系的第一句. —-栋哥</h4></blockquote>
+<h5 id="今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术"><a href="#今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术" class="headerlink" title="今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术."></a>今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术.</h5><hr>
+<a id="more"></a>
+<p><br></p>
+<h2 id="属性列表持久化"><a href="#属性列表持久化" class="headerlink" title="属性列表持久化"></a>属性列表持久化</h2><h4 id="在属性持久化中-我们一般用到的是NSUserDefaults-用户偏好设置-NSUserDefaults是一个单例，在整个程序中只有一个实例对象，他可以用于数据的永久保存，而且简单实用，这是它可以让数据自由传递的一个前提，也是大家喜欢用它保存简单数据的一个主要原因-NSUserDefaults存储数据的时候使用键值对存储数据-有点像字典存储数据一样"><a href="#在属性持久化中-我们一般用到的是NSUserDefaults-用户偏好设置-NSUserDefaults是一个单例，在整个程序中只有一个实例对象，他可以用于数据的永久保存，而且简单实用，这是它可以让数据自由传递的一个前提，也是大家喜欢用它保存简单数据的一个主要原因-NSUserDefaults存储数据的时候使用键值对存储数据-有点像字典存储数据一样" class="headerlink" title="在属性持久化中,我们一般用到的是NSUserDefaults(用户偏好设置),  NSUserDefaults是一个单例，在整个程序中只有一个实例对象，他可以用于数据的永久保存，而且简单实用，这是它可以让数据自由传递的一个前提，也是大家喜欢用它保存简单数据的一个主要原因.NSUserDefaults存储数据的时候使用键值对存储数据.有点像字典存储数据一样."></a>在属性持久化中,我们一般用到的是NSUserDefaults(用户偏好设置),  NSUserDefaults是一个单例，在整个程序中只有一个实例对象，他可以用于数据的永久保存，而且简单实用，这是它可以让数据自由传递的一个前提，也是大家喜欢用它保存简单数据的一个主要原因.NSUserDefaults存储数据的时候使用键值对存储数据.有点像字典存储数据一样.</h4><h4 id="NSUserDefaults支持的存储数据类型有：NSNumber（NSInteger、float、double），NSString，NSDate，NSArray，NSDictionary，BOOL"><a href="#NSUserDefaults支持的存储数据类型有：NSNumber（NSInteger、float、double），NSString，NSDate，NSArray，NSDictionary，BOOL" class="headerlink" title="NSUserDefaults支持的存储数据类型有：NSNumber（NSInteger、float、double），NSString，NSDate，NSArray，NSDictionary，BOOL."></a>NSUserDefaults支持的存储数据类型有：NSNumber（NSInteger、float、double），NSString，NSDate，NSArray，NSDictionary，BOOL.</h4><p></p>
+<blockquote>
+<h4 id="注意：-NSUserDefaults存储的数据类型必须是不可变的数据类型-同时-对相同的Key赋值约等于一次覆盖，要保证每一个Key的唯一性"><a href="#注意：-NSUserDefaults存储的数据类型必须是不可变的数据类型-同时-对相同的Key赋值约等于一次覆盖，要保证每一个Key的唯一性" class="headerlink" title="注意： NSUserDefaults存储的数据类型必须是不可变的数据类型.同时,对相同的Key赋值约等于一次覆盖，要保证每一个Key的唯一性"></a><strong>注意：</strong> NSUserDefaults存储的数据类型必须是不可变的数据类型.同时,对相同的Key赋值约等于一次覆盖，要保证每一个Key的唯一性</h4></blockquote>
+<h4 id="我们先看一下用NSUserDefaults存储NSString的范例"><a href="#我们先看一下用NSUserDefaults存储NSString的范例" class="headerlink" title="我们先看一下用NSUserDefaults存储NSString的范例"></a>我们先看一下用NSUserDefaults存储NSString的范例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSString *passWord = @&quot;1234567&quot;;</span><br><span class="line">NSUserDefaults *user = [NSUserDefaults standardUserDefaults];//创建NSUserDefaults单例对象</span><br><span class="line">[user setObject:passWord forKey:@&quot;userPassWord&quot;];//根据键值对存储NSString数据.</span><br></pre></td></tr></table></figure>
+<h4 id="当然了-当我们需要用到我们存储的数据的时候-我们可以根据键值对来进行取值"><a href="#当然了-当我们需要用到我们存储的数据的时候-我们可以根据键值对来进行取值" class="headerlink" title="当然了,当我们需要用到我们存储的数据的时候,我们可以根据键值对来进行取值."></a>当然了,当我们需要用到我们存储的数据的时候,我们可以根据键值对来进行取值.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSUserDefaults *user = [NSUserDefaults standardUserDefaults];</span><br><span class="line">   NSString *passWord = [ user objectForKey:@&quot;userPassWord&quot;];//键值对取值,使用bjectForKey:方法</span><br></pre></td></tr></table></figure>
+<h4 id="像其他的数据类型我们也可以仿照上面进行存储-但是数据类型必须是不可变的数据类型"><a href="#像其他的数据类型我们也可以仿照上面进行存储-但是数据类型必须是不可变的数据类型" class="headerlink" title="像其他的数据类型我们也可以仿照上面进行存储,但是数据类型必须是不可变的数据类型."></a>像其他的数据类型我们也可以仿照上面进行存储,但是数据类型必须是不可变的数据类型.</h4><p><br></p>
+<h3 id="NSUserDefaults存储自定义对象"><a href="#NSUserDefaults存储自定义对象" class="headerlink" title="NSUserDefaults存储自定义对象"></a>NSUserDefaults存储自定义对象</h3><h4 id="对于我们来说-简单对象并不能完成一些我们的需求-所以我们需要对自定义对象进行存储-这里自定义对象我推荐使用sqlite数据库-存储数据-当然了-使用NSUserDefaults也可以做到自定义数据的存储-这样我们就要使用-对象归档-这一技术-让自定义对象归档成为NSData类型的数据-然后我们就可以进行归档了-现在-我们创建一个学生类型-学生具有以下的属性-姓名-学号-性别-然后这个学生类要使用到归档技术就要遵循NSCoding协议-下面看一下范例"><a href="#对于我们来说-简单对象并不能完成一些我们的需求-所以我们需要对自定义对象进行存储-这里自定义对象我推荐使用sqlite数据库-存储数据-当然了-使用NSUserDefaults也可以做到自定义数据的存储-这样我们就要使用-对象归档-这一技术-让自定义对象归档成为NSData类型的数据-然后我们就可以进行归档了-现在-我们创建一个学生类型-学生具有以下的属性-姓名-学号-性别-然后这个学生类要使用到归档技术就要遵循NSCoding协议-下面看一下范例" class="headerlink" title="对于我们来说,简单对象并不能完成一些我们的需求,所以我们需要对自定义对象进行存储.这里自定义对象我推荐使用sqlite数据库 存储数据,当然了,使用NSUserDefaults也可以做到自定义数据的存储,这样我们就要使用 对象归档 这一技术,让自定义对象归档成为NSData类型的数据,然后我们就可以进行归档了,现在,我们创建一个学生类型,学生具有以下的属性:姓名,学号,性别.然后这个学生类要使用到归档技术就要遵循NSCoding协议,下面看一下范例."></a>对于我们来说,简单对象并不能完成一些我们的需求,所以我们需要对自定义对象进行存储.这里自定义对象我推荐使用<strong><em>sqlite数据库</em></strong> 存储数据,当然了,使用NSUserDefaults也可以做到自定义数据的存储,这样我们就要使用 对象归档 这一技术,让自定义对象归档成为NSData类型的数据,然后我们就可以进行归档了,现在,我们创建一个学生类型,学生具有以下的属性:姓名,学号,性别.然后这个学生类要使用到归档技术就要遵循NSCoding协议,下面看一下范例.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface Student : NSObject &lt;NSCoding&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) NSInteger number;//学号</span><br><span class="line">@property (nonatomic, copy) NSString *name;//姓名</span><br><span class="line">@property (nonatomic, copy) NSString *sex;//性别</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h4 id="在自定义对象Student的-m文件中我们需要实现下面的方法"><a href="#在自定义对象Student的-m文件中我们需要实现下面的方法" class="headerlink" title="在自定义对象Student的.m文件中我们需要实现下面的方法"></a>在自定义对象Student的.m文件中我们需要实现下面的方法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@implementation Student // 以下两个方法一定要实现，不然在调用的时候会crash</span><br><span class="line">- (void)encodeWithCoder:(NSCoder *)aCoder &#123;</span><br><span class="line">// 这里放置需要持久化的属性</span><br><span class="line">[aCoder encodeObject:[NSNumber numberWithInteger:self.number] forKey:@”number”];</span><br><span class="line">[aCoder encodeObject:self.name forKey:@&quot;name&quot;];</span><br><span class="line">[aCoder encodeObject:self.sex forKey:@&quot;sex&quot;];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (id)initWithCoder:(NSCoder *)aDecoder&#123;</span><br><span class="line">if (self = [self init])&#123;</span><br><span class="line">//  这里务必和encodeWithCoder方法里面的内容一致，不然会读不到数据</span><br><span class="line">self.userID = [[aDecoder decodeObjectForKey:@&quot;userID&quot;] integerValue];</span><br><span class="line">self.name = [aDecoder decodeObjectForKey:@&quot;name&quot;];</span><br><span class="line">self.sex = [aDecoder decodeObjectForKey:@&quot;sex&quot;];</span><br><span class="line">&#125;</span><br><span class="line">return self;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="然后我们就可以在对自定义对象Student进行归档存储了"><a href="#然后我们就可以在对自定义对象Student进行归档存储了" class="headerlink" title="然后我们就可以在对自定义对象Student进行归档存储了."></a>然后我们就可以在对自定义对象Student进行归档存储了.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"> Student *student = [[Student alloc] init];</span><br><span class="line">   </span><br><span class="line"> //下面进行的是对student对象的 name ， number ，sex 的赋值</span><br><span class="line"> student.name = @&quot;栋哥&quot;;</span><br><span class="line"> student.number = @&quot;1&quot;;</span><br><span class="line"> student.sex = @&quot;男&quot;;</span><br><span class="line"></span><br><span class="line">NSData *data = [NSKeyedArchiver archivedDataWithRootObject:student];   </span><br><span class="line"> NSUserDefaults *user = [NSUserDefaults standardUserDefaults];</span><br><span class="line"> [user setObject:data forKey:@&quot;firstStudent&quot;];</span><br></pre></td></tr></table></figure>
+<h4 id="当然了-我们也可以对多人进行数据存储"><a href="#当然了-我们也可以对多人进行数据存储" class="headerlink" title="当然了,我们也可以对多人进行数据存储."></a>当然了,我们也可以对多人进行数据存储.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//这是一个存放全班同学的数组</span><br><span class="line">NSMutableArray * dataArr= [NSMutableArray arrayWithCapacity:50];</span><br><span class="line"> </span><br><span class="line">//将student类型变为NSData类型</span><br><span class="line">NSData *data = [NSKeyedArchiver archivedDataWithRootObject:student];</span><br><span class="line"> </span><br><span class="line">//存放数据的数组将data加入进去</span><br><span class="line">[dataArray addObject:data];</span><br></pre></td></tr></table></figure>
+<h4 id="当我们需要学生对象的时候-我们就要使用到反归档技术"><a href="#当我们需要学生对象的时候-我们就要使用到反归档技术" class="headerlink" title="当我们需要学生对象的时候,我们就要使用到反归档技术"></a>当我们需要学生对象的时候,我们就要使用到反归档技术</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">NSUserDefaults *user = [NSUserDefaults standardUserDefaults];</span><br><span class="line">  </span><br><span class="line"> NSData *data = [user objectForKey:@&quot;firstStudent&quot;];</span><br><span class="line">     </span><br><span class="line"> Student *student = [NSKeyedUnarchiver unarchiveObjectWithData:data];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="SQlite数据库存储数据"><a href="#SQlite数据库存储数据" class="headerlink" title="SQlite数据库存储数据"></a>SQlite数据库存储数据</h2><h4 id="SQLite是一款非常轻量级的关系数据库系统-SQLite3是嵌入在iOS中的关系型数据库，对于存储大规模的数据很有效。SQLite3使得不必将每个对象都加到内存中"><a href="#SQLite是一款非常轻量级的关系数据库系统-SQLite3是嵌入在iOS中的关系型数据库，对于存储大规模的数据很有效。SQLite3使得不必将每个对象都加到内存中" class="headerlink" title="SQLite是一款非常轻量级的关系数据库系统,SQLite3是嵌入在iOS中的关系型数据库，对于存储大规模的数据很有效。SQLite3使得不必将每个对象都加到内存中."></a>SQLite是一款非常轻量级的关系数据库系统,SQLite3是嵌入在iOS中的关系型数据库，对于存储大规模的数据很有效。SQLite3使得不必将每个对象都加到内存中.</h4><p></p>
+<h4 id="下面我们就看一下SQLite3的在iOS中的基本使用"><a href="#下面我们就看一下SQLite3的在iOS中的基本使用" class="headerlink" title="下面我们就看一下SQLite3的在iOS中的基本使用"></a>下面我们就看一下SQLite3的在iOS中的基本使用</h4><h4 id="1-打开数据库-在打开数据的之前-我们需要手动添加sqlite库文件"><a href="#1-打开数据库-在打开数据的之前-我们需要手动添加sqlite库文件" class="headerlink" title="1.打开数据库,在打开数据的之前,我们需要手动添加sqlite库文件"></a>1.打开数据库,在打开数据的之前,我们需要手动添加sqlite库文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sqlite3 *database;</span><br><span class="line">int result = sqlite3_open(&quot;/path/databaseFile&quot;, &amp;database);//result是一个返回值,我们可以根据result的返回值判断数据库是否打开成功.</span><br></pre></td></tr></table></figure>
+<h4 id="2-关闭数据库"><a href="#2-关闭数据库" class="headerlink" title="2.关闭数据库"></a>2.关闭数据库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlite3_close(database);</span><br></pre></td></tr></table></figure>
+<h4 id="3-创建数据库表格"><a href="#3-创建数据库表格" class="headerlink" title="3.创建数据库表格"></a>3.创建数据库表格</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">char *errorMsg;</span><br><span class="line">const char *createSQL = &quot;CREATE TABLE IF NOT EXISTS PEOPLE (ID INTEGER PRIMARY KEY AUTOINCREMENT, FIELD_DATA TEXT)&quot;;</span><br><span class="line">int result = sqlite3_exec(database, createSQL, NULL, NULL, &amp;errorMsg);//result是一个返回值,我们可以根据result的返回值判断数据库是否创建表格成功.</span><br></pre></td></tr></table></figure>
+<h4 id="4-查询sqlite数据库中的数据"><a href="#4-查询sqlite数据库中的数据" class="headerlink" title="4.查询sqlite数据库中的数据"></a>4.查询sqlite数据库中的数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">NSString *query = @&quot;SELECT ID, FIELD_DATA FROM FIELDS ORDER BY ROW&quot;;</span><br><span class="line">sqlite3_stmt *statement;</span><br><span class="line">int result = sqlite3_prepare_v2(database, [query UTF8String], -1, &amp;statement, nil);</span><br><span class="line"></span><br><span class="line">while (sqlite3_step(statement) == SQLITE_ROW) &#123;</span><br><span class="line">    int rowNum = sqlite3_column_int(statement, 0);</span><br><span class="line">    char *rowData = (char *)sqlite3_column_text(statement, 1);</span><br><span class="line">    NSString *fieldValue = [[NSString alloc] initWithUTF8String:rowData];</span><br><span class="line">    // Do something with the data here</span><br><span class="line">&#125;</span><br><span class="line">sqlite3_finalize(statement);</span><br></pre></td></tr></table></figure>
+<h4 id="当然了还有很多sqlite语句-这里我们可以参考W3School中sqlite语句学习"><a href="#当然了还有很多sqlite语句-这里我们可以参考W3School中sqlite语句学习" class="headerlink" title="当然了还有很多sqlite语句,这里我们可以参考W3School中sqlite语句学习."></a>当然了还有很多sqlite语句,这里我们可以参考W3School中sqlite语句学习.</h4><h3 id="—-gt-点击前往w3主页"><a href="#—-gt-点击前往w3主页" class="headerlink" title="—-&gt;点击前往w3主页"></a><a href="http://www.w3school.com.cn/" target="_blank" rel="external">—-&gt;点击前往w3主页</a></h3><h4 id="另外我们还可以使用第三方库FMDB对sqlite数据库进行操作-这里可以参考下面的一篇转载的博客"><a href="#另外我们还可以使用第三方库FMDB对sqlite数据库进行操作-这里可以参考下面的一篇转载的博客" class="headerlink" title="另外我们还可以使用第三方库FMDB对sqlite数据库进行操作,这里可以参考下面的一篇转载的博客"></a>另外我们还可以使用第三方库FMDB对sqlite数据库进行操作,这里可以参考下面的一篇转载的博客</h4><h3 id="—-gt-点击前往FMDB学习"><a href="#—-gt-点击前往FMDB学习" class="headerlink" title="—-&gt;点击前往FMDB学习"></a><a href="http://www.cnblogs.com/wuhenke/archive/2012/02/07/2341656.html" target="_blank" rel="external">—-&gt;点击前往FMDB学习</a></h3><p><br></p>
+<blockquote>
+<h3 id="最后祝大家新年快乐-希望本篇博客会对大家有所帮助"><a href="#最后祝大家新年快乐-希望本篇博客会对大家有所帮助" class="headerlink" title="最后祝大家新年快乐.  希望本篇博客会对大家有所帮助."></a>最后祝大家新年快乐.  希望本篇博客会对大家有所帮助.</h3></blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/11/09/华山论剑之iOS网站大乱斗/" rel="next" title="华山论剑之iOS网站大乱斗">
+                <i class="fa fa-chevron-left"></i> 华山论剑之iOS网站大乱斗
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/08/原谅我一生/" rel="prev" title="原谅我一生放荡不羁爱自由">
+                原谅我一生放荡不羁爱自由 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">14</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#废话是人际关系的第一句-—-栋哥"><span class="nav-number">1.</span> <span class="nav-text">废话是人际关系的第一句. —-栋哥</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术"><span class="nav-number">1.1.</span> <span class="nav-text">今天我们就来讲一讲数据持久化的两种方式，一种是属性列表，一种是sqlite数据库存储数据，当然了我们还要说一说数据持久化中用到的归档技术.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性列表持久化"><span class="nav-number"></span> <span class="nav-text">属性列表持久化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在属性持久化中-我们一般用到的是NSUserDefaults-用户偏好设置-NSUserDefaults是一个单例，在整个程序中只有一个实例对象，他可以用于数据的永久保存，而且简单实用，这是它可以让数据自由传递的一个前提，也是大家喜欢用它保存简单数据的一个主要原因-NSUserDefaults存储数据的时候使用键值对存储数据-有点像字典存储数据一样"><span class="nav-number">1.</span> <span class="nav-text">在属性持久化中,我们一般用到的是NSUserDefaults(用户偏好设置),  NSUserDefaults是一个单例，在整个程序中只有一个实例对象，他可以用于数据的永久保存，而且简单实用，这是它可以让数据自由传递的一个前提，也是大家喜欢用它保存简单数据的一个主要原因.NSUserDefaults存储数据的时候使用键值对存储数据.有点像字典存储数据一样.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSUserDefaults支持的存储数据类型有：NSNumber（NSInteger、float、double），NSString，NSDate，NSArray，NSDictionary，BOOL"><span class="nav-number">2.</span> <span class="nav-text">NSUserDefaults支持的存储数据类型有：NSNumber（NSInteger、float、double），NSString，NSDate，NSArray，NSDictionary，BOOL.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意：-NSUserDefaults存储的数据类型必须是不可变的数据类型-同时-对相同的Key赋值约等于一次覆盖，要保证每一个Key的唯一性"><span class="nav-number">3.</span> <span class="nav-text">注意： NSUserDefaults存储的数据类型必须是不可变的数据类型.同时,对相同的Key赋值约等于一次覆盖，要保证每一个Key的唯一性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我们先看一下用NSUserDefaults存储NSString的范例"><span class="nav-number">4.</span> <span class="nav-text">我们先看一下用NSUserDefaults存储NSString的范例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当然了-当我们需要用到我们存储的数据的时候-我们可以根据键值对来进行取值"><span class="nav-number">5.</span> <span class="nav-text">当然了,当我们需要用到我们存储的数据的时候,我们可以根据键值对来进行取值.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#像其他的数据类型我们也可以仿照上面进行存储-但是数据类型必须是不可变的数据类型"><span class="nav-number">6.</span> <span class="nav-text">像其他的数据类型我们也可以仿照上面进行存储,但是数据类型必须是不可变的数据类型.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NSUserDefaults存储自定义对象"><span class="nav-number"></span> <span class="nav-text">NSUserDefaults存储自定义对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对于我们来说-简单对象并不能完成一些我们的需求-所以我们需要对自定义对象进行存储-这里自定义对象我推荐使用sqlite数据库-存储数据-当然了-使用NSUserDefaults也可以做到自定义数据的存储-这样我们就要使用-对象归档-这一技术-让自定义对象归档成为NSData类型的数据-然后我们就可以进行归档了-现在-我们创建一个学生类型-学生具有以下的属性-姓名-学号-性别-然后这个学生类要使用到归档技术就要遵循NSCoding协议-下面看一下范例"><span class="nav-number">1.</span> <span class="nav-text">对于我们来说,简单对象并不能完成一些我们的需求,所以我们需要对自定义对象进行存储.这里自定义对象我推荐使用sqlite数据库 存储数据,当然了,使用NSUserDefaults也可以做到自定义数据的存储,这样我们就要使用 对象归档 这一技术,让自定义对象归档成为NSData类型的数据,然后我们就可以进行归档了,现在,我们创建一个学生类型,学生具有以下的属性:姓名,学号,性别.然后这个学生类要使用到归档技术就要遵循NSCoding协议,下面看一下范例.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在自定义对象Student的-m文件中我们需要实现下面的方法"><span class="nav-number">2.</span> <span class="nav-text">在自定义对象Student的.m文件中我们需要实现下面的方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后我们就可以在对自定义对象Student进行归档存储了"><span class="nav-number">3.</span> <span class="nav-text">然后我们就可以在对自定义对象Student进行归档存储了.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当然了-我们也可以对多人进行数据存储"><span class="nav-number">4.</span> <span class="nav-text">当然了,我们也可以对多人进行数据存储.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们需要学生对象的时候-我们就要使用到反归档技术"><span class="nav-number">5.</span> <span class="nav-text">当我们需要学生对象的时候,我们就要使用到反归档技术</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQlite数据库存储数据"><span class="nav-number"></span> <span class="nav-text">SQlite数据库存储数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SQLite是一款非常轻量级的关系数据库系统-SQLite3是嵌入在iOS中的关系型数据库，对于存储大规模的数据很有效。SQLite3使得不必将每个对象都加到内存中"><span class="nav-number">1.</span> <span class="nav-text">SQLite是一款非常轻量级的关系数据库系统,SQLite3是嵌入在iOS中的关系型数据库，对于存储大规模的数据很有效。SQLite3使得不必将每个对象都加到内存中.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面我们就看一下SQLite3的在iOS中的基本使用"><span class="nav-number">2.</span> <span class="nav-text">下面我们就看一下SQLite3的在iOS中的基本使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-打开数据库-在打开数据的之前-我们需要手动添加sqlite库文件"><span class="nav-number">3.</span> <span class="nav-text">1.打开数据库,在打开数据的之前,我们需要手动添加sqlite库文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-关闭数据库"><span class="nav-number">4.</span> <span class="nav-text">2.关闭数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-创建数据库表格"><span class="nav-number">5.</span> <span class="nav-text">3.创建数据库表格</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-查询sqlite数据库中的数据"><span class="nav-number">6.</span> <span class="nav-text">4.查询sqlite数据库中的数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当然了还有很多sqlite语句-这里我们可以参考W3School中sqlite语句学习"><span class="nav-number">7.</span> <span class="nav-text">当然了还有很多sqlite语句,这里我们可以参考W3School中sqlite语句学习.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#—-gt-点击前往w3主页"><span class="nav-number"></span> <span class="nav-text">—->点击前往w3主页</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#另外我们还可以使用第三方库FMDB对sqlite数据库进行操作-这里可以参考下面的一篇转载的博客"><span class="nav-number">1.</span> <span class="nav-text">另外我们还可以使用第三方库FMDB对sqlite数据库进行操作,这里可以参考下面的一篇转载的博客</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#—-gt-点击前往FMDB学习"><span class="nav-number"></span> <span class="nav-text">—->点击前往FMDB学习</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最后祝大家新年快乐-希望本篇博客会对大家有所帮助"><span class="nav-number"></span> <span class="nav-text">最后祝大家新年快乐.  希望本篇博客会对大家有所帮助.</span></a></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
