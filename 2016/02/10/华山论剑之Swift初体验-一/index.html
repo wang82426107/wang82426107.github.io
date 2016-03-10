@@ -1,0 +1,728 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之Swift初体验(一)">
+<meta property="og:url" content="http://yoursite.com/2016/02/10/华山论剑之Swift初体验-一/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rlneam9uj20j60ect8z.jpg
+">
+<meta property="og:updated_time" content="2016-03-10T03:45:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之Swift初体验(一)">
+<meta name="twitter:description">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rlneam9uj20j60ect8z.jpg
+">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之Swift初体验(一) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之Swift初体验(一)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-10T11:16:27+08:00" content="2016-02-10">
+              2016-02-10
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rlneam9uj20j60ect8z.jpg
+" alt="“神经骚栋”/"></p>
+<hr>
+<a id="more"></a>
+<blockquote>
+<h4 id="注释代码很像清洁你的厕所——你不想干，但如果你做了，这绝对会给你和你的客人带来更愉悦的体验。-Ryan-Campbell"><a href="#注释代码很像清洁你的厕所——你不想干，但如果你做了，这绝对会给你和你的客人带来更愉悦的体验。-Ryan-Campbell" class="headerlink" title="注释代码很像清洁你的厕所——你不想干，但如果你做了，这绝对会给你和你的客人带来更愉悦的体验。(Ryan Campbell)"></a>注释代码很像清洁你的厕所——你不想干，但如果你做了，这绝对会给你和你的客人带来更愉悦的体验。(Ryan Campbell)</h4></blockquote>
+<h4 id="今天开始开始接触Swift的这一门新兴的语言-不得不说这一门新兴语言的潜力还是相当客观的-就拿去年的语言排行榜来说吧-Swift一举超过了OC-而且还在具有上升的劲头"><a href="#今天开始开始接触Swift的这一门新兴的语言-不得不说这一门新兴语言的潜力还是相当客观的-就拿去年的语言排行榜来说吧-Swift一举超过了OC-而且还在具有上升的劲头" class="headerlink" title="今天开始开始接触Swift的这一门新兴的语言,不得不说这一门新兴语言的潜力还是相当客观的,就拿去年的语言排行榜来说吧,Swift一举超过了OC,而且还在具有上升的劲头."></a>今天开始开始接触Swift的这一门新兴的语言,不得不说这一门新兴语言的潜力还是相当客观的,就拿去年的语言排行榜来说吧,Swift一举超过了OC,而且还在具有上升的劲头.</h4><p> <br></p>
+<h2 id="Swift变量和常量"><a href="#Swift变量和常量" class="headerlink" title="Swift变量和常量"></a>Swift变量和常量</h2><p></p>
+<h4 id="Swift变量定义一共有两种-一种是使用let-一种是使用var-let定义的变量存在于常量区-所以不能进行修改-var定义的变量存在于堆区-所以可以进行修改"><a href="#Swift变量定义一共有两种-一种是使用let-一种是使用var-let定义的变量存在于常量区-所以不能进行修改-var定义的变量存在于堆区-所以可以进行修改" class="headerlink" title="Swift变量定义一共有两种,一种是使用let,一种是使用var,let定义的变量存在于常量区,所以不能进行修改,var定义的变量存在于堆区,所以可以进行修改"></a>Swift变量定义一共有两种,一种是使用let,一种是使用var,let定义的变量存在于常量区,所以不能进行修改,var定义的变量存在于堆区,所以可以进行修改</h4><h4 id="然后我们看一下let和var定义的变量和OC相比到底有哪些区别"><a href="#然后我们看一下let和var定义的变量和OC相比到底有哪些区别" class="headerlink" title="然后我们看一下let和var定义的变量和OC相比到底有哪些区别"></a>然后我们看一下let和var定义的变量和OC相比到底有哪些区别</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//使用let定义一个变量,不能重新赋值</span><br><span class="line">//Swift支持隐式类型推断,可以根据初值,自动推断Swift的数据类型</span><br><span class="line">let a = 10</span><br><span class="line"></span><br><span class="line">let b:String = &quot;hello&quot;</span><br><span class="line"></span><br><span class="line">let c = 20.1</span><br><span class="line"></span><br><span class="line">//Swift不支持隐式类型转换,不能让两个不一样的数据类型做四则运算</span><br><span class="line">//Swift强转的格式:强转类型(需要强转的数据)</span><br><span class="line">let d = Double(a) + c</span><br><span class="line"></span><br><span class="line">//可以用中文做变量或者常量的命名</span><br><span class="line">let 迟到的 = &quot;做俯卧撑&quot;</span><br><span class="line"></span><br><span class="line">//可以使用表情符号做为变量或者常量的命名</span><br><span class="line">let 😂 = &quot;笑哭了&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">let str1:String = &quot;哈哈&quot;</span><br><span class="line"></span><br><span class="line">let str2:String = &quot;大哭&quot;</span><br><span class="line"></span><br><span class="line">//Swift里面支持运算符的重载,会根据语境自动的判断运算符的含义</span><br><span class="line">let str3 = str1 + str2</span><br><span class="line"></span><br><span class="line">print(str1)</span><br><span class="line"></span><br><span class="line">print(str2)</span><br><span class="line"></span><br><span class="line">print(str3)</span><br><span class="line"></span><br><span class="line">print(迟到的)</span><br></pre></td></tr></table></figure>
+<h4 id="下面是使用var定义的变量"><a href="#下面是使用var定义的变量" class="headerlink" title="下面是使用var定义的变量"></a>下面是使用var定义的变量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//Swift里面使用var定义一个变量,可以对变量重新赋值</span><br><span class="line">var a = 10</span><br><span class="line"></span><br><span class="line">a = 100</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//Swift里面如果需要定义一个初值为nil的变量的话,我们必须采用这样的格式:var 变量:数据类型? = nil</span><br><span class="line">var b:String? = nil</span><br><span class="line"></span><br><span class="line">b = &quot;hello&quot;</span><br><span class="line"></span><br><span class="line">let c:String? = nil//这样写是没有任何意义的.</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h4 id="说完了变量-我们就来说一下数组的相关知识-数组的定义和增删改查和OC的大同小异"><a href="#说完了变量-我们就来说一下数组的相关知识-数组的定义和增删改查和OC的大同小异" class="headerlink" title="说完了变量,我们就来说一下数组的相关知识,数组的定义和增删改查和OC的大同小异"></a>说完了变量,我们就来说一下数组的相关知识,数组的定义和增删改查和OC的大同小异</h4><h4 id="先是数组的定义"><a href="#先是数组的定义" class="headerlink" title="先是数组的定义"></a>先是数组的定义</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//Swift数组里面的数据类型必须是一样的</span><br><span class="line"></span><br><span class="line">let array = [1,2,3,&quot;a&quot;]//AnyObject Swift1.0版本 NSObject Swift2.0版本</span><br><span class="line"></span><br><span class="line">let array2:[Int] = [1,2,3]//指定数组中元素的数据类型</span><br><span class="line"></span><br><span class="line">let array3:[Int] = []//定义一个空数组,没有任何意义</span><br><span class="line"></span><br><span class="line">var array4:[Int] = [1,2,3,4]//定义一个可变的数组</span><br><span class="line"></span><br><span class="line">var array5:[Int] = []//定义一个空数组</span><br></pre></td></tr></table></figure>
+<p>然后就是数组的增删改查</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//数组的增,删,改,查</span><br><span class="line"></span><br><span class="line">var array:[Int] = [1,2,3,4,5,6]</span><br><span class="line"></span><br><span class="line">var array1:[Int] = [10,11,12,13]</span><br><span class="line">//查</span><br><span class="line">print(array[1])</span><br><span class="line"></span><br><span class="line">//增</span><br><span class="line">array.insert(6, atIndex: 1)</span><br><span class="line"></span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">array1.insertContentsOf([16], at: 2)//在某个位置正价一个数组</span><br><span class="line"></span><br><span class="line">print(array1)</span><br><span class="line"></span><br><span class="line">//删</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//删除数据的同时,保留内存空间</span><br><span class="line">//Swift里面的Bool值是一个枚举,只有true和false两种参数</span><br><span class="line">//array.removeAll(keepCapacity: true)</span><br><span class="line"></span><br><span class="line">let rang:Range = Range(start: 1, end: 2)</span><br><span class="line"></span><br><span class="line">array.removeRange(rang)//删除某一范围内的元素</span><br><span class="line"></span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line">//改</span><br><span class="line"></span><br><span class="line">array[1] = 10</span><br><span class="line"></span><br><span class="line">print(array)</span><br><span class="line"></span><br><span class="line">//数组的拼接</span><br><span class="line"></span><br><span class="line">var array2 = array1 + array</span><br><span class="line"></span><br><span class="line">print(array2)</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><h4 id="对于字典的定义-我觉得和OC也是差不多-定义的话也要有所区分-还有就是增删改查的功能"><a href="#对于字典的定义-我觉得和OC也是差不多-定义的话也要有所区分-还有就是增删改查的功能" class="headerlink" title="对于字典的定义,我觉得和OC也是差不多,定义的话也要有所区分,还有就是增删改查的功能"></a>对于字典的定义,我觉得和OC也是差不多,定义的话也要有所区分,还有就是增删改查的功能</h4><h4 id="看一下Swift中字典的定义和OC中的字典的定义有何区别吧"><a href="#看一下Swift中字典的定义和OC中的字典的定义有何区别吧" class="headerlink" title="看一下Swift中字典的定义和OC中的字典的定义有何区别吧"></a>看一下Swift中字典的定义和OC中的字典的定义有何区别吧</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let dictionary = [1 : 2, 3 : 4]//初始化一个最简单的字典</span><br><span class="line"></span><br><span class="line">//下面是创建字典的两种方式</span><br><span class="line">let dictionary1 = [1 : 2, 3 : 4, &quot;a&quot; : &quot;b&quot;]//这种方式Swift1.0是不存在的</span><br><span class="line"></span><br><span class="line">let dictionary2:[Int:String] = [1:&quot;a&quot;,2:&quot;b&quot;]//Swift的字典里面  所有的key,所有的value值都必须是同一类型的</span><br></pre></td></tr></table></figure>
+<h5 id="然后就是老生常谈的增删改查功能"><a href="#然后就是老生常谈的增删改查功能" class="headerlink" title="然后就是老生常谈的增删改查功能"></a>然后就是老生常谈的增删改查功能</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">//字典的增,删,改,查</span><br><span class="line"></span><br><span class="line">var dictionary = [1:2,3:4,5:6]</span><br><span class="line"></span><br><span class="line">//增</span><br><span class="line">dictionary[7] = 8</span><br><span class="line"></span><br><span class="line">print(dictionary)</span><br><span class="line"></span><br><span class="line">//改</span><br><span class="line">dictionary[1] = 10</span><br><span class="line"></span><br><span class="line">print(dictionary)</span><br><span class="line"></span><br><span class="line">//删</span><br><span class="line">//dictionary.removeAll(keepCapacity: true)</span><br><span class="line"></span><br><span class="line">dictionary.removeValueForKey(1)</span><br><span class="line"></span><br><span class="line">dictionary[5] = nil</span><br><span class="line"></span><br><span class="line">print(dictionary)</span><br><span class="line"></span><br><span class="line">//查</span><br><span class="line">print(dictionary[3])</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><h4 id="元组是Swift不同于OC的一个容器变量-元组的结构有点类似于C语言中的结构体-然后徐-我们就看一下元组的创建和相关的使用吧"><a href="#元组是Swift不同于OC的一个容器变量-元组的结构有点类似于C语言中的结构体-然后徐-我们就看一下元组的创建和相关的使用吧" class="headerlink" title="元组是Swift不同于OC的一个容器变量,元组的结构有点类似于C语言中的结构体..然后徐,我们就看一下元组的创建和相关的使用吧"></a>元组是Swift不同于OC的一个容器变量,元组的结构有点类似于C语言中的结构体..然后徐,我们就看一下元组的创建和相关的使用吧</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//使用()  代表定义一个元组,元组里面没有数据类型的概念</span><br><span class="line">let type = (&quot;王巍栋&quot;, &quot;WWD&quot;)</span><br><span class="line"></span><br><span class="line">print(type.0)//通过下标访问元组中的元素</span><br><span class="line"></span><br><span class="line">let type1:(name:String,nickName:String) = type</span><br><span class="line"></span><br><span class="line">print(type1.nickName)//如同字典一样</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h2><h4 id="循环结构主要分成for循环-while循环-和do-while循环-其中for循环又包含着for-in-循环"><a href="#循环结构主要分成for循环-while循环-和do-while循环-其中for循环又包含着for-in-循环" class="headerlink" title="循环结构主要分成for循环,while循环,和do while循环,其中for循环又包含着for in 循环"></a>循环结构主要分成for循环,while循环,和do while循环,其中for循环又包含着for in 循环</h4><h5 id="简单的for循环"><a href="#简单的for循环" class="headerlink" title="简单的for循环"></a>简单的for循环</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var array = [1,2,3,4,5,6]</span><br><span class="line"></span><br><span class="line">for var i = 0; i&lt;array.count ;i++ &#123;</span><br><span class="line"></span><br><span class="line">    print(&quot;i = \(i)&quot;)</span><br><span class="line">    </span><br><span class="line">    print(array[i])</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="for-in-循环"><a href="#for-in-循环" class="headerlink" title="for in 循环"></a>for in 循环</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var array = [1,2,3,4,5,6]</span><br><span class="line"></span><br><span class="line">for var i  in array &#123;</span><br><span class="line"></span><br><span class="line">print(i)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="while-循环"><a href="#while-循环" class="headerlink" title="while 循环"></a>while 循环</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var i = 0</span><br><span class="line"></span><br><span class="line">while i &lt; 10 &#123;</span><br><span class="line"></span><br><span class="line">    i++</span><br><span class="line">    </span><br><span class="line">    print(&quot;i = \(i)&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="do-while-循环-repeat-while-和-do-while一样-Swift1-0版本的时候叫do-while-Swift2-0版本的时候叫repeat-while"><a href="#do-while-循环-repeat-while-和-do-while一样-Swift1-0版本的时候叫do-while-Swift2-0版本的时候叫repeat-while" class="headerlink" title="do while 循环:repeat while 和 do while一样,Swift1.0版本的时候叫do while,Swift2.0版本的时候叫repeat while"></a>do while 循环:repeat while 和 do while一样,Swift1.0版本的时候叫do while,Swift2.0版本的时候叫repeat while</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var i = 0</span><br><span class="line"></span><br><span class="line">repeat&#123;</span><br><span class="line"></span><br><span class="line">i++</span><br><span class="line"></span><br><span class="line">print(i)</span><br><span class="line"></span><br><span class="line">&#125;while i&lt;10</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="分支结构"><a href="#分支结构" class="headerlink" title="分支结构"></a>分支结构</h2><h4 id="分支结构中主要包含着if结构-switch结构"><a href="#分支结构中主要包含着if结构-switch结构" class="headerlink" title="分支结构中主要包含着if结构,switch结构"></a>分支结构中主要包含着if结构,switch结构</h4><p></p>
+<h5 id="if结构"><a href="#if结构" class="headerlink" title="if结构"></a>if结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var timer:NSTimer? = nil</span><br><span class="line"></span><br><span class="line">if timer != nil &#123;</span><br><span class="line"></span><br><span class="line">    print(&quot;timer 存在&quot;)</span><br><span class="line"></span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line">    print(&quot;timer 不存在&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="switch结构"><a href="#switch结构" class="headerlink" title="switch结构"></a>switch结构</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var i = 10</span><br><span class="line"></span><br><span class="line">switch i &#123;</span><br><span class="line"></span><br><span class="line">case 0:</span><br><span class="line">    </span><br><span class="line">    print(i)</span><br><span class="line">    </span><br><span class="line">case 1:</span><br><span class="line">    </span><br><span class="line">    print(i)</span><br><span class="line">    </span><br><span class="line">case 2:</span><br><span class="line">    </span><br><span class="line">    print(i)</span><br><span class="line">    </span><br><span class="line">default:</span><br><span class="line">    </span><br><span class="line">    print(i)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h5 id="注意-Swift中的switch结构是可以省略break的-因为case在内部实现的时候都已经做了break的实现了-还有就是default这一块一定能不能去掉"><a href="#注意-Swift中的switch结构是可以省略break的-因为case在内部实现的时候都已经做了break的实现了-还有就是default这一块一定能不能去掉" class="headerlink" title="注意:Swift中的switch结构是可以省略break的,因为case在内部实现的时候都已经做了break的实现了.还有就是default这一块一定能不能去掉!!!!"></a>注意:Swift中的switch结构是可以省略break的,因为case在内部实现的时候都已经做了break的实现了.还有就是default这一块一定能不能去掉!!!!</h5></blockquote>
+<p></p>
+<h5 id="switch的区间条件结构"><a href="#switch的区间条件结构" class="headerlink" title="switch的区间条件结构"></a>switch的区间条件结构</h5><p><br>// i … j 表示闭区间 [i,j]</p>
+<p>//i ..&lt; j 表示半闭半开区间 [i,j)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">var i = 10</span><br><span class="line"></span><br><span class="line">switch i &#123;</span><br><span class="line"></span><br><span class="line">case 1...10:</span><br><span class="line">    </span><br><span class="line">    print(i)</span><br><span class="line">    </span><br><span class="line">default:</span><br><span class="line">    </span><br><span class="line">    print(i)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="switch的元组条件构造"><a href="#switch的元组条件构造" class="headerlink" title="switch的元组条件构造"></a>switch的元组条件构造</h5><blockquote>
+<h5 id="知识点-使用-“-“-下划线"><a href="#知识点-使用-“-“-下划线" class="headerlink" title="(知识点,使用 “ _ “ 下划线)"></a>(知识点,使用 “ _ “ 下划线)</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">let point = (10,10)</span><br><span class="line"></span><br><span class="line">switch point &#123;</span><br><span class="line"></span><br><span class="line">case (10,10):</span><br><span class="line">    </span><br><span class="line">    print(&quot;成功!&quot;)</span><br><span class="line">    </span><br><span class="line">case(_,10)://忽略前一个元素</span><br><span class="line">    </span><br><span class="line">    print(point.0)</span><br><span class="line">    </span><br><span class="line">case(10,_)://忽略后一个元素</span><br><span class="line">    </span><br><span class="line">    print(point.1)</span><br><span class="line">    </span><br><span class="line">case(_,_)://两个内部元素都忽略</span><br><span class="line">    </span><br><span class="line">    print(point)</span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="switch的多重条件构造-使用where"><a href="#switch的多重条件构造-使用where" class="headerlink" title="switch的多重条件构造( 使用where)"></a>switch的多重条件构造( 使用where)</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var value = 0</span><br><span class="line"></span><br><span class="line">var value1 = 100</span><br><span class="line"></span><br><span class="line">switch value &#123;</span><br><span class="line"></span><br><span class="line">case 0 where value1 &lt; 10 :</span><br><span class="line">    </span><br><span class="line">    print(value1)</span><br><span class="line">    </span><br><span class="line">case 0 where value1 &gt; 10 :</span><br><span class="line">    </span><br><span class="line">    print(value1)</span><br><span class="line">    </span><br><span class="line">default:</span><br><span class="line">    </span><br><span class="line">    print(&quot;错误&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><blockquote>
+<h4 id="func-关键字-test-函数名-“-”-参数列表-gt-Void-返回值类型-函数体"><a href="#func-关键字-test-函数名-“-”-参数列表-gt-Void-返回值类型-函数体" class="headerlink" title="func(关键字) test(函数名) “()”(参数列表) -&gt; Void(返回值类型) { (函数体) }"></a>func(关键字) test(函数名) “()”(参数列表) -&gt; Void(返回值类型) { (函数体) }</h4></blockquote>
+<h5 id="无参无返回值"><a href="#无参无返回值" class="headerlink" title="无参无返回值"></a>无参无返回值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func test() -&gt; Void &#123;</span><br><span class="line">    </span><br><span class="line">    print(&quot;无参无返回值&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
+<h5 id="无参有单个返回值"><a href="#无参有单个返回值" class="headerlink" title="无参有单个返回值"></a>无参有单个返回值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func test1() -&gt;Int &#123;</span><br><span class="line"></span><br><span class="line">    return 10</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(test1())</span><br></pre></td></tr></table></figure>
+<h5 id="无参返回值为数组"><a href="#无参返回值为数组" class="headerlink" title="无参返回值为数组"></a>无参返回值为数组</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func test2() -&gt;Array&lt;Int&gt;&#123;</span><br><span class="line"></span><br><span class="line">return [1,2,3]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(test2())</span><br></pre></td></tr></table></figure>
+<h5 id="无参返回值为oc的数组"><a href="#无参返回值为oc的数组" class="headerlink" title="无参返回值为oc的数组"></a>无参返回值为oc的数组</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func test3()-&gt;NSArray&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">return [1,2,3,&quot;a&quot;]</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(test3())</span><br></pre></td></tr></table></figure>
+<h5 id="有参无返回值"><a href="#有参无返回值" class="headerlink" title="有参无返回值"></a>有参无返回值</h5><h5 id="参数格式-参数名-“-”-参数类型"><a href="#参数格式-参数名-“-”-参数类型" class="headerlink" title="参数格式:参数名 “:” 参数类型"></a>参数格式:参数名 “:” 参数类型</h5><h5 id="gt-Void-可以省略"><a href="#gt-Void-可以省略" class="headerlink" title="-&gt; Void 可以省略 !!!"></a>-&gt; Void 可以省略 !!!</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func test4(name:String ,sex:String) -&gt; Void&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">print(&quot;我叫\(name),性别是\(sex)&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">test4(&quot;王巍栋&quot;, sex: &quot;男&quot;)</span><br></pre></td></tr></table></figure>
+<h5 id="有参有返回值"><a href="#有参有返回值" class="headerlink" title="有参有返回值"></a>有参有返回值</h5><h5 id="如果参数是一个数组格式-参数名-“-”-Array-lt-数据类型-gt"><a href="#如果参数是一个数组格式-参数名-“-”-Array-lt-数据类型-gt" class="headerlink" title="如果参数是一个数组格式: 参数名 “:” Array&lt;数据类型&gt;"></a>如果参数是一个数组格式: 参数名 “:” Array&lt;数据类型&gt;</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func test5( myArray:Array&lt;Int&gt; ) -&gt; Array&lt;Int&gt; &#123;</span><br><span class="line"></span><br><span class="line">return myArray</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(test5([111,222,333]))</span><br></pre></td></tr></table></figure>
+<h5 id="无参有多个返回值"><a href="#无参有多个返回值" class="headerlink" title="无参有多个返回值"></a>无参有多个返回值</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func test6(name:String,gender:String) -&gt;(String,String) &#123;</span><br><span class="line">    </span><br><span class="line">    return (name, gender)</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">print(test6(&quot;栋哥&quot;,gender: &quot;男&quot;))</span><br></pre></td></tr></table></figure>
+<h5 id="inout函数"><a href="#inout函数" class="headerlink" title="inout函数"></a>inout函数</h5><h5 id="Swift汉书里面的参数-默认是使用let修饰的-是不可更改的"><a href="#Swift汉书里面的参数-默认是使用let修饰的-是不可更改的" class="headerlink" title="Swift汉书里面的参数  默认是使用let修饰的,是不可更改的"></a>Swift汉书里面的参数  默认是使用let修饰的,是不可更改的</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">func test7(var number: Int)&#123;</span><br><span class="line">    </span><br><span class="line">    number = 100</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func test8(inout number: Int)&#123;</span><br><span class="line">    </span><br><span class="line">    number = 100</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var aa = 5</span><br><span class="line"></span><br><span class="line">test8(&amp;aa)</span><br><span class="line"></span><br><span class="line">print(aa)</span><br></pre></td></tr></table></figure>
+<h5 id="嵌套函数"><a href="#嵌套函数" class="headerlink" title="嵌套函数"></a>嵌套函数</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">func test11() &#123;</span><br><span class="line">    //第一层</span><br><span class="line"></span><br><span class="line">    func test12() &#123;</span><br><span class="line">        //第二层</span><br><span class="line"></span><br><span class="line">        func test13() &#123;</span><br><span class="line">            //第三层</span><br><span class="line"></span><br><span class="line">            func test14() &#123;</span><br><span class="line">                //第四层</span><br><span class="line"></span><br><span class="line">                func test15() &#123;</span><br><span class="line">                    //第五层</span><br><span class="line"></span><br><span class="line">                    func test16() &#123;</span><br><span class="line">                        </span><br><span class="line">                        //第六层</span><br><span class="line"></span><br><span class="line">                        //无限嵌套下去</span><br><span class="line">                        </span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                    </span><br><span class="line">                &#125;</span><br><span class="line">                </span><br><span class="line">                </span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="总结-从变量-数组-字典-元组-函数-分支结构-循环结构不难发现Swift和OC都存在着惊人的相似-令我们眼前一亮的无疑就是我们的元组-类似于结构体-同时没有数据类型的限制-整体来说Swift的语句更加简练了-有OC基础的朋友可以更好对Swift进行入门的练习"><a href="#总结-从变量-数组-字典-元组-函数-分支结构-循环结构不难发现Swift和OC都存在着惊人的相似-令我们眼前一亮的无疑就是我们的元组-类似于结构体-同时没有数据类型的限制-整体来说Swift的语句更加简练了-有OC基础的朋友可以更好对Swift进行入门的练习" class="headerlink" title="总结:从变量,数组,字典,元组,函数,分支结构,循环结构不难发现Swift和OC都存在着惊人的相似,令我们眼前一亮的无疑就是我们的元组,类似于结构体,同时没有数据类型的限制,整体来说Swift的语句更加简练了,有OC基础的朋友可以更好对Swift进行入门的练习."></a>总结:从变量,数组,字典,元组,函数,分支结构,循环结构不难发现Swift和OC都存在着惊人的相似,令我们眼前一亮的无疑就是我们的元组,类似于结构体,同时没有数据类型的限制,整体来说Swift的语句更加简练了,有OC基础的朋友可以更好对Swift进行入门的练习.</h4></blockquote>
+<p><br></p>
+<h5 id="喜欢这篇文章的话就点个喜欢吧-不要打赏只求各位看官的”喜欢”-😂😂😂😂"><a href="#喜欢这篇文章的话就点个喜欢吧-不要打赏只求各位看官的”喜欢”-😂😂😂😂" class="headerlink" title="喜欢这篇文章的话就点个喜欢吧,不要打赏只求各位看官的”喜欢” 😂😂😂😂"></a>喜欢这篇文章的话就点个喜欢吧,不要打赏只求各位看官的”喜欢” 😂😂😂😂</h5><h5 id="转载请注明出处-谢谢"><a href="#转载请注明出处-谢谢" class="headerlink" title="转载请注明出处,谢谢."></a>转载请注明出处,谢谢.</h5>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/03/华山论剑之iOS钥匙串及MD5加密技术/" rel="next" title="华山论剑之iOS钥匙串及MD5加密技术">
+                <i class="fa fa-chevron-left"></i> 华山论剑之iOS钥匙串及MD5加密技术
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/12/华山论剑之Swift初体验-二/" rel="prev" title="华山论剑之Swift初体验(二)">
+                华山论剑之Swift初体验(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#注释代码很像清洁你的厕所——你不想干，但如果你做了，这绝对会给你和你的客人带来更愉悦的体验。-Ryan-Campbell"><span class="nav-number">1.</span> <span class="nav-text">注释代码很像清洁你的厕所——你不想干，但如果你做了，这绝对会给你和你的客人带来更愉悦的体验。(Ryan Campbell)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#今天开始开始接触Swift的这一门新兴的语言-不得不说这一门新兴语言的潜力还是相当客观的-就拿去年的语言排行榜来说吧-Swift一举超过了OC-而且还在具有上升的劲头"><span class="nav-number">2.</span> <span class="nav-text">今天开始开始接触Swift的这一门新兴的语言,不得不说这一门新兴语言的潜力还是相当客观的,就拿去年的语言排行榜来说吧,Swift一举超过了OC,而且还在具有上升的劲头.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swift变量和常量"><span class="nav-number"></span> <span class="nav-text">Swift变量和常量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Swift变量定义一共有两种-一种是使用let-一种是使用var-let定义的变量存在于常量区-所以不能进行修改-var定义的变量存在于堆区-所以可以进行修改"><span class="nav-number">1.</span> <span class="nav-text">Swift变量定义一共有两种,一种是使用let,一种是使用var,let定义的变量存在于常量区,所以不能进行修改,var定义的变量存在于堆区,所以可以进行修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后我们看一下let和var定义的变量和OC相比到底有哪些区别"><span class="nav-number">2.</span> <span class="nav-text">然后我们看一下let和var定义的变量和OC相比到底有哪些区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下面是使用var定义的变量"><span class="nav-number">3.</span> <span class="nav-text">下面是使用var定义的变量</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number"></span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#说完了变量-我们就来说一下数组的相关知识-数组的定义和增删改查和OC的大同小异"><span class="nav-number">1.</span> <span class="nav-text">说完了变量,我们就来说一下数组的相关知识,数组的定义和增删改查和OC的大同小异</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#先是数组的定义"><span class="nav-number">2.</span> <span class="nav-text">先是数组的定义</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典"><span class="nav-number"></span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对于字典的定义-我觉得和OC也是差不多-定义的话也要有所区分-还有就是增删改查的功能"><span class="nav-number">1.</span> <span class="nav-text">对于字典的定义,我觉得和OC也是差不多,定义的话也要有所区分,还有就是增删改查的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#看一下Swift中字典的定义和OC中的字典的定义有何区别吧"><span class="nav-number">2.</span> <span class="nav-text">看一下Swift中字典的定义和OC中的字典的定义有何区别吧</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#然后就是老生常谈的增删改查功能"><span class="nav-number">2.1.</span> <span class="nav-text">然后就是老生常谈的增删改查功能</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元组"><span class="nav-number"></span> <span class="nav-text">元组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#元组是Swift不同于OC的一个容器变量-元组的结构有点类似于C语言中的结构体-然后徐-我们就看一下元组的创建和相关的使用吧"><span class="nav-number">1.</span> <span class="nav-text">元组是Swift不同于OC的一个容器变量,元组的结构有点类似于C语言中的结构体..然后徐,我们就看一下元组的创建和相关的使用吧</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#循环结构"><span class="nav-number"></span> <span class="nav-text">循环结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#循环结构主要分成for循环-while循环-和do-while循环-其中for循环又包含着for-in-循环"><span class="nav-number">1.</span> <span class="nav-text">循环结构主要分成for循环,while循环,和do while循环,其中for循环又包含着for in 循环</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#简单的for循环"><span class="nav-number">1.1.</span> <span class="nav-text">简单的for循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#for-in-循环"><span class="nav-number">1.2.</span> <span class="nav-text">for in 循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#while-循环"><span class="nav-number">1.3.</span> <span class="nav-text">while 循环</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#do-while-循环-repeat-while-和-do-while一样-Swift1-0版本的时候叫do-while-Swift2-0版本的时候叫repeat-while"><span class="nav-number">1.4.</span> <span class="nav-text">do while 循环:repeat while 和 do while一样,Swift1.0版本的时候叫do while,Swift2.0版本的时候叫repeat while</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分支结构"><span class="nav-number"></span> <span class="nav-text">分支结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分支结构中主要包含着if结构-switch结构"><span class="nav-number">1.</span> <span class="nav-text">分支结构中主要包含着if结构,switch结构</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#if结构"><span class="nav-number">1.1.</span> <span class="nav-text">if结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#switch结构"><span class="nav-number">1.2.</span> <span class="nav-text">switch结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#注意-Swift中的switch结构是可以省略break的-因为case在内部实现的时候都已经做了break的实现了-还有就是default这一块一定能不能去掉"><span class="nav-number">1.3.</span> <span class="nav-text">注意:Swift中的switch结构是可以省略break的,因为case在内部实现的时候都已经做了break的实现了.还有就是default这一块一定能不能去掉!!!!</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#switch的区间条件结构"><span class="nav-number">1.4.</span> <span class="nav-text">switch的区间条件结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#switch的元组条件构造"><span class="nav-number">1.5.</span> <span class="nav-text">switch的元组条件构造</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#知识点-使用-“-“-下划线"><span class="nav-number">1.6.</span> <span class="nav-text">(知识点,使用 “ _ “ 下划线)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#switch的多重条件构造-使用where"><span class="nav-number">1.7.</span> <span class="nav-text">switch的多重条件构造( 使用where)</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数"><span class="nav-number"></span> <span class="nav-text">函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#func-关键字-test-函数名-“-”-参数列表-gt-Void-返回值类型-函数体"><span class="nav-number">1.</span> <span class="nav-text">func(关键字) test(函数名) “()”(参数列表) -> Void(返回值类型) { (函数体) }</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#无参无返回值"><span class="nav-number">1.1.</span> <span class="nav-text">无参无返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#无参有单个返回值"><span class="nav-number">1.2.</span> <span class="nav-text">无参有单个返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#无参返回值为数组"><span class="nav-number">1.3.</span> <span class="nav-text">无参返回值为数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#无参返回值为oc的数组"><span class="nav-number">1.4.</span> <span class="nav-text">无参返回值为oc的数组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有参无返回值"><span class="nav-number">1.5.</span> <span class="nav-text">有参无返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参数格式-参数名-“-”-参数类型"><span class="nav-number">1.6.</span> <span class="nav-text">参数格式:参数名 “:” 参数类型</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gt-Void-可以省略"><span class="nav-number">1.7.</span> <span class="nav-text">-> Void 可以省略 !!!</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#有参有返回值"><span class="nav-number">1.8.</span> <span class="nav-text">有参有返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果参数是一个数组格式-参数名-“-”-Array-lt-数据类型-gt"><span class="nav-number">1.9.</span> <span class="nav-text">如果参数是一个数组格式: 参数名 “:” Array<数据类型></span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#无参有多个返回值"><span class="nav-number">1.10.</span> <span class="nav-text">无参有多个返回值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#inout函数"><span class="nav-number">1.11.</span> <span class="nav-text">inout函数</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Swift汉书里面的参数-默认是使用let修饰的-是不可更改的"><span class="nav-number">1.12.</span> <span class="nav-text">Swift汉书里面的参数  默认是使用let修饰的,是不可更改的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#嵌套函数"><span class="nav-number">1.13.</span> <span class="nav-text">嵌套函数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#总结-从变量-数组-字典-元组-函数-分支结构-循环结构不难发现Swift和OC都存在着惊人的相似-令我们眼前一亮的无疑就是我们的元组-类似于结构体-同时没有数据类型的限制-整体来说Swift的语句更加简练了-有OC基础的朋友可以更好对Swift进行入门的练习"><span class="nav-number">2.</span> <span class="nav-text">总结:从变量,数组,字典,元组,函数,分支结构,循环结构不难发现Swift和OC都存在着惊人的相似,令我们眼前一亮的无疑就是我们的元组,类似于结构体,同时没有数据类型的限制,整体来说Swift的语句更加简练了,有OC基础的朋友可以更好对Swift进行入门的练习.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#喜欢这篇文章的话就点个喜欢吧-不要打赏只求各位看官的”喜欢”-😂😂😂😂"><span class="nav-number">2.1.</span> <span class="nav-text">喜欢这篇文章的话就点个喜欢吧,不要打赏只求各位看官的”喜欢” 😂😂😂😂</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#转载请注明出处-谢谢"><span class="nav-number">2.2.</span> <span class="nav-text">转载请注明出处,谢谢.</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

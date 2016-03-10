@@ -1,0 +1,699 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="写代码,是为了能装一般人装不了的比 .">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈iOS计步功能">
+<meta property="og:url" content="http://yoursite.com/2016/12/20/华山论剑之浅谈iOS计步功能/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="写代码,是为了能装一般人装不了的比 .">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rqdmosbsj20ao0ap3zb.jpg">
+<meta property="og:updated_time" content="2016-03-10T06:10:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈iOS计步功能">
+<meta name="twitter:description" content="写代码,是为了能装一般人装不了的比 .">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rqdmosbsj20ao0ap3zb.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈iOS计步功能 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈iOS计步功能
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-20T14:01:25+08:00" content="2016-12-20">
+              2016-12-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="写代码-是为了能装一般人装不了的比"><a href="#写代码-是为了能装一般人装不了的比" class="headerlink" title="写代码,是为了能装一般人装不了的比 ."></a>写代码,是为了能装一般人装不了的比 .</h4><p></p>
+</blockquote>
+<hr>
+<a id="more"></a>
+<h4 id="现在的App应用最火的是什么-店铺类的App是最火的-然后就是运动健康-今天我就对运动计步这一模块进行初次的尝试"><a href="#现在的App应用最火的是什么-店铺类的App是最火的-然后就是运动健康-今天我就对运动计步这一模块进行初次的尝试" class="headerlink" title="现在的App应用最火的是什么? 店铺类的App是最火的,然后就是运动健康,今天我就对运动计步这一模块进行初次的尝试."></a>现在的App应用最火的是什么? 店铺类的App是最火的,然后就是运动健康,今天我就对运动计步这一模块进行初次的尝试.</h4><h4 id="当我们想要使用计步的时候-就不得不说一下加速计和陀螺仪这两个神奇的东西-我们需要的就是调用加速计和陀螺仪来进行我们的计步操作-CoreMotion是一个专门处理Motion的框架，其中包含了两个部分加速度计和陀螺仪，在iOS4之前加速度计是由UIAccelerometer类来负责采集数据，现在一般都是用CoreMotion来处理加速度过程"><a href="#当我们想要使用计步的时候-就不得不说一下加速计和陀螺仪这两个神奇的东西-我们需要的就是调用加速计和陀螺仪来进行我们的计步操作-CoreMotion是一个专门处理Motion的框架，其中包含了两个部分加速度计和陀螺仪，在iOS4之前加速度计是由UIAccelerometer类来负责采集数据，现在一般都是用CoreMotion来处理加速度过程" class="headerlink" title="当我们想要使用计步的时候,就不得不说一下加速计和陀螺仪这两个神奇的东西,我们需要的就是调用加速计和陀螺仪来进行我们的计步操作.CoreMotion是一个专门处理Motion的框架，其中包含了两个部分加速度计和陀螺仪，在iOS4之前加速度计是由UIAccelerometer类来负责采集数据，现在一般都是用CoreMotion来处理加速度过程."></a>当我们想要使用计步的时候,就不得不说一下加速计和陀螺仪这两个神奇的东西,我们需要的就是调用加速计和陀螺仪来进行我们的计步操作.CoreMotion是一个专门处理Motion的框架，其中包含了两个部分加速度计和陀螺仪，在iOS4之前加速度计是由UIAccelerometer类来负责采集数据，现在一般都是用CoreMotion来处理加速度过程.</h4><p> </p>
+<h4 id="加速计"><a href="#加速计" class="headerlink" title="加速计"></a>加速计</h4><p>加速计的x,y,z三个方向,参考下图:</p>
+<p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rqdmosbsj20ao0ap3zb.jpg" alt="“神经骚栋”/"></p>
+<h4 id="Core-Motion的大体介绍就是这些。下面说说Core-Motion具体负责的采集，计算和处理。Core-Motion的使用就是一三部曲：初始化，获取数据，处理后事。"><a href="#Core-Motion的大体介绍就是这些。下面说说Core-Motion具体负责的采集，计算和处理。Core-Motion的使用就是一三部曲：初始化，获取数据，处理后事。" class="headerlink" title="Core Motion的大体介绍就是这些。下面说说Core Motion具体负责的采集，计算和处理。Core Motion的使用就是一三部曲：初始化，获取数据，处理后事。"></a>Core Motion的大体介绍就是这些。下面说说Core Motion具体负责的采集，计算和处理。Core Motion的使用就是一三部曲：初始化，获取数据，处理后事。</h4><h4 id="在初始化阶段，不管你要获取的是什么数据，首先需要做的就是"><a href="#在初始化阶段，不管你要获取的是什么数据，首先需要做的就是" class="headerlink" title="在初始化阶段，不管你要获取的是什么数据，首先需要做的就是"></a>在初始化阶段，不管你要获取的是什么数据，首先需要做的就是</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">motionManager = [[CMMotionManager alloc] init];</span><br></pre></td></tr></table></figure>
+<h4 id="所有的操作都会由这个manager接管。后面的初始化操作相当直观，以加速度的pull方式为例"><a href="#所有的操作都会由这个manager接管。后面的初始化操作相当直观，以加速度的pull方式为例" class="headerlink" title="所有的操作都会由这个manager接管。后面的初始化操作相当直观，以加速度的pull方式为例"></a>所有的操作都会由这个manager接管。后面的初始化操作相当直观，以加速度的pull方式为例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if (!motionManager.accelerometerAvailable) &#123;  </span><br><span class="line">// fail code // 检查传感器到底在设备上是否可用  </span><br><span class="line">&#125;  </span><br><span class="line">motionManager.accelerometerUpdateInterval = 0.01; // 告诉manager，更新频率是100Hz  </span><br><span class="line">[motionManager startAccelerometerUpdates]; // 开始更新，后台线程开始运行。这是pull方式。</span><br></pre></td></tr></table></figure>
+<h4 id="如果是push方式，更新的代码可以写成这样"><a href="#如果是push方式，更新的代码可以写成这样" class="headerlink" title="如果是push方式，更新的代码可以写成这样"></a>如果是push方式，更新的代码可以写成这样</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData *latestAcc, NSError *error)  </span><br><span class="line">&#123;  </span><br><span class="line">// Your code here  </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="接下来就是获取数据了。Again，很简单的代码"><a href="#接下来就是获取数据了。Again，很简单的代码" class="headerlink" title="接下来就是获取数据了。Again，很简单的代码"></a>接下来就是获取数据了。Again，很简单的代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CMAccelerometerData *newestAccel = motionManager.accelerometerData;  </span><br><span class="line">filteredAcceleration[0] = newestAccel.acceleration.x;  </span><br><span class="line">filteredAcceleration[1] = newestAccel.acceleration.y;  </span><br><span class="line">filteredAcceleration[2] = newestAccel.acceleration.z;</span><br></pre></td></tr></table></figure>
+<p>通过定义的CMAccelerometerData变量，获取CMAcceleration信息。和以前的UIAccelerometer类的使用方式一样，CMAcceleration在Core Motion中是以结构体形式定义的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;  </span><br><span class="line">double x;  </span><br><span class="line">double y;  </span><br><span class="line">double z;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="对应的motion信息，比如加速度或者旋转速度，就可以直接从这三个成员变量中得到。"><a href="#对应的motion信息，比如加速度或者旋转速度，就可以直接从这三个成员变量中得到。" class="headerlink" title="对应的motion信息，比如加速度或者旋转速度，就可以直接从这三个成员变量中得到。"></a>对应的motion信息，比如加速度或者旋转速度，就可以直接从这三个成员变量中得到。</h4><p></p>
+<h4 id="最后是处理后事，就是在你不需要Core-Motion进行处理的时候，释放资源"><a href="#最后是处理后事，就是在你不需要Core-Motion进行处理的时候，释放资源" class="headerlink" title="最后是处理后事，就是在你不需要Core Motion进行处理的时候，释放资源"></a>最后是处理后事，就是在你不需要Core Motion进行处理的时候，释放资源</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[motionManager stopAccelerometerUpdates];  </span><br><span class="line">//[motionManager stopGyroUpdates];  </span><br><span class="line">//[motionManager stopDeviceMotionUpdates];  </span><br><span class="line">[motionManager release];</span><br></pre></td></tr></table></figure>
+<p> <br></p>
+<h3 id="当然了-看到上面的一堆代码-我们的头都大了😭😭😭-好在今天上面只是作为原理来讲讲的-而今天我们要使用到一个新的类来实现计步的效果-这个是在iOS8-0版本出现之后出现的-这个类是苹果官方封装好的两个类-CMPedometer和CMPedometerData-使我们的计步功能更容易实现"><a href="#当然了-看到上面的一堆代码-我们的头都大了😭😭😭-好在今天上面只是作为原理来讲讲的-而今天我们要使用到一个新的类来实现计步的效果-这个是在iOS8-0版本出现之后出现的-这个类是苹果官方封装好的两个类-CMPedometer和CMPedometerData-使我们的计步功能更容易实现" class="headerlink" title="当然了,看到上面的一堆代码,我们的头都大了😭😭😭,好在今天上面只是作为原理来讲讲的,而今天我们要使用到一个新的类来实现计步的效果,这个是在iOS8.0版本出现之后出现的,这个类是苹果官方封装好的两个类 CMPedometer和CMPedometerData,使我们的计步功能更容易实现."></a>当然了,看到上面的一堆代码,我们的头都大了😭😭😭,好在今天上面只是作为原理来讲讲的,而今天我们要使用到一个新的类来实现计步的效果,这个是在iOS8.0版本出现之后出现的,这个类是苹果官方封装好的两个类 CMPedometer和CMPedometerData,使我们的计步功能更容易实现.</h3><p> </p>
+<hr>
+<h3 id="点击计入CMPedometer苹果官方文档😂"><a href="#点击计入CMPedometer苹果官方文档😂" class="headerlink" title="点击计入CMPedometer苹果官方文档😂"></a><a href="https://developer.apple.com/library/prerelease/ios/documentation/CoreMotion/Reference/CMPedometer_class/" target="_blank" rel="external">点击计入CMPedometer苹果官方文档😂</a></h3><h3 id="点击计入CMPedometerData苹果官方文档😂"><a href="#点击计入CMPedometerData苹果官方文档😂" class="headerlink" title="点击计入CMPedometerData苹果官方文档😂"></a><a href="https://developer.apple.com/library/ios/documentation/CoreMotion/Reference/CMPedometerData_class/index.html" target="_blank" rel="external">点击计入CMPedometerData苹果官方文档😂</a></h3><hr>
+<p><br></p>
+<h2 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h2><p></p>
+<h4 id="首先我们需要导入我们所需要的库CoreMotion-framework"><a href="#首先我们需要导入我们所需要的库CoreMotion-framework" class="headerlink" title="首先我们需要导入我们所需要的库CoreMotion.framework"></a>首先我们需要导入我们所需要的库CoreMotion.framework</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;CoreMotion/CoreMotion.h&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="然后-我们需要创建CMMotionManager一个对象-检测设备上是否具有陀螺仪和加速器"><a href="#然后-我们需要创建CMMotionManager一个对象-检测设备上是否具有陀螺仪和加速器" class="headerlink" title="然后,我们需要创建CMMotionManager一个对象,检测设备上是否具有陀螺仪和加速器"></a>然后,我们需要创建CMMotionManager一个对象,检测设备上是否具有陀螺仪和加速器</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">     CMMotionManager * motionManager = [[CMMotionManager alloc] init];</span><br><span class="line"></span><br><span class="line">if (!_motionManager.accelerometerAvailable) &#123;</span><br><span class="line">        // fail code // 检查传感器到底在设备上是否可用</span><br><span class="line">        tipWithMessage(@&quot;陀螺仪不可用!&quot;);</span><br><span class="line">        </span><br><span class="line">        return;</span><br><span class="line"></span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">//进行操作</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="PS-下面是自定义的宏弹窗-大家有需要可以直接拷贝过去"><a href="#PS-下面是自定义的宏弹窗-大家有需要可以直接拷贝过去" class="headerlink" title="PS:下面是自定义的宏弹窗,大家有需要可以直接拷贝过去"></a>PS:下面是自定义的宏弹窗,大家有需要可以直接拷贝过去</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line"> *  自定义宏弹窗</span><br><span class="line"> *</span><br><span class="line"> *  @param string 想要在弹窗中显示的文字</span><br><span class="line"> */</span><br><span class="line">NS_INLINE void tipWithMessage(NSString *message)&#123;</span><br><span class="line">    </span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">        </span><br><span class="line">        UIAlertView *alerView = [[UIAlertView alloc] initWithTitle:@&quot;提示&quot; message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:nil, nil];</span><br><span class="line">        </span><br><span class="line">        [alerView show];</span><br><span class="line">        </span><br><span class="line">        [alerView performSelector:@selector(dismissWithClickedButtonIndex:animated:) withObject:@[@0, @1] afterDelay:0.9];</span><br><span class="line">        </span><br><span class="line">    &#125;);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="当没有任何错误后-我们就要创建CMPedometer类-并实现他的一个方法-一般我们都要把CMPedometer类的对象声明称属性"><a href="#当没有任何错误后-我们就要创建CMPedometer类-并实现他的一个方法-一般我们都要把CMPedometer类的对象声明称属性" class="headerlink" title="当没有任何错误后,我们就要创建CMPedometer类,并实现他的一个方法,一般我们都要把CMPedometer类的对象声明称属性,"></a>当没有任何错误后,我们就要创建CMPedometer类,并实现他的一个方法,一般我们都要把CMPedometer类的对象声明称属性,</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@property(nonatomic,strong)CMPedometer *pedometer;</span><br></pre></td></tr></table></figure>
+<h4 id="初始化pedometer对象"><a href="#初始化pedometer对象" class="headerlink" title="初始化pedometer对象"></a>初始化pedometer对象</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_pedometer = [[CMPedometer alloc]init];</span><br></pre></td></tr></table></figure>
+<h4 id="然后-我们要调用pedometer-的queryPedometerDataFromDate方法-在block中实现我们的计步功能"><a href="#然后-我们要调用pedometer-的queryPedometerDataFromDate方法-在block中实现我们的计步功能" class="headerlink" title="然后,我们要调用pedometer 的queryPedometerDataFromDate方法,在block中实现我们的计步功能"></a>然后,我们要调用pedometer 的queryPedometerDataFromDate方法,在block中实现我们的计步功能</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[_pedometer queryPedometerDataFromDate:[NSDate dateWithTimeIntervalSince1970:100] toDate:[NSDate date] withHandler:^(CMPedometerData * _Nullable pedometerData, NSError * _Nullable error) &#123;</span><br><span class="line">        </span><br><span class="line">        if (!error) &#123;</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;这段时间内走过的距离为%@&quot;,pedometerData.distance);</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;这段时间内走过的步数为%@&quot;,pedometerData.numberOfSteps);</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;这段时间内上楼的近似台阶数为%@&quot;,pedometerData.floorsAscended);</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;这段时间内下楼的近似台阶数为%@&quot;,pedometerData.floorsDescended);</span><br><span class="line">            </span><br><span class="line">        &#125;else&#123;</span><br><span class="line">        </span><br><span class="line">            tipWithMessage([NSString stringWithFormat:@&quot;错误信息编号为%@&quot;,error]);</span><br><span class="line">           </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="注意-distance-numberOfSteps-floorsAscended-floorsDescended为nil的时候表示这个设备不支持这个功能-还是两个时间NSDate-一个开始时间-一个结束时间-需要大家自行获取"><a href="#注意-distance-numberOfSteps-floorsAscended-floorsDescended为nil的时候表示这个设备不支持这个功能-还是两个时间NSDate-一个开始时间-一个结束时间-需要大家自行获取" class="headerlink" title="注意:distance,numberOfSteps,floorsAscended,floorsDescended为nil的时候表示这个设备不支持这个功能.还是两个时间NSDate (一个开始时间,一个结束时间)需要大家自行获取."></a>注意:distance,numberOfSteps,floorsAscended,floorsDescended为nil的时候表示这个设备不支持这个功能.还是两个时间NSDate (一个开始时间,一个结束时间)需要大家自行获取.</h4></blockquote>
+<h4 id="各位看官喜欢的话-就点个喜欢吧-不求打赏-只求喜欢"><a href="#各位看官喜欢的话-就点个喜欢吧-不求打赏-只求喜欢" class="headerlink" title="各位看官喜欢的话,就点个喜欢吧,不求打赏,只求喜欢."></a>各位看官喜欢的话,就点个喜欢吧,不求打赏,只求喜欢.</h4><p><br></p>
+<h4 id="参考-http-blog-csdn-net-u011439689-article-details-49865811-和-http-justsee-iteye-com-blog-1933099"><a href="#参考-http-blog-csdn-net-u011439689-article-details-49865811-和-http-justsee-iteye-com-blog-1933099" class="headerlink" title="参考:http://blog.csdn.net/u011439689/article/details/49865811 和 http://justsee.iteye.com/blog/1933099"></a>参考:<a href="http://blog.csdn.net/u011439689/article/details/49865811" target="_blank" rel="external">http://blog.csdn.net/u011439689/article/details/49865811</a> 和 <a href="http://justsee.iteye.com/blog/1933099" target="_blank" rel="external">http://justsee.iteye.com/blog/1933099</a></h4>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/08/原谅我一生/" rel="next" title="原谅我一生放荡不羁爱自由">
+                <i class="fa fa-chevron-left"></i> 原谅我一生放荡不羁爱自由
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#写代码-是为了能装一般人装不了的比"><span class="nav-number">1.</span> <span class="nav-text">写代码,是为了能装一般人装不了的比 .</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#现在的App应用最火的是什么-店铺类的App是最火的-然后就是运动健康-今天我就对运动计步这一模块进行初次的尝试"><span class="nav-number">2.</span> <span class="nav-text">现在的App应用最火的是什么? 店铺类的App是最火的,然后就是运动健康,今天我就对运动计步这一模块进行初次的尝试.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们想要使用计步的时候-就不得不说一下加速计和陀螺仪这两个神奇的东西-我们需要的就是调用加速计和陀螺仪来进行我们的计步操作-CoreMotion是一个专门处理Motion的框架，其中包含了两个部分加速度计和陀螺仪，在iOS4之前加速度计是由UIAccelerometer类来负责采集数据，现在一般都是用CoreMotion来处理加速度过程"><span class="nav-number">3.</span> <span class="nav-text">当我们想要使用计步的时候,就不得不说一下加速计和陀螺仪这两个神奇的东西,我们需要的就是调用加速计和陀螺仪来进行我们的计步操作.CoreMotion是一个专门处理Motion的框架，其中包含了两个部分加速度计和陀螺仪，在iOS4之前加速度计是由UIAccelerometer类来负责采集数据，现在一般都是用CoreMotion来处理加速度过程.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#加速计"><span class="nav-number">4.</span> <span class="nav-text">加速计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Core-Motion的大体介绍就是这些。下面说说Core-Motion具体负责的采集，计算和处理。Core-Motion的使用就是一三部曲：初始化，获取数据，处理后事。"><span class="nav-number">5.</span> <span class="nav-text">Core Motion的大体介绍就是这些。下面说说Core Motion具体负责的采集，计算和处理。Core Motion的使用就是一三部曲：初始化，获取数据，处理后事。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在初始化阶段，不管你要获取的是什么数据，首先需要做的就是"><span class="nav-number">6.</span> <span class="nav-text">在初始化阶段，不管你要获取的是什么数据，首先需要做的就是</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#所有的操作都会由这个manager接管。后面的初始化操作相当直观，以加速度的pull方式为例"><span class="nav-number">7.</span> <span class="nav-text">所有的操作都会由这个manager接管。后面的初始化操作相当直观，以加速度的pull方式为例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如果是push方式，更新的代码可以写成这样"><span class="nav-number">8.</span> <span class="nav-text">如果是push方式，更新的代码可以写成这样</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接下来就是获取数据了。Again，很简单的代码"><span class="nav-number">9.</span> <span class="nav-text">接下来就是获取数据了。Again，很简单的代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对应的motion信息，比如加速度或者旋转速度，就可以直接从这三个成员变量中得到。"><span class="nav-number">10.</span> <span class="nav-text">对应的motion信息，比如加速度或者旋转速度，就可以直接从这三个成员变量中得到。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#最后是处理后事，就是在你不需要Core-Motion进行处理的时候，释放资源"><span class="nav-number">11.</span> <span class="nav-text">最后是处理后事，就是在你不需要Core Motion进行处理的时候，释放资源</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当然了-看到上面的一堆代码-我们的头都大了😭😭😭-好在今天上面只是作为原理来讲讲的-而今天我们要使用到一个新的类来实现计步的效果-这个是在iOS8-0版本出现之后出现的-这个类是苹果官方封装好的两个类-CMPedometer和CMPedometerData-使我们的计步功能更容易实现"><span class="nav-number"></span> <span class="nav-text">当然了,看到上面的一堆代码,我们的头都大了😭😭😭,好在今天上面只是作为原理来讲讲的,而今天我们要使用到一个新的类来实现计步的效果,这个是在iOS8.0版本出现之后出现的,这个类是苹果官方封装好的两个类 CMPedometer和CMPedometerData,使我们的计步功能更容易实现.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击计入CMPedometer苹果官方文档😂"><span class="nav-number"></span> <span class="nav-text">点击计入CMPedometer苹果官方文档😂</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点击计入CMPedometerData苹果官方文档😂"><span class="nav-number"></span> <span class="nav-text">点击计入CMPedometerData苹果官方文档😂</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现步骤"><span class="nav-number"></span> <span class="nav-text">实现步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先我们需要导入我们所需要的库CoreMotion-framework"><span class="nav-number">1.</span> <span class="nav-text">首先我们需要导入我们所需要的库CoreMotion.framework</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们需要创建CMMotionManager一个对象-检测设备上是否具有陀螺仪和加速器"><span class="nav-number">2.</span> <span class="nav-text">然后,我们需要创建CMMotionManager一个对象,检测设备上是否具有陀螺仪和加速器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#PS-下面是自定义的宏弹窗-大家有需要可以直接拷贝过去"><span class="nav-number">3.</span> <span class="nav-text">PS:下面是自定义的宏弹窗,大家有需要可以直接拷贝过去</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当没有任何错误后-我们就要创建CMPedometer类-并实现他的一个方法-一般我们都要把CMPedometer类的对象声明称属性"><span class="nav-number">4.</span> <span class="nav-text">当没有任何错误后,我们就要创建CMPedometer类,并实现他的一个方法,一般我们都要把CMPedometer类的对象声明称属性,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化pedometer对象"><span class="nav-number">5.</span> <span class="nav-text">初始化pedometer对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们要调用pedometer-的queryPedometerDataFromDate方法-在block中实现我们的计步功能"><span class="nav-number">6.</span> <span class="nav-text">然后,我们要调用pedometer 的queryPedometerDataFromDate方法,在block中实现我们的计步功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-distance-numberOfSteps-floorsAscended-floorsDescended为nil的时候表示这个设备不支持这个功能-还是两个时间NSDate-一个开始时间-一个结束时间-需要大家自行获取"><span class="nav-number">7.</span> <span class="nav-text">注意:distance,numberOfSteps,floorsAscended,floorsDescended为nil的时候表示这个设备不支持这个功能.还是两个时间NSDate (一个开始时间,一个结束时间)需要大家自行获取.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#各位看官喜欢的话-就点个喜欢吧-不求打赏-只求喜欢"><span class="nav-number">8.</span> <span class="nav-text">各位看官喜欢的话,就点个喜欢吧,不求打赏,只求喜欢.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参考-http-blog-csdn-net-u011439689-article-details-49865811-和-http-justsee-iteye-com-blog-1933099"><span class="nav-number">9.</span> <span class="nav-text">参考:http://blog.csdn.net/u011439689/article/details/49865811 和 http://justsee.iteye.com/blog/1933099</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,736 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="互联网中最糟糕的发明 : 历史搜索记录
+上一篇博客中,我写到关于Swift的变量,常量,数组,字典,元组,函数等一些基础知识,这一篇文章就谈一下关于结构体,类,协议,枚举,还有闭包的相关知识.
+结构体和类
+在Swift中结构体和类很相似,然后我们就先看一下结构体的相关知识吧
+结构体1234567891011121314151617181920212223242526272829303132333">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之Swift初体验(二)">
+<meta property="og:url" content="http://yoursite.com/2016/02/12/华山论剑之Swift初体验-二/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="互联网中最糟糕的发明 : 历史搜索记录
+上一篇博客中,我写到关于Swift的变量,常量,数组,字典,元组,函数等一些基础知识,这一篇文章就谈一下关于结构体,类,协议,枚举,还有闭包的相关知识.
+结构体和类
+在Swift中结构体和类很相似,然后我们就先看一下结构体的相关知识吧
+结构体1234567891011121314151617181920212223242526272829303132333">
+<meta property="og:updated_time" content="2016-03-10T03:53:59.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之Swift初体验(二)">
+<meta name="twitter:description" content="互联网中最糟糕的发明 : 历史搜索记录
+上一篇博客中,我写到关于Swift的变量,常量,数组,字典,元组,函数等一些基础知识,这一篇文章就谈一下关于结构体,类,协议,枚举,还有闭包的相关知识.
+结构体和类
+在Swift中结构体和类很相似,然后我们就先看一下结构体的相关知识吧
+结构体1234567891011121314151617181920212223242526272829303132333">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之Swift初体验(二) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之Swift初体验(二)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-12T11:46:22+08:00" content="2016-02-12">
+              2016-02-12
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="互联网中最糟糕的发明-历史搜索记录"><a href="#互联网中最糟糕的发明-历史搜索记录" class="headerlink" title="互联网中最糟糕的发明 : 历史搜索记录"></a>互联网中最糟糕的发明 : 历史搜索记录</h5></blockquote>
+<h5 id="上一篇博客中-我写到关于Swift的变量-常量-数组-字典-元组-函数等一些基础知识-这一篇文章就谈一下关于结构体-类-协议-枚举-还有闭包的相关知识"><a href="#上一篇博客中-我写到关于Swift的变量-常量-数组-字典-元组-函数等一些基础知识-这一篇文章就谈一下关于结构体-类-协议-枚举-还有闭包的相关知识" class="headerlink" title="上一篇博客中,我写到关于Swift的变量,常量,数组,字典,元组,函数等一些基础知识,这一篇文章就谈一下关于结构体,类,协议,枚举,还有闭包的相关知识."></a>上一篇博客中,我写到关于Swift的变量,常量,数组,字典,元组,函数等一些基础知识,这一篇文章就谈一下关于结构体,类,协议,枚举,还有闭包的相关知识.</h5><p><br></p>
+<h2 id="结构体和类"><a href="#结构体和类" class="headerlink" title="结构体和类"></a>结构体和类</h2><p></p>
+<h5 id="在Swift中结构体和类很相似-然后我们就先看一下结构体的相关知识吧"><a href="#在Swift中结构体和类很相似-然后我们就先看一下结构体的相关知识吧" class="headerlink" title="在Swift中结构体和类很相似,然后我们就先看一下结构体的相关知识吧"></a>在Swift中结构体和类很相似,然后我们就先看一下结构体的相关知识吧</h5><p></p>
+<h4 id="结构体"><a href="#结构体" class="headerlink" title="结构体"></a>结构体</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">struct Frame &#123;</span><br><span class="line">    //存储属性 : 仅仅做存储值的作用</span><br><span class="line">    </span><br><span class="line">    var x : Float</span><br><span class="line">    var y : Float</span><br><span class="line">    var width : Float</span><br><span class="line">    var height : Float</span><br><span class="line">    </span><br><span class="line">    //计算属性 : 通过计算获取到自己的值</span><br><span class="line">    //设置属性的set和get方法</span><br><span class="line">    //属性里面的set方法不能单独存在,必须有一个同属性的get方法存在后才可以写set方法</span><br><span class="line">    var centerX : Float &#123;</span><br><span class="line">        get&#123;</span><br><span class="line">            return x + width/2</span><br><span class="line">        &#125;</span><br><span class="line">        set&#123;</span><br><span class="line">            </span><br><span class="line">            self.centerX = newValue</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    var centerY : Float &#123;</span><br><span class="line">        get&#123;</span><br><span class="line">            return y + height/2</span><br><span class="line">        &#125;</span><br><span class="line">        set&#123;</span><br><span class="line"></span><br><span class="line">            self.centerY = newValue</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //在Swift当中的结构体我们是可以创建一个初始化方法的</span><br><span class="line">    //x为外部参数名,newX为内部参数名</span><br><span class="line">    init(x newX : Float , y newY : Float , width newWidth : Float , height newHight : Float ) &#123;</span><br><span class="line">    </span><br><span class="line">        self.x = newX</span><br><span class="line">        </span><br><span class="line">        self.y = newY</span><br><span class="line">        </span><br><span class="line">        self.width = newWidth</span><br><span class="line">        </span><br><span class="line">        self.height = newHight</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //Swift的结构体中可以任意创建函数</span><br><span class="line">    //如果需要在函数里卖弄修改属性的值的话,需要在函数的前面加上mutating关键字修饰</span><br><span class="line">    mutating func helloWorld() &#123;</span><br><span class="line">    </span><br><span class="line">    self.x = 100</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //结构体属性</span><br><span class="line">    //结构体属性是不能在普通的函数里面调用</span><br><span class="line">    static  var name :String? = nil</span><br><span class="line">    </span><br><span class="line">    //结构体函数</span><br><span class="line">    //结构体函数是可以调用结构体属性的</span><br><span class="line">    //结构体函数里面不能调用普通属性</span><br><span class="line">    //结构体函数里面可以调用本结构体存在的函数</span><br><span class="line">    static func newPerson(name newName : String) &#123;</span><br><span class="line">    </span><br><span class="line">    self.name = newName</span><br><span class="line">        </span><br><span class="line">    print(name)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="上面是结构体的定义-包括属性-结构体属性-init方法-普通函数-结构体函数-下面我们看一下在Swith中是如何调用结构体的初始化方法的-还有如何使用结构体"><a href="#上面是结构体的定义-包括属性-结构体属性-init方法-普通函数-结构体函数-下面我们看一下在Swith中是如何调用结构体的初始化方法的-还有如何使用结构体" class="headerlink" title="上面是结构体的定义,包括属性,结构体属性,init方法,普通函数 ,结构体函数,下面我们看一下在Swith中是如何调用结构体的初始化方法的,还有如何使用结构体."></a>上面是结构体的定义,包括属性,结构体属性,init方法,普通函数 ,结构体函数,下面我们看一下在Swith中是如何调用结构体的初始化方法的,还有如何使用结构体.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//结构体函数的调用</span><br><span class="line">//结构体函数,必须通过这个结构体进行调用</span><br><span class="line">Frame.newPerson(name: &quot;栋哥&quot;)</span><br><span class="line"></span><br><span class="line">//第一种初始化方式,使用点语法,直接点出init方法</span><br><span class="line">let frame:Frame = Frame.init(x: 100, y: 100, width: 100, height: 100)</span><br><span class="line"></span><br><span class="line">print(frame.x)</span><br><span class="line"></span><br><span class="line">//第二种初始化方式,直接结构体Frame加上参数</span><br><span class="line">let frame1:Frame = Frame(x: 200, y: 200, width: 200, height: 200)</span><br><span class="line"></span><br><span class="line">print(frame1.x)</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="类"><a href="#类" class="headerlink" title="类"></a>类</h3><h4 id="对于OC中的类和Swith的类也是有很大区别的-看一下Swift中的类是如何定义的"><a href="#对于OC中的类和Swith的类也是有很大区别的-看一下Swift中的类是如何定义的" class="headerlink" title="对于OC中的类和Swith的类也是有很大区别的,看一下Swift中的类是如何定义的."></a>对于OC中的类和Swith的类也是有很大区别的,看一下Swift中的类是如何定义的.</h4><blockquote>
+<h5 id="类的格式-class-关键字-类名-类的实现"><a href="#类的格式-class-关键字-类名-类的实现" class="headerlink" title="类的格式 :class 关键字 类名 { 类的实现 }"></a>类的格式 :class 关键字 类名 { 类的实现 }</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">class Person &#123;</span><br><span class="line">    </span><br><span class="line">    //在类里面创建一个属性的时候,必须要有初值,如果不想设置初值,就是设置成可选类型</span><br><span class="line">    var name :String? = nil</span><br><span class="line">    var age :Int? = nil</span><br><span class="line">    </span><br><span class="line">    //private 表示私有属性</span><br><span class="line">    private  var gender: String? = nil</span><br><span class="line">    </span><br><span class="line">    //static 修饰的属性表示类属性</span><br><span class="line">    static var country :String? = nil</span><br><span class="line">    </span><br><span class="line">    //Swift中类的初始化方法与结构体的初始化话方法有这惊人的相似,其实就是一样的.</span><br><span class="line">    init(name newName :String, age newAge:Int ) &#123;</span><br><span class="line">    </span><br><span class="line">        self.name = newName</span><br><span class="line">        </span><br><span class="line">        self.age = newAge</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //实例方法里面不能直接调用类属性</span><br><span class="line">    //实力方法可以直接对实例对象进行修改赋值</span><br><span class="line">    //在函数声明之前加上一个privatemn  表示私有方法</span><br><span class="line">    </span><br><span class="line">    private func sayHi() &#123;</span><br><span class="line">    </span><br><span class="line">        self.gender = &quot;女&quot;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //static 修饰的是类方法,是不可以被子类重写的</span><br><span class="line">    static func sayHello() &#123;</span><br><span class="line">    </span><br><span class="line">        self.country = &quot;中国&quot;</span><br><span class="line"></span><br><span class="line">        print(self.country)</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //class修饰分方法也是类方法,是可以被子类重写的.</span><br><span class="line">    class func sayGod() &#123;</span><br><span class="line">        </span><br><span class="line">        self.country = &quot;栋哥的王国&quot;</span><br><span class="line">        </span><br><span class="line">        print(self.country)</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//继承于父类的子类</span><br><span class="line">class Student: Person &#123;</span><br><span class="line">    </span><br><span class="line">    var number:Int? = nil</span><br><span class="line">    </span><br><span class="line">    //如果子类当中想要重写父类的方法,需要加override修饰</span><br><span class="line">    override init(name newName: String, age newAge: Int) &#123;</span><br><span class="line">        </span><br><span class="line">        super.init(name: newName, age: newAge)</span><br><span class="line">        </span><br><span class="line">        self.number  = 17</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">   //使用class修饰的类方法是可以被子类修改的.</span><br><span class="line">    override class func sayGod()&#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="对于类和实例变量的调用我们与Swith中的结构体也是差不多的"><a href="#对于类和实例变量的调用我们与Swith中的结构体也是差不多的" class="headerlink" title="对于类和实例变量的调用我们与Swith中的结构体也是差不多的."></a>对于类和实例变量的调用我们与Swith中的结构体也是差不多的.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let person:Person = Person(name: &quot;栋哥&quot;, age: 18)</span><br><span class="line"></span><br><span class="line">print(person.age)</span><br><span class="line"></span><br><span class="line">Person.sayGod()</span><br></pre></td></tr></table></figure>
+<h5 id="看完了结构体和类-作为初学者的我们一定会懵-这么多惊人的相似-那我们就做一下对比"><a href="#看完了结构体和类-作为初学者的我们一定会懵-这么多惊人的相似-那我们就做一下对比" class="headerlink" title="看完了结构体和类,作为初学者的我们一定会懵,这么多惊人的相似,那我们就做一下对比"></a>看完了结构体和类,作为初学者的我们一定会懵,这么多惊人的相似,那我们就做一下对比</h5><table>
+<thead>
+<tr>
+<th>结构体</th>
+<th style="text-align:center">类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>结构体书写是以struct开头的</td>
+<td style="text-align:center">类书写是以class开头的</td>
+</tr>
+<tr>
+<td>结构体中的属性可以不设初值</td>
+<td style="text-align:center">类中属性必须设初值或者设置成可选类型</td>
+</tr>
+<tr>
+<td>结构体中的函数如果想改变结构体中的属性,必须要加上mutating 修饰</td>
+<td style="text-align:center">类的方法中可以直接修改累得属性的值</td>
+</tr>
+<tr>
+<td>结构体中没有私有函数这一说法</td>
+<td style="text-align:center">类中要想有私有方法,必须在方法的前面加上static或者class修饰</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h2 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h2><h4 id="在Swift中-协议和OC中也是存在很大区别的-OC中的协议室友必须实现的方法和选择实现的方法区分的-但是在Swift中则没有这个区别-只要是写在协议中方法必须实现-那么问题来了-如果我们想要有选择实现的方法怎么办-还有就是当我们想要给我们写的系统类添加协议该如办呢-下面我们就讲解协议的知识"><a href="#在Swift中-协议和OC中也是存在很大区别的-OC中的协议室友必须实现的方法和选择实现的方法区分的-但是在Swift中则没有这个区别-只要是写在协议中方法必须实现-那么问题来了-如果我们想要有选择实现的方法怎么办-还有就是当我们想要给我们写的系统类添加协议该如办呢-下面我们就讲解协议的知识" class="headerlink" title="在Swift中,协议和OC中也是存在很大区别的,OC中的协议室友必须实现的方法和选择实现的方法区分的,但是在Swift中则没有这个区别,只要是写在协议中方法必须实现,那么问题来了,如果我们想要有选择实现的方法怎么办? 还有就是当我们想要给我们写的系统类添加协议该如办呢?  下面我们就讲解协议的知识."></a>在Swift中,协议和OC中也是存在很大区别的,OC中的协议室友必须实现的方法和选择实现的方法区分的,但是在Swift中则没有这个区别,只要是写在协议中方法必须实现,那么问题来了,如果我们想要有选择实现的方法怎么办? 还有就是当我们想要给我们写的系统类添加协议该如办呢?  下面我们就讲解协议的知识.</h4><p></p>
+<blockquote>
+<h5 id="协议格式-protocol-关键字-协议名称"><a href="#协议格式-protocol-关键字-协议名称" class="headerlink" title="协议格式: protocol 关键字 协议名称"></a>协议格式: protocol 关键字 协议名称</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">//在Swift的协议中没有必须实现的方法和选择实现的方法,而是只要是协议中的方法就必须要实现</span><br><span class="line">protocol myDelegate &#123;</span><br><span class="line"></span><br><span class="line">    //协议方法前面加上mutating修饰的关键字之后,可以修改结构体里面的参数.而在类里面会自动忽略mutating!</span><br><span class="line">mutating func goToSchool()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//为了解决可选实现方法的协议,我们可以使用OC中的代理</span><br><span class="line">//在最前面用 @objc 修饰, 内部的方法用 optional 修饰可选实现的方法,其他的不变</span><br><span class="line">@objc protocol TeacherDelegate &#123;</span><br><span class="line"></span><br><span class="line">optional func teachStudent()</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//如果有继承关系 如下书写协议方式,父类必须在前!</span><br><span class="line">//class 类名:父类,协议名称</span><br><span class="line">class Teacher: Person,myDelegate &#123;</span><br><span class="line">    </span><br><span class="line">    func goToSchool() &#123;</span><br><span class="line">        </span><br><span class="line">        print(&quot;教学&quot;)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//如果没有继承父类,则如下直接添加上协议名称</span><br><span class="line">//class 类名: 协议名称</span><br><span class="line">class NewTeacher: myDelegate &#123;</span><br><span class="line">    </span><br><span class="line">    func goToSchool() &#123;</span><br><span class="line">    </span><br><span class="line">        print(&quot;新教师报道&quot;)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//结构体可以遵守协议</span><br><span class="line">//但是结构体只能遵守Swift中的自己的协议,不能遵守OC中的协议</span><br><span class="line">struct oldTeacher : myDelegate &#123;</span><br><span class="line"></span><br><span class="line">    var name:String</span><br><span class="line">    </span><br><span class="line">   mutating func goToSchool() &#123;</span><br><span class="line">        </span><br><span class="line">        print(&quot;教师报道&quot;)</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="对于想要给不能修改的类添加协议-我们可以使用延展extension来实现"><a href="#对于想要给不能修改的类添加协议-我们可以使用延展extension来实现" class="headerlink" title="对于想要给不能修改的类添加协议,我们可以使用延展extension来实现"></a>对于想要给不能修改的类添加协议,我们可以使用延展extension来实现</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//extension可以给一个类拓展新的协议,子类中就不能再次遵守协议和实现协议中方法!</span><br><span class="line">extension Person : myDelegate &#123;</span><br><span class="line"></span><br><span class="line">    func goToSchool() &#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //extension不可以添加新的属性,但可以添加新的函数</span><br><span class="line">    //var height : Float ? = nil</span><br><span class="line">    func dongGe() &#123;</span><br><span class="line">    </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h2><h5 id="就我个人而言-我对枚举是又爱又恨-爱其功能之强大-恨之虽然懂-但是不能很好的使用它-好了-对于懵逼的我又是怎么解释Swift中的枚举呢-请看下面的代码"><a href="#就我个人而言-我对枚举是又爱又恨-爱其功能之强大-恨之虽然懂-但是不能很好的使用它-好了-对于懵逼的我又是怎么解释Swift中的枚举呢-请看下面的代码" class="headerlink" title="就我个人而言,我对枚举是又爱又恨,爱其功能之强大,恨之虽然懂,但是不能很好的使用它.好了,对于懵逼的我又是怎么解释Swift中的枚举呢?  请看下面的代码."></a>就我个人而言,我对枚举是又爱又恨,爱其功能之强大,恨之虽然懂,但是不能很好的使用它.好了,对于懵逼的我又是怎么解释Swift中的枚举呢?  请看下面的代码.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">enum time &#123;</span><br><span class="line">    </span><br><span class="line">    case spring</span><br><span class="line">    case summer</span><br><span class="line">    case autumn</span><br><span class="line">    case winter</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//使用枚举的时候,初次给变量赋值,必须使用枚举名 . case名</span><br><span class="line">var timer = time.spring</span><br><span class="line"></span><br><span class="line">//第二次使用的时候 可以直接通过.case名使用</span><br><span class="line">timer = .summer</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//switch 搭配 枚举使用</span><br><span class="line">//switch 的 value 要填写一个枚举类型的实例变量</span><br><span class="line">//case.枚举的case名字</span><br><span class="line">switch timer &#123;</span><br><span class="line"></span><br><span class="line">case .spring :</span><br><span class="line">    </span><br><span class="line">    print(&quot;春天&quot;)</span><br><span class="line"></span><br><span class="line">case .summer:</span><br><span class="line">    </span><br><span class="line">    print(&quot;夏天&quot;)</span><br><span class="line">    </span><br><span class="line">case .autumn:</span><br><span class="line">    </span><br><span class="line">    print(&quot;秋天&quot;)</span><br><span class="line">    </span><br><span class="line">case .winter:</span><br><span class="line">    </span><br><span class="line">    print(&quot;冬天&quot;)</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><h5 id="什么叫闭包-其实就是block-匿名函数-对于block这一概念-可能还是有一部分程序猿有着不小的疑惑-后期-我将写一篇关于block的使用的博客-好了-今天就先说一下Swift中的闭包"><a href="#什么叫闭包-其实就是block-匿名函数-对于block这一概念-可能还是有一部分程序猿有着不小的疑惑-后期-我将写一篇关于block的使用的博客-好了-今天就先说一下Swift中的闭包" class="headerlink" title="什么叫闭包?其实就是block(匿名函数),对于block这一概念,可能还是有一部分程序猿有着不小的疑惑,后期,我将写一篇关于block的使用的博客,好了,今天就先说一下Swift中的闭包."></a>什么叫闭包?其实就是block(匿名函数),对于block这一概念,可能还是有一部分程序猿有着不小的疑惑,后期,我将写一篇关于block的使用的博客,好了,今天就先说一下Swift中的闭包.</h5><p></p>
+<blockquote>
+<h5 id="闭包的格式-参数-gt-返回值类型"><a href="#闭包的格式-参数-gt-返回值类型" class="headerlink" title="闭包的格式: ((参数) -&gt; 返回值类型)"></a>闭包的格式: ((参数) -&gt; 返回值类型)</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">var newPassValue : ((a : Int, b:Int) -&gt; Int)</span><br><span class="line"></span><br><span class="line">//第一种闭包表达式的写法</span><br><span class="line">newPassValue = &#123;(a : Int, b:Int) -&gt; Int in</span><br><span class="line">    </span><br><span class="line">    return a &gt; b ? a : b</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//第二种闭包表达式的写法 苹果推荐的写法</span><br><span class="line">newPassValue = &#123; (a , b) -&gt; Int in</span><br><span class="line"></span><br><span class="line">    return a &gt; b ? a : b</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//第三种写法</span><br><span class="line">newPassValue = &#123;</span><br><span class="line"></span><br><span class="line">    $0 &gt; $1 ? $0 : $1</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//第四种方法</span><br><span class="line">newPassValue = &#123; (a ,b) in</span><br><span class="line">    </span><br><span class="line">    return a &gt; b ? a : b</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//第五种方法</span><br><span class="line">newPassValue = &#123; (a ,b) in</span><br><span class="line">    </span><br><span class="line">  a &gt; b ? a : b</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="生活中的一切一切存在着这样活着那样的关系-所以-勿以善小而不为-勿以恶小而为之"><a href="#生活中的一切一切存在着这样活着那样的关系-所以-勿以善小而不为-勿以恶小而为之" class="headerlink" title="生活中的一切一切存在着这样活着那样的关系,所以,勿以善小而不为,勿以恶小而为之."></a>生活中的一切一切存在着这样活着那样的关系,所以,勿以善小而不为,勿以恶小而为之.</h5><p><br></p>
+<h5 id="各位看官喜欢的话-就点个喜欢吧-不求打赏-只求喜欢"><a href="#各位看官喜欢的话-就点个喜欢吧-不求打赏-只求喜欢" class="headerlink" title="各位看官喜欢的话,就点个喜欢吧,不求打赏,只求喜欢."></a>各位看官喜欢的话,就点个喜欢吧,不求打赏,只求喜欢.</h5>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/10/华山论剑之Swift初体验-一/" rel="next" title="华山论剑之Swift初体验(一)">
+                <i class="fa fa-chevron-left"></i> 华山论剑之Swift初体验(一)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/25/华山论剑之浅谈iOS的ApplePay/" rel="prev" title="华山论剑之浅谈iOS的ApplePay">
+                华山论剑之浅谈iOS的ApplePay <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#互联网中最糟糕的发明-历史搜索记录"><span class="nav-number">1.</span> <span class="nav-text">互联网中最糟糕的发明 : 历史搜索记录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#上一篇博客中-我写到关于Swift的变量-常量-数组-字典-元组-函数等一些基础知识-这一篇文章就谈一下关于结构体-类-协议-枚举-还有闭包的相关知识"><span class="nav-number">2.</span> <span class="nav-text">上一篇博客中,我写到关于Swift的变量,常量,数组,字典,元组,函数等一些基础知识,这一篇文章就谈一下关于结构体,类,协议,枚举,还有闭包的相关知识.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构体和类"><span class="nav-number"></span> <span class="nav-text">结构体和类</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在Swift中结构体和类很相似-然后我们就先看一下结构体的相关知识吧"><span class="nav-number">1.</span> <span class="nav-text">在Swift中结构体和类很相似,然后我们就先看一下结构体的相关知识吧</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#结构体"><span class="nav-number"></span> <span class="nav-text">结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上面是结构体的定义-包括属性-结构体属性-init方法-普通函数-结构体函数-下面我们看一下在Swith中是如何调用结构体的初始化方法的-还有如何使用结构体"><span class="nav-number"></span> <span class="nav-text">上面是结构体的定义,包括属性,结构体属性,init方法,普通函数 ,结构体函数,下面我们看一下在Swith中是如何调用结构体的初始化方法的,还有如何使用结构体.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类"><span class="nav-number"></span> <span class="nav-text">类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对于OC中的类和Swith的类也是有很大区别的-看一下Swift中的类是如何定义的"><span class="nav-number"></span> <span class="nav-text">对于OC中的类和Swith的类也是有很大区别的,看一下Swift中的类是如何定义的.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#类的格式-class-关键字-类名-类的实现"><span class="nav-number">1.</span> <span class="nav-text">类的格式 :class 关键字 类名 { 类的实现 }</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对于类和实例变量的调用我们与Swith中的结构体也是差不多的"><span class="nav-number"></span> <span class="nav-text">对于类和实例变量的调用我们与Swith中的结构体也是差不多的.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#看完了结构体和类-作为初学者的我们一定会懵-这么多惊人的相似-那我们就做一下对比"><span class="nav-number">1.</span> <span class="nav-text">看完了结构体和类,作为初学者的我们一定会懵,这么多惊人的相似,那我们就做一下对比</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#协议"><span class="nav-number"></span> <span class="nav-text">协议</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在Swift中-协议和OC中也是存在很大区别的-OC中的协议室友必须实现的方法和选择实现的方法区分的-但是在Swift中则没有这个区别-只要是写在协议中方法必须实现-那么问题来了-如果我们想要有选择实现的方法怎么办-还有就是当我们想要给我们写的系统类添加协议该如办呢-下面我们就讲解协议的知识"><span class="nav-number"></span> <span class="nav-text">在Swift中,协议和OC中也是存在很大区别的,OC中的协议室友必须实现的方法和选择实现的方法区分的,但是在Swift中则没有这个区别,只要是写在协议中方法必须实现,那么问题来了,如果我们想要有选择实现的方法怎么办? 还有就是当我们想要给我们写的系统类添加协议该如办呢?  下面我们就讲解协议的知识.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#协议格式-protocol-关键字-协议名称"><span class="nav-number">1.</span> <span class="nav-text">协议格式: protocol 关键字 协议名称</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#对于想要给不能修改的类添加协议-我们可以使用延展extension来实现"><span class="nav-number">2.</span> <span class="nav-text">对于想要给不能修改的类添加协议,我们可以使用延展extension来实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#枚举"><span class="nav-number"></span> <span class="nav-text">枚举</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#就我个人而言-我对枚举是又爱又恨-爱其功能之强大-恨之虽然懂-但是不能很好的使用它-好了-对于懵逼的我又是怎么解释Swift中的枚举呢-请看下面的代码"><span class="nav-number">1.</span> <span class="nav-text">就我个人而言,我对枚举是又爱又恨,爱其功能之强大,恨之虽然懂,但是不能很好的使用它.好了,对于懵逼的我又是怎么解释Swift中的枚举呢?  请看下面的代码.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭包"><span class="nav-number"></span> <span class="nav-text">闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#什么叫闭包-其实就是block-匿名函数-对于block这一概念-可能还是有一部分程序猿有着不小的疑惑-后期-我将写一篇关于block的使用的博客-好了-今天就先说一下Swift中的闭包"><span class="nav-number">1.</span> <span class="nav-text">什么叫闭包?其实就是block(匿名函数),对于block这一概念,可能还是有一部分程序猿有着不小的疑惑,后期,我将写一篇关于block的使用的博客,好了,今天就先说一下Swift中的闭包.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#闭包的格式-参数-gt-返回值类型"><span class="nav-number">2.</span> <span class="nav-text">闭包的格式: ((参数) -> 返回值类型)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#生活中的一切一切存在着这样活着那样的关系-所以-勿以善小而不为-勿以恶小而为之"><span class="nav-number">3.</span> <span class="nav-text">生活中的一切一切存在着这样活着那样的关系,所以,勿以善小而不为,勿以恶小而为之.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#各位看官喜欢的话-就点个喜欢吧-不求打赏-只求喜欢"><span class="nav-number">4.</span> <span class="nav-text">各位看官喜欢的话,就点个喜欢吧,不求打赏,只求喜欢.</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

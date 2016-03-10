@@ -1,0 +1,898 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈iOS的ApplePay">
+<meta property="og:url" content="http://yoursite.com/2016/02/25/华山论剑之浅谈iOS的ApplePay/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description">
+<meta property="og:image" content="http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=3c8c719f56da81cb5aeb8b9f330fbb73/d6ca7bcb0a46f21f2febc738f1246b600d33aefa.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsfn9b3vj20yg0gemy5.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rsgf2mc7j20yg0iu40d.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsgufvybj20yg0kmab4.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rshmszojj20yg0lrgn5.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsimgr1pj20yg0llab6.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsjeahdjj20yg0kxmzd.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsk1brpxj20yg0mrdhi.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsl5u1lej20ms0bcdi0.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsmn9b95j20yg0i83za.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsnphlrwj20yg0n4jt8.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsowiqtrj20yg0nf407.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rspluczuj20vr0nygmx.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsqillewj20oo0kmwfl.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsqyu0bqj20yg0jd75t.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsrfpp9sj20yg0ifgmi.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsrwu3rpj20yg0jb75i.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsszskn4j20yg0jugmh.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsu26f1sj20yg0h9gm9.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsu9y7j6j20sc0mv3zv.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rswyez6qj20sc0mv3zv.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsx87ij9j20y30mjwg9.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsy8180xj20tb0jugms.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsynuxbyj20yg0ofdi5.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rt0f2z6mj20yg0nn3zp.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rt0n7czej20yg0o5abt.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rt0vv31aj20yg0lqgo1.jpg">
+<meta property="og:updated_time" content="2016-03-10T07:36:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈iOS的ApplePay">
+<meta name="twitter:description">
+<meta name="twitter:image" content="http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=3c8c719f56da81cb5aeb8b9f330fbb73/d6ca7bcb0a46f21f2febc738f1246b600d33aefa.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈iOS的ApplePay | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈iOS的ApplePay
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-25T15:02:53+08:00" content="2016-02-25">
+              2016-02-25
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://b.hiphotos.baidu.com/baike/c0%3Dbaike80%2C5%2C5%2C80%2C26/sign=3c8c719f56da81cb5aeb8b9f330fbb73/d6ca7bcb0a46f21f2febc738f1246b600d33aefa.jpg" alt="“神经骚栋”/"></p>
+<a id="more"></a>
+<blockquote>
+<h4 id="如果你恨他-就让他舔门口的棒棒糖-———-军哥"><a href="#如果你恨他-就让他舔门口的棒棒糖-———-军哥" class="headerlink" title="如果你恨他,就让他舔门口的棒棒糖 ———-军哥"></a>如果你恨他,就让他舔门口的棒棒糖 ———-军哥</h4></blockquote>
+<hr>
+<h4 id="在发布近两年、历经各种周折之后，苹果公司的Apple-Pay移动支付服务终于在2016年2月18日来到了中国大陆-对中国用户来说，移动支付其实已经不是什么陌生事物，抢红包和支付宝早完成用户启蒙。但与这两者有区别的是，Apple-Pay只是苹果搭建的一个支付服务，它链接银行、店面及用户，但又不像支付宝那样把钱存在自己这。"><a href="#在发布近两年、历经各种周折之后，苹果公司的Apple-Pay移动支付服务终于在2016年2月18日来到了中国大陆-对中国用户来说，移动支付其实已经不是什么陌生事物，抢红包和支付宝早完成用户启蒙。但与这两者有区别的是，Apple-Pay只是苹果搭建的一个支付服务，它链接银行、店面及用户，但又不像支付宝那样把钱存在自己这。" class="headerlink" title="在发布近两年、历经各种周折之后，苹果公司的Apple Pay移动支付服务终于在2016年2月18日来到了中国大陆.对中国用户来说，移动支付其实已经不是什么陌生事物，抢红包和支付宝早完成用户启蒙。但与这两者有区别的是，Apple Pay只是苹果搭建的一个支付服务，它链接银行、店面及用户，但又不像支付宝那样把钱存在自己这。"></a>在发布近两年、历经各种周折之后，苹果公司的Apple Pay移动支付服务终于在2016年2月18日来到了中国大陆.对中国用户来说，移动支付其实已经不是什么陌生事物，抢红包和支付宝早完成用户启蒙。但与这两者有区别的是，Apple Pay只是苹果搭建的一个支付服务，它链接银行、店面及用户，但又不像支付宝那样把钱存在自己这。</h4><h4 id="对于技术人员的我们-不管其市场如何-当我们看到一个新的技术的时候-我们就应该想着如何去使用它-今天作为前端开发者的我就对ApplePay进行一个简单的讲解"><a href="#对于技术人员的我们-不管其市场如何-当我们看到一个新的技术的时候-我们就应该想着如何去使用它-今天作为前端开发者的我就对ApplePay进行一个简单的讲解" class="headerlink" title="对于技术人员的我们,不管其市场如何,当我们看到一个新的技术的时候,我们就应该想着如何去使用它,今天作为前端开发者的我就对ApplePay进行一个简单的讲解."></a>对于技术人员的我们,不管其市场如何,当我们看到一个新的技术的时候,我们就应该想着如何去使用它,今天作为前端开发者的我就对ApplePay进行一个简单的讲解.</h4><p><br></p>
+<h3 id="商业证书的配置"><a href="#商业证书的配置" class="headerlink" title="商业证书的配置"></a>商业证书的配置</h3><p></p>
+<h4 id="当我们使用到ApplePay的时候-首先就是要到我们的开发者中心配置一个证书-这个证书就叫做商业证书-下面我们就看一下商业证书配置的相关问题吧"><a href="#当我们使用到ApplePay的时候-首先就是要到我们的开发者中心配置一个证书-这个证书就叫做商业证书-下面我们就看一下商业证书配置的相关问题吧" class="headerlink" title="当我们使用到ApplePay的时候,首先就是要到我们的开发者中心配置一个证书,这个证书就叫做商业证书,下面我们就看一下商业证书配置的相关问题吧."></a>当我们使用到ApplePay的时候,首先就是要到我们的开发者中心配置一个证书,这个证书就叫做商业证书,下面我们就看一下商业证书配置的相关问题吧.</h4><h4 id="首相我们进入到我们证书页面-当我们进入我们的证书页面之后-首先我们需要如图添加一个商业证书"><a href="#首相我们进入到我们证书页面-当我们进入我们的证书页面之后-首先我们需要如图添加一个商业证书" class="headerlink" title="首相我们进入到我们证书页面,当我们进入我们的证书页面之后,首先我们需要如图添加一个商业证书."></a>首相我们进入到我们证书页面,当我们进入我们的证书页面之后,首先我们需要如图添加一个商业证书.</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsfn9b3vj20yg0gemy5.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="进入到下面的页面的时候-我们要填写我们的类型名称以及我们的ID-根据要求填写即可"><a href="#进入到下面的页面的时候-我们要填写我们的类型名称以及我们的ID-根据要求填写即可" class="headerlink" title="进入到下面的页面的时候,我们要填写我们的类型名称以及我们的ID,根据要求填写即可."></a>进入到下面的页面的时候,我们要填写我们的类型名称以及我们的ID,根据要求填写即可.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rsgf2mc7j20yg0iu40d.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="完成之后点击一下-进入如下的页面"><a href="#完成之后点击一下-进入如下的页面" class="headerlink" title="完成之后点击一下,进入如下的页面"></a>完成之后点击一下,进入如下的页面</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsgufvybj20yg0kmab4.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="当然了这样我们并没有配置完成-点击register-注册-然后返回到上一页面-如图-找到我们所配置的文件-然后我们就要对我们的证书进行进一步的配置😁"><a href="#当然了这样我们并没有配置完成-点击register-注册-然后返回到上一页面-如图-找到我们所配置的文件-然后我们就要对我们的证书进行进一步的配置😁" class="headerlink" title="当然了这样我们并没有配置完成.点击register 注册,然后返回到上一页面.如图 找到我们所配置的文件.然后我们就要对我们的证书进行进一步的配置😁,"></a>当然了这样我们并没有配置完成.点击register 注册,然后返回到上一页面.如图 找到我们所配置的文件.然后我们就要对我们的证书进行进一步的配置😁,</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rshmszojj20yg0lrgn5.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="点击Edit进入详情页面"><a href="#点击Edit进入详情页面" class="headerlink" title="点击Edit进入详情页面"></a>点击Edit进入详情页面</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsimgr1pj20yg0llab6.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="不解释-直接点击下一步就可"><a href="#不解释-直接点击下一步就可" class="headerlink" title="不解释,直接点击下一步就可."></a>不解释,直接点击下一步就可.</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsjeahdjj20yg0kxmzd.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="点击下一步之后我们进入如下的页面-这时候跟我们配置证书一个-我们需要从钥匙串中配置一个申请文件出来"><a href="#点击下一步之后我们进入如下的页面-这时候跟我们配置证书一个-我们需要从钥匙串中配置一个申请文件出来" class="headerlink" title="点击下一步之后我们进入如下的页面,这时候跟我们配置证书一个,我们需要从钥匙串中配置一个申请文件出来."></a>点击下一步之后我们进入如下的页面,这时候跟我们配置证书一个,我们需要从钥匙串中配置一个申请文件出来.</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsk1brpxj20yg0mrdhi.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="首先先打开我们的钥匙串🔑-如下图进行下一步-点击”证书助理”-然后点击-“从证书颁发机构请求而证书”"><a href="#首先先打开我们的钥匙串🔑-如下图进行下一步-点击”证书助理”-然后点击-“从证书颁发机构请求而证书”" class="headerlink" title="首先先打开我们的钥匙串🔑,如下图进行下一步.点击”证书助理”,然后点击 “从证书颁发机构请求而证书”."></a>首先先打开我们的钥匙串🔑,如下图进行下一步.点击”证书助理”,然后点击 “从证书颁发机构请求而证书”.</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsl5u1lej20ms0bcdi0.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="然后进行如下图的的操作-电子邮箱可以填写的稍微随意一点-😃"><a href="#然后进行如下图的的操作-电子邮箱可以填写的稍微随意一点-😃" class="headerlink" title="然后进行如下图的的操作,电子邮箱可以填写的稍微随意一点,😃"></a>然后进行如下图的的操作,电子邮箱可以填写的稍微随意一点,😃</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsmn9b95j20yg0i83za.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="填写完整之后-我们点击继续即可-然后我们就需要上传我们的证书请求文件了"><a href="#填写完整之后-我们点击继续即可-然后我们就需要上传我们的证书请求文件了" class="headerlink" title="填写完整之后,我们点击继续即可,然后我们就需要上传我们的证书请求文件了."></a>填写完整之后,我们点击继续即可,然后我们就需要上传我们的证书请求文件了.</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsnphlrwj20yg0n4jt8.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="完成之后-就点击下载我们的商业证书就行"><a href="#完成之后-就点击下载我们的商业证书就行" class="headerlink" title="完成之后,就点击下载我们的商业证书就行."></a>完成之后,就点击下载我们的商业证书就行.</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsowiqtrj20yg0nf407.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="证书配置完了-就要配置我们App-ID-和-工程的描述文件-我们首先配置一下App-ID-App-ID的配置和前面的差不多-唯一的区别就是我们需要勾选Apply-Pay功能-如图所示"><a href="#证书配置完了-就要配置我们App-ID-和-工程的描述文件-我们首先配置一下App-ID-App-ID的配置和前面的差不多-唯一的区别就是我们需要勾选Apply-Pay功能-如图所示" class="headerlink" title="证书配置完了,就要配置我们App ID 和 工程的描述文件.我们首先配置一下App ID,App ID的配置和前面的差不多,唯一的区别就是我们需要勾选Apply Pay功能. 如图所示"></a>证书配置完了,就要配置我们App ID 和 工程的描述文件.我们首先配置一下App ID,App ID的配置和前面的差不多,唯一的区别就是我们需要勾选Apply Pay功能. 如图所示</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rspluczuj20vr0nygmx.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="当我们点击下一步的时候-发现Apply-Pay-的状态是黄色的-所以我们就需要把他变成可用状态"><a href="#当我们点击下一步的时候-发现Apply-Pay-的状态是黄色的-所以我们就需要把他变成可用状态" class="headerlink" title="当我们点击下一步的时候,发现Apply Pay 的状态是黄色的,所以我们就需要把他变成可用状态."></a>当我们点击下一步的时候,发现Apply Pay 的状态是黄色的,所以我们就需要把他变成可用状态.</h4><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsqillewj20oo0kmwfl.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="我们点击Regiser注册完成之后-就在我们的APP-ID列表中找到对应的APP-ID信息"><a href="#我们点击Regiser注册完成之后-就在我们的APP-ID列表中找到对应的APP-ID信息" class="headerlink" title="我们点击Regiser注册完成之后,就在我们的APP ID列表中找到对应的APP ID信息."></a>我们点击Regiser注册完成之后,就在我们的APP ID列表中找到对应的APP ID信息.</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsqyu0bqj20yg0jd75t.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="如图-找到对应的Apply-Pay-信息"><a href="#如图-找到对应的Apply-Pay-信息" class="headerlink" title="如图,找到对应的Apply Pay 信息"></a>如图,找到对应的Apply Pay 信息</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsrfpp9sj20yg0ifgmi.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="进入选择证书的页面-选择我们的证书"><a href="#进入选择证书的页面-选择我们的证书" class="headerlink" title="进入选择证书的页面,选择我们的证书."></a>进入选择证书的页面,选择我们的证书.</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsrwu3rpj20yg0jb75i.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="看完下面三张图-我们的App-ID-的配置就完成了"><a href="#看完下面三张图-我们的App-ID-的配置就完成了" class="headerlink" title="看完下面三张图  我们的App ID  的配置就完成了."></a>看完下面三张图  我们的App ID  的配置就完成了.</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsszskn4j20yg0jugmh.jpg" alt="“神经骚栋”/"></p>
+<p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsu26f1sj20yg0h9gm9.jpg" alt="“神经骚栋”/"></p>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1rsu9y7j6j20sc0mv3zv.jpg" alt="“神经骚栋”/"></p>
+<hr>
+<p></p>
+<h1 id="描述文件"><a href="#描述文件" class="headerlink" title="描述文件"></a>描述文件</h1><hr>
+<h4 id="上面的App-ID-我们已经配置完成了-下面我们就配置我们的-描述文件"><a href="#上面的App-ID-我们已经配置完成了-下面我们就配置我们的-描述文件" class="headerlink" title="上面的App ID  我们已经配置完成了,下面我们就配置我们的 描述文件."></a>上面的App ID  我们已经配置完成了,下面我们就配置我们的 描述文件.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rswyez6qj20sc0mv3zv.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="选择对应的ID"><a href="#选择对应的ID" class="headerlink" title="选择对应的ID"></a>选择对应的ID</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsx87ij9j20y30mjwg9.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="完成之后下载我们的描述文件就行"><a href="#完成之后下载我们的描述文件就行" class="headerlink" title="完成之后下载我们的描述文件就行."></a>完成之后下载我们的描述文件就行.</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1rsy8180xj20tb0jugms.jpg" alt="“神经骚栋”/"></p>
+<blockquote>
+<h3 id="注意-这里有个问题是关于证书的-就是我们的证书不管怎么下载都会显示的状态是证书是无效的或者证书是未知机构颁发的-我们需要做的就是去网上下两个证书-如图所示"><a href="#注意-这里有个问题是关于证书的-就是我们的证书不管怎么下载都会显示的状态是证书是无效的或者证书是未知机构颁发的-我们需要做的就是去网上下两个证书-如图所示" class="headerlink" title="注意:这里有个问题是关于证书的,就是我们的证书不管怎么下载都会显示的状态是证书是无效的或者证书是未知机构颁发的. 我们需要做的就是去网上下两个证书. 如图所示"></a>注意:这里有个问题是关于证书的,就是我们的证书不管怎么下载都会显示的状态是证书是无效的或者证书是未知机构颁发的. 我们需要做的就是去网上下两个证书. 如图所示</h3></blockquote>
+<hr>
+<h4 id="—-gt-点击前往证书下载页面"><a href="#—-gt-点击前往证书下载页面" class="headerlink" title="—-&gt;点击前往证书下载页面"></a><a href="http://www.apple.com/certificateauthority/" target="_blank" rel="external">—-&gt;点击前往证书下载页面</a></h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rsynuxbyj20yg0ofdi5.jpg" alt="“神经骚栋”/"></p>
+<hr>
+<p><br></p>
+<h2 id="工程配置"><a href="#工程配置" class="headerlink" title="工程配置"></a>工程配置</h2><h4 id="当我们完成了我们的证书的配置之后-我们就需要到我们的工程中配置我们的Apple-Pay了-首先就要先查看我们的ID"><a href="#当我们完成了我们的证书的配置之后-我们就需要到我们的工程中配置我们的Apple-Pay了-首先就要先查看我们的ID" class="headerlink" title="当我们完成了我们的证书的配置之后,我们就需要到我们的工程中配置我们的Apple Pay了,首先就要先查看我们的ID."></a>当我们完成了我们的证书的配置之后,我们就需要到我们的工程中配置我们的Apple Pay了,首先就要先查看我们的ID.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1rt0f2z6mj20yg0nn3zp.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="ID查看完成之后就配置我们的Apply-Pay-相关的信息"><a href="#ID查看完成之后就配置我们的Apply-Pay-相关的信息" class="headerlink" title="ID查看完成之后就配置我们的Apply Pay 相关的信息."></a>ID查看完成之后就配置我们的Apply Pay 相关的信息.</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rt0n7czej20yg0o5abt.jpg" alt="“神经骚栋”/"></p>
+<p></p>
+<h4 id="当然了-我们还是要配置我们的商业证书和描述文件的"><a href="#当然了-我们还是要配置我们的商业证书和描述文件的" class="headerlink" title="当然了,我们还是要配置我们的商业证书和描述文件的"></a>当然了,我们还是要配置我们的商业证书和描述文件的</h4><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1rt0vv31aj20yg0lqgo1.jpg" alt="“神经骚栋”/"></p>
+<hr>
+<p><br></p>
+<h1 id="代码部分"><a href="#代码部分" class="headerlink" title="代码部分"></a>代码部分</h1><hr>
+<h4 id="当我们的上面两个整完之后-我们就要开始我们的代码部分了-因为是测试-所以我就简单的用storyboard做一下-代码如下"><a href="#当我们的上面两个整完之后-我们就要开始我们的代码部分了-因为是测试-所以我就简单的用storyboard做一下-代码如下" class="headerlink" title="当我们的上面两个整完之后,我们就要开始我们的代码部分了.因为是测试,所以我就简单的用storyboard做一下.代码如下"></a>当我们的上面两个整完之后,我们就要开始我们的代码部分了.因为是测试,所以我就简单的用storyboard做一下.代码如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">//我们要使用Apple Pay 首先要先导入两个库</span><br><span class="line">#import &lt;PassKit/PassKit.h&gt;</span><br><span class="line"></span><br><span class="line">#import &lt;AddressBook/AddressBook.h&gt;</span><br><span class="line"></span><br><span class="line">//这里要遵守一个协议.</span><br><span class="line">@interface ViewController ()&lt;PKPaymentAuthorizationViewControllerDelegate&gt;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//这里我使用storyboard用一个按钮拖成一个事件</span><br><span class="line">- (IBAction)payAction:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">    //首先我们要先确定设备是否支持Apple Pay功能,现在支持Apple Pay功能功能的有iPhone 6，iPhone 6 Plus，iPhone 6s， iPhone 6s Plus；iPad Air 2，iPad mini 3，iPad mini 4，iPad Pro；还有Apple Watch.</span><br><span class="line">    if ([PKPaymentAuthorizationViewController canMakePayments]) &#123;</span><br><span class="line">        </span><br><span class="line">        //我们首先创建一个请求支付PKPaymentRequest类的对象</span><br><span class="line">        PKPaymentRequest *request = [[PKPaymentRequest  alloc]init];</span><br><span class="line">        </span><br><span class="line">        //然后设置支付的商品的目录  NSDecimalNumber是用于记录商品的价格的一个类</span><br><span class="line">        PKPaymentSummaryItem * item1 = [PKPaymentSummaryItem summaryItemWithLabel:@&quot;栋哥的87键黑轴纪念版键盘&quot; amount:[NSDecimalNumber decimalNumberWithString:@&quot;400&quot;]];</span><br><span class="line">        </span><br><span class="line">        PKPaymentSummaryItem * item2 = [PKPaymentSummaryItem summaryItemWithLabel:@&quot;栋哥的IE3.0纪念版鼠标&quot; amount:[NSDecimalNumber decimalNumberWithString:@&quot;200&quot;]];</span><br><span class="line">        </span><br><span class="line">        PKPaymentSummaryItem * item3 = [PKPaymentSummaryItem summaryItemWithLabel:@&quot;栋哥的赛睿纪念版霜冻之蓝耳机&quot; amount:[NSDecimalNumber decimalNumberWithString:@&quot;1000&quot;]];</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        PKPaymentSummaryItem * item4 = [PKPaymentSummaryItem summaryItemWithLabel:@&quot;神经骚栋&quot; amount:[NSDecimalNumber decimalNumberWithString:@&quot;6000&quot;] type:PKPaymentSummaryItemTypeFinal];</span><br><span class="line">        </span><br><span class="line">        //设置paymentSummaryItems的数组元素.</span><br><span class="line">        request.paymentSummaryItems = @[item1,item2,item3,item4];</span><br><span class="line">        </span><br><span class="line">        //指定国家区域编号</span><br><span class="line">        request.countryCode = @&quot;CN&quot;;</span><br><span class="line">        </span><br><span class="line">        //指定国家货币种类,在下面我会说到各国的货币种类都叫什么,现在我们就用RMB来说吧</span><br><span class="line">        request.currencyCode = @&quot;CNY&quot;;</span><br><span class="line">        </span><br><span class="line">        //然后指定支持的网上银行支付手段</span><br><span class="line">        request.supportedNetworks = @[PKPaymentNetworkMasterCard,PKPaymentNetworkVisa];</span><br><span class="line">        </span><br><span class="line">        //指定App需要的商业ID</span><br><span class="line">        request.merchantIdentifier = @&quot;merchant.com.Dong.ApplePay&quot;;</span><br><span class="line">        </span><br><span class="line">        //指定支付的权限的范围限制</span><br><span class="line">        request.merchantCapabilities = PKMerchantCapabilityEMV;</span><br><span class="line">        </span><br><span class="line">        //设置订单接受的地址</span><br><span class="line">        request.requiredBillingAddressFields = PKAddressFieldEmail | PKAddressFieldPostalAddress;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        /***********************request支付请求已经设置完成**********************/</span><br><span class="line">        </span><br><span class="line">        //设置支付页面的相关信息</span><br><span class="line">        PKPaymentAuthorizationViewController *payMentVC = [[PKPaymentAuthorizationViewController alloc]initWithPaymentRequest:request];</span><br><span class="line">        </span><br><span class="line">        //设置代理</span><br><span class="line">        payMentVC.delegate = self;</span><br><span class="line">        </span><br><span class="line">        if (!payMentVC) &#123;</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;支付页面失败!&quot;);</span><br><span class="line">            </span><br><span class="line">        &#125;else&#123;</span><br><span class="line">        </span><br><span class="line">            [self presentViewController:payMentVC animated:YES completion:nil];</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;设备不支持Apply Pay 功能!&quot;);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="当我们完成上面的工作之后-就要必须完成下面的两个代理方法"><a href="#当我们完成上面的工作之后-就要必须完成下面的两个代理方法" class="headerlink" title="当我们完成上面的工作之后,就要必须完成下面的两个代理方法."></a>当我们完成上面的工作之后,就要必须完成下面的两个代理方法.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#pragma mark----支付过程中调用这个方法-----</span><br><span class="line"></span><br><span class="line">//payment就是支付的对象相关的所有信息都存在这个对象当中.</span><br><span class="line">-(void)paymentAuthorizationViewController:(PKPaymentAuthorizationViewController *)controller didAuthorizePayment:(PKPayment *)payment completion:(void (^)(PKPaymentAuthorizationStatus))completion&#123;</span><br><span class="line"></span><br><span class="line">    //获取到服务器发给用户的token.token里面含有成功或者是失败的信息.</span><br><span class="line">    PKPaymentToken *token = payment.token;</span><br><span class="line">    </span><br><span class="line">    //拿到订单人相关的信息,其实包括地址,姓名,邮箱等等</span><br><span class="line">    NSString *name = payment.billingContact.name.nickname;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,name);</span><br><span class="line">    </span><br><span class="line">    //上面的token和name发送到自己的服务器,由自己的服务器和商家进行接口的调用返回一个结果,我们将这个返回的结果再与客户端的用户进行交互,</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    //状态结果的类为PKPaymentAuthorizationStatus,因为我们做的是测试,所以我们就先指定他为成功</span><br><span class="line">    PKPaymentAuthorizationStatus status = PKPaymentAuthorizationStatusSuccess;</span><br><span class="line">    </span><br><span class="line">    completion(status);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#pragma mark----支付完成-----</span><br><span class="line"></span><br><span class="line">-(void)paymentAuthorizationViewControllerDidFinish:(PKPaymentAuthorizationViewController *)controller&#123;</span><br><span class="line"></span><br><span class="line">    //隐藏支付界面</span><br><span class="line">    [controller dismissViewControllerAnimated:YES completion:nil];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p></p>
+<h3 id="下面就是世界主要货币的英文简写表-希望对大家有所帮助"><a href="#下面就是世界主要货币的英文简写表-希望对大家有所帮助" class="headerlink" title="下面就是世界主要货币的英文简写表,希望对大家有所帮助.."></a>下面就是世界主要货币的英文简写表,希望对大家有所帮助..</h3><table>
+<thead>
+<tr>
+<th>国家货币名称</th>
+<th style="text-align:center">货币英文简写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>人民币</td>
+<td style="text-align:center">CNY</td>
+</tr>
+<tr>
+<td>英镑</td>
+<td style="text-align:center">GBP</td>
+</tr>
+<tr>
+<td>比利时法郎</td>
+<td style="text-align:center">BEF</td>
+</tr>
+<tr>
+<td>新西兰元</td>
+<td style="text-align:center">NZD</td>
+</tr>
+<tr>
+<td>港币</td>
+<td style="text-align:center">HKD</td>
+</tr>
+<tr>
+<td>意大利里拉</td>
+<td style="text-align:center">ITL</td>
+</tr>
+<tr>
+<td>奥地利先令</td>
+<td style="text-align:center">ATS</td>
+</tr>
+<tr>
+<td>美元</td>
+<td style="text-align:center">USD</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>国家货币名称</th>
+<th style="text-align:center">货币英文简写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>日元</td>
+<td style="text-align:center">JPY</td>
+</tr>
+<tr>
+<td>挪威克朗</td>
+<td style="text-align:center">NOK</td>
+</tr>
+<tr>
+<td>瑞士法郎</td>
+<td style="text-align:center">CHF</td>
+</tr>
+<tr>
+<td>加拿大元</td>
+<td style="text-align:center">CAD</td>
+</tr>
+<tr>
+<td>泰国铢</td>
+<td style="text-align:center">THB</td>
+</tr>
+<tr>
+<td>德国马克</td>
+<td style="text-align:center">DEM</td>
+</tr>
+<tr>
+<td>澳大利亚元</td>
+<td style="text-align:center">AUD</td>
+</tr>
+<tr>
+<td>丹麦克朗</td>
+<td style="text-align:center">DKK</td>
+</tr>
+<tr>
+<td>法国法郎</td>
+<td style="text-align:center">FRF</td>
+</tr>
+<tr>
+<td>西班牙比塞塔</td>
+<td style="text-align:center">ESP</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>国家货币名称</th>
+<th style="text-align:center">货币英文简写</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>菲律宾比索</td>
+<td style="text-align:center">PHP</td>
+</tr>
+<tr>
+<td>新加坡元</td>
+<td style="text-align:center">SGD</td>
+</tr>
+<tr>
+<td>欧元</td>
+<td style="text-align:center">EUR</td>
+</tr>
+<tr>
+<td>瑞典克朗</td>
+<td style="text-align:center">SEK</td>
+</tr>
+<tr>
+<td>荷兰盾</td>
+<td style="text-align:center">NLG</td>
+</tr>
+<tr>
+<td>芬兰马克</td>
+<td style="text-align:center">FIM</td>
+</tr>
+<tr>
+<td>澳门元</td>
+<td style="text-align:center">MOP</td>
+</tr>
+</tbody>
+</table>
+<p></p>
+<h4 id="代码我都做了详细的注释-如果还有不懂的-可以参考我的Demo-以及-下面的资料"><a href="#代码我都做了详细的注释-如果还有不懂的-可以参考我的Demo-以及-下面的资料" class="headerlink" title="代码我都做了详细的注释,如果还有不懂的,可以参考我的Demo 以及 下面的资料"></a>代码我都做了详细的注释,如果还有不懂的,可以参考我的Demo 以及 下面的资料</h4><h4 id="——–-gt-点击下载Demo"><a href="#——–-gt-点击下载Demo" class="headerlink" title="——–&gt;点击下载Demo"></a><a href="http://yun.baidu.com/share/link?shareid=1076887904&amp;uk=4079807053" target="_blank" rel="external">——–&gt;点击下载Demo</a></h4><h4 id="——–-gt-点击进入codeqi博客"><a href="#——–-gt-点击进入codeqi博客" class="headerlink" title="——–&gt;点击进入codeqi博客"></a><a href="http://www.coderqi.com/2016/02/25/AppPay/#more" target="_blank" rel="external">——–&gt;点击进入codeqi博客</a></h4><p></p>
+<h3 id="今天的Apply-Pay就介绍到这-😃-如果大家有什么意见可以给我留言"><a href="#今天的Apply-Pay就介绍到这-😃-如果大家有什么意见可以给我留言" class="headerlink" title="今天的Apply Pay就介绍到这,😃,如果大家有什么意见可以给我留言."></a>今天的Apply Pay就介绍到这,😃,如果大家有什么意见可以给我留言.</h3>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/12/华山论剑之Swift初体验-二/" rel="next" title="华山论剑之Swift初体验(二)">
+                <i class="fa fa-chevron-left"></i> 华山论剑之Swift初体验(二)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/03/08/原谅我一生/" rel="prev" title="原谅我一生放荡不羁爱自由">
+                原谅我一生放荡不羁爱自由 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">纵然一无所有.也要心有所归</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果你恨他-就让他舔门口的棒棒糖-———-军哥"><span class="nav-number">1.</span> <span class="nav-text">如果你恨他,就让他舔门口的棒棒糖 ———-军哥</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在发布近两年、历经各种周折之后，苹果公司的Apple-Pay移动支付服务终于在2016年2月18日来到了中国大陆-对中国用户来说，移动支付其实已经不是什么陌生事物，抢红包和支付宝早完成用户启蒙。但与这两者有区别的是，Apple-Pay只是苹果搭建的一个支付服务，它链接银行、店面及用户，但又不像支付宝那样把钱存在自己这。"><span class="nav-number">2.</span> <span class="nav-text">在发布近两年、历经各种周折之后，苹果公司的Apple Pay移动支付服务终于在2016年2月18日来到了中国大陆.对中国用户来说，移动支付其实已经不是什么陌生事物，抢红包和支付宝早完成用户启蒙。但与这两者有区别的是，Apple Pay只是苹果搭建的一个支付服务，它链接银行、店面及用户，但又不像支付宝那样把钱存在自己这。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对于技术人员的我们-不管其市场如何-当我们看到一个新的技术的时候-我们就应该想着如何去使用它-今天作为前端开发者的我就对ApplePay进行一个简单的讲解"><span class="nav-number">3.</span> <span class="nav-text">对于技术人员的我们,不管其市场如何,当我们看到一个新的技术的时候,我们就应该想着如何去使用它,今天作为前端开发者的我就对ApplePay进行一个简单的讲解.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#商业证书的配置"><span class="nav-number"></span> <span class="nav-text">商业证书的配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们使用到ApplePay的时候-首先就是要到我们的开发者中心配置一个证书-这个证书就叫做商业证书-下面我们就看一下商业证书配置的相关问题吧"><span class="nav-number">1.</span> <span class="nav-text">当我们使用到ApplePay的时候,首先就是要到我们的开发者中心配置一个证书,这个证书就叫做商业证书,下面我们就看一下商业证书配置的相关问题吧.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首相我们进入到我们证书页面-当我们进入我们的证书页面之后-首先我们需要如图添加一个商业证书"><span class="nav-number">2.</span> <span class="nav-text">首相我们进入到我们证书页面,当我们进入我们的证书页面之后,首先我们需要如图添加一个商业证书.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入到下面的页面的时候-我们要填写我们的类型名称以及我们的ID-根据要求填写即可"><span class="nav-number">3.</span> <span class="nav-text">进入到下面的页面的时候,我们要填写我们的类型名称以及我们的ID,根据要求填写即可.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成之后点击一下-进入如下的页面"><span class="nav-number">4.</span> <span class="nav-text">完成之后点击一下,进入如下的页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当然了这样我们并没有配置完成-点击register-注册-然后返回到上一页面-如图-找到我们所配置的文件-然后我们就要对我们的证书进行进一步的配置😁"><span class="nav-number">5.</span> <span class="nav-text">当然了这样我们并没有配置完成.点击register 注册,然后返回到上一页面.如图 找到我们所配置的文件.然后我们就要对我们的证书进行进一步的配置😁,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点击Edit进入详情页面"><span class="nav-number">6.</span> <span class="nav-text">点击Edit进入详情页面</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不解释-直接点击下一步就可"><span class="nav-number">7.</span> <span class="nav-text">不解释,直接点击下一步就可.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点击下一步之后我们进入如下的页面-这时候跟我们配置证书一个-我们需要从钥匙串中配置一个申请文件出来"><span class="nav-number">8.</span> <span class="nav-text">点击下一步之后我们进入如下的页面,这时候跟我们配置证书一个,我们需要从钥匙串中配置一个申请文件出来.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首先先打开我们的钥匙串🔑-如下图进行下一步-点击”证书助理”-然后点击-“从证书颁发机构请求而证书”"><span class="nav-number">9.</span> <span class="nav-text">首先先打开我们的钥匙串🔑,如下图进行下一步.点击”证书助理”,然后点击 “从证书颁发机构请求而证书”.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后进行如下图的的操作-电子邮箱可以填写的稍微随意一点-😃"><span class="nav-number">10.</span> <span class="nav-text">然后进行如下图的的操作,电子邮箱可以填写的稍微随意一点,😃</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#填写完整之后-我们点击继续即可-然后我们就需要上传我们的证书请求文件了"><span class="nav-number">11.</span> <span class="nav-text">填写完整之后,我们点击继续即可,然后我们就需要上传我们的证书请求文件了.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成之后-就点击下载我们的商业证书就行"><span class="nav-number">12.</span> <span class="nav-text">完成之后,就点击下载我们的商业证书就行.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证书配置完了-就要配置我们App-ID-和-工程的描述文件-我们首先配置一下App-ID-App-ID的配置和前面的差不多-唯一的区别就是我们需要勾选Apply-Pay功能-如图所示"><span class="nav-number">13.</span> <span class="nav-text">证书配置完了,就要配置我们App ID 和 工程的描述文件.我们首先配置一下App ID,App ID的配置和前面的差不多,唯一的区别就是我们需要勾选Apply Pay功能. 如图所示</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们点击下一步的时候-发现Apply-Pay-的状态是黄色的-所以我们就需要把他变成可用状态"><span class="nav-number">14.</span> <span class="nav-text">当我们点击下一步的时候,发现Apply Pay 的状态是黄色的,所以我们就需要把他变成可用状态.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我们点击Regiser注册完成之后-就在我们的APP-ID列表中找到对应的APP-ID信息"><span class="nav-number">15.</span> <span class="nav-text">我们点击Regiser注册完成之后,就在我们的APP ID列表中找到对应的APP ID信息.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#如图-找到对应的Apply-Pay-信息"><span class="nav-number">16.</span> <span class="nav-text">如图,找到对应的Apply Pay 信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#进入选择证书的页面-选择我们的证书"><span class="nav-number">17.</span> <span class="nav-text">进入选择证书的页面,选择我们的证书.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#看完下面三张图-我们的App-ID-的配置就完成了"><span class="nav-number">18.</span> <span class="nav-text">看完下面三张图  我们的App ID  的配置就完成了.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#描述文件"><span class="nav-number"></span> <span class="nav-text">描述文件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#上面的App-ID-我们已经配置完成了-下面我们就配置我们的-描述文件"><span class="nav-number">1.</span> <span class="nav-text">上面的App ID  我们已经配置完成了,下面我们就配置我们的 描述文件.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#选择对应的ID"><span class="nav-number">2.</span> <span class="nav-text">选择对应的ID</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#完成之后下载我们的描述文件就行"><span class="nav-number">3.</span> <span class="nav-text">完成之后下载我们的描述文件就行.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-这里有个问题是关于证书的-就是我们的证书不管怎么下载都会显示的状态是证书是无效的或者证书是未知机构颁发的-我们需要做的就是去网上下两个证书-如图所示"><span class="nav-number"></span> <span class="nav-text">注意:这里有个问题是关于证书的,就是我们的证书不管怎么下载都会显示的状态是证书是无效的或者证书是未知机构颁发的. 我们需要做的就是去网上下两个证书. 如图所示</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#—-gt-点击前往证书下载页面"><span class="nav-number">1.</span> <span class="nav-text">—->点击前往证书下载页面</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工程配置"><span class="nav-number"></span> <span class="nav-text">工程配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们完成了我们的证书的配置之后-我们就需要到我们的工程中配置我们的Apple-Pay了-首先就要先查看我们的ID"><span class="nav-number">1.</span> <span class="nav-text">当我们完成了我们的证书的配置之后,我们就需要到我们的工程中配置我们的Apple Pay了,首先就要先查看我们的ID.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ID查看完成之后就配置我们的Apply-Pay-相关的信息"><span class="nav-number">2.</span> <span class="nav-text">ID查看完成之后就配置我们的Apply Pay 相关的信息.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当然了-我们还是要配置我们的商业证书和描述文件的"><span class="nav-number">3.</span> <span class="nav-text">当然了,我们还是要配置我们的商业证书和描述文件的</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码部分"><span class="nav-number"></span> <span class="nav-text">代码部分</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们的上面两个整完之后-我们就要开始我们的代码部分了-因为是测试-所以我就简单的用storyboard做一下-代码如下"><span class="nav-number">1.</span> <span class="nav-text">当我们的上面两个整完之后,我们就要开始我们的代码部分了.因为是测试,所以我就简单的用storyboard做一下.代码如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们完成上面的工作之后-就要必须完成下面的两个代理方法"><span class="nav-number">2.</span> <span class="nav-text">当我们完成上面的工作之后,就要必须完成下面的两个代理方法.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下面就是世界主要货币的英文简写表-希望对大家有所帮助"><span class="nav-number"></span> <span class="nav-text">下面就是世界主要货币的英文简写表,希望对大家有所帮助..</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#代码我都做了详细的注释-如果还有不懂的-可以参考我的Demo-以及-下面的资料"><span class="nav-number">1.</span> <span class="nav-text">代码我都做了详细的注释,如果还有不懂的,可以参考我的Demo 以及 下面的资料</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#——–-gt-点击下载Demo"><span class="nav-number">2.</span> <span class="nav-text">——–>点击下载Demo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#——–-gt-点击进入codeqi博客"><span class="nav-number">3.</span> <span class="nav-text">——–>点击进入codeqi博客</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#今天的Apply-Pay就介绍到这-😃-如果大家有什么意见可以给我留言"><span class="nav-number"></span> <span class="nav-text">今天的Apply Pay就介绍到这,😃,如果大家有什么意见可以给我留言.</span></a></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
