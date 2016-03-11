@@ -1,0 +1,781 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="我们的生活态度就应该是 “不抱怨” !">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之iOS中(数组,字典,SQLite,CoreData)的增删改查">
+<meta property="og:url" content="http://yoursite.com/2015/09/11/华山论剑之iOS中-数组-字典-SQLite-CoreData-的增删改查/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="我们的生活态度就应该是 “不抱怨” !">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1t9dm8jkrj20x60l0q47.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f1t9k67ym4j20ka0eeaan.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1t9koj3uqj20yg0k8q4a.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1t9l8fv4lj20k10amwgm.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1t9ltkhuyj20jr079t8y.jpg">
+<meta property="og:updated_time" content="2016-03-11T13:55:05.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之iOS中(数组,字典,SQLite,CoreData)的增删改查">
+<meta name="twitter:description" content="我们的生活态度就应该是 “不抱怨” !">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1t9dm8jkrj20x60l0q47.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之iOS中(数组,字典,SQLite,CoreData)的增删改查 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之iOS中(数组,字典,SQLite,CoreData)的增删改查
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-09-11T21:37:54+08:00" content="2015-09-11">
+              2015-09-11
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="我们的生活态度就应该是-“不抱怨”"><a href="#我们的生活态度就应该是-“不抱怨”" class="headerlink" title="我们的生活态度就应该是 “不抱怨” !"></a>我们的生活态度就应该是 “不抱怨” !</h5></blockquote>
+<a id="more"></a>
+<p><br></p>
+<hr>
+<h4 id="其实我想写这篇文章很久了-因为自己做的iOS开发-对数据这一块有这极高的要求-所以一些必须的存储数据的使用-我们都有必要熟悉用法-在以前我的简书中我也是写过数据持久化-但是我觉得那一篇是不够完整的-所有我把”增删改查”这个话题单独拿出来说一下-今天主要说4个方面的增删改查-分别是数组-字典-SQLite数据库-CoreData数据"><a href="#其实我想写这篇文章很久了-因为自己做的iOS开发-对数据这一块有这极高的要求-所以一些必须的存储数据的使用-我们都有必要熟悉用法-在以前我的简书中我也是写过数据持久化-但是我觉得那一篇是不够完整的-所有我把”增删改查”这个话题单独拿出来说一下-今天主要说4个方面的增删改查-分别是数组-字典-SQLite数据库-CoreData数据" class="headerlink" title="其实我想写这篇文章很久了,因为自己做的iOS开发 ,对数据这一块有这极高的要求.所以一些必须的存储数据的使用,我们都有必要熟悉用法.在以前我的简书中我也是写过数据持久化,但是我觉得那一篇是不够完整的,所有我把”增删改查”这个话题单独拿出来说一下. 今天主要说4个方面的增删改查,分别是数组,字典,SQLite数据库,CoreData数据."></a>其实我想写这篇文章很久了,因为自己做的iOS开发 ,对数据这一块有这极高的要求.所以一些必须的存储数据的使用,我们都有必要熟悉用法.在以前我的简书中我也是写过数据持久化,但是我觉得那一篇是不够完整的,所有我把”增删改查”这个话题单独拿出来说一下. 今天主要说4个方面的增删改查,分别是数组,字典,SQLite数据库,CoreData数据.</h4><p><br></p>
+<h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><hr>
+<h4 id="首先说一下数组的增删改查-数组结构是我们做开发中经常使用的一种结构-然后看一下数组的”增删改查”是如何进行的吧-当然了-我们要事项说明一点-就是数组分为可变数组-和不可变数组-不可变数组是没有增删改查的-所有我们只会对可变数组的增删改查进行研究-当然了-字典也是一样的"><a href="#首先说一下数组的增删改查-数组结构是我们做开发中经常使用的一种结构-然后看一下数组的”增删改查”是如何进行的吧-当然了-我们要事项说明一点-就是数组分为可变数组-和不可变数组-不可变数组是没有增删改查的-所有我们只会对可变数组的增删改查进行研究-当然了-字典也是一样的" class="headerlink" title="首先说一下数组的增删改查.数组结构是我们做开发中经常使用的一种结构.然后看一下数组的”增删改查”是如何进行的吧.当然了,我们要事项说明一点,就是数组分为可变数组,和不可变数组.不可变数组是没有增删改查的,所有我们只会对可变数组的增删改查进行研究.当然了.字典也是一样的."></a>首先说一下数组的增删改查.数组结构是我们做开发中经常使用的一种结构.然后看一下数组的”增删改查”是如何进行的吧.当然了,我们要事项说明一点,就是数组分为可变数组,和不可变数组.不可变数组是没有增删改查的,所有我们只会对可变数组的增删改查进行研究.当然了.字典也是一样的.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//使用便利构造器创建一个可变数组</span><br><span class="line">NSMutableArray *mtuArray = [NSMutableArray array];</span><br><span class="line"></span><br><span class="line">//增</span><br><span class="line">//给数组增加一些元素</span><br><span class="line">[mtuArray addObject:@&quot;栋哥&quot;];</span><br><span class="line"></span><br><span class="line">//给数组中添加一个数组</span><br><span class="line">[mtuArray addObjectsFromArray:@[@&quot;强哥&quot;,@&quot;其弟&quot;]];</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">//改</span><br><span class="line">//根据下标修改某个值</span><br><span class="line">mtuArray[1] = @&quot;萌神&quot;;</span><br><span class="line"></span><br><span class="line">//查</span><br><span class="line">if ([mtuArray containsObject:@&quot;栋哥&quot;]) &#123;</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;存在栋哥!&quot;);</span><br><span class="line">    </span><br><span class="line">&#125;else&#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;栋哥不知道去哪了?&quot;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//删</span><br><span class="line">//删除数组某一个元素</span><br><span class="line">[mtuArray removeObject:@&quot;栋哥&quot;];</span><br><span class="line"></span><br><span class="line">//根据下标删除数组的某一个元素</span><br><span class="line">[mtuArray removeObjectAtIndex:1];</span><br><span class="line"></span><br><span class="line">//删除所有的元素</span><br><span class="line">[mtuArray removeAllObjects];</span><br><span class="line"></span><br><span class="line">//删除最后一个元素</span><br><span class="line">[mtuArray removeLastObject];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="字典"><a href="#字典" class="headerlink" title="字典"></a>字典</h2><hr>
+<h4 id="字典是根据键值对存储数据的-当然了字典和数组的”增删改查”比较类似-不可变字典是没有”增删改查”的功能的-只有可变字典存在”增删改查”-那我们看一下字典中的增删改查是如何进行的"><a href="#字典是根据键值对存储数据的-当然了字典和数组的”增删改查”比较类似-不可变字典是没有”增删改查”的功能的-只有可变字典存在”增删改查”-那我们看一下字典中的增删改查是如何进行的" class="headerlink" title="字典是根据键值对存储数据的,当然了字典和数组的”增删改查”比较类似,不可变字典是没有”增删改查”的功能的.只有可变字典存在”增删改查”;那我们看一下字典中的增删改查是如何进行的"></a>字典是根据键值对存储数据的,当然了字典和数组的”增删改查”比较类似,不可变字典是没有”增删改查”的功能的.只有可变字典存在”增删改查”;那我们看一下字典中的增删改查是如何进行的</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">//根据便利构造器创建一个可变字典</span><br><span class="line">    NSMutableDictionary *dic = [NSMutableDictionary dictionary];</span><br><span class="line">    </span><br><span class="line">    //增</span><br><span class="line">    //添加单个键值对</span><br><span class="line">    [dic setObject:@&quot;栋哥&quot; forKey:@&quot;菜比&quot;];</span><br><span class="line">    </span><br><span class="line">    //添加一个不可变字典</span><br><span class="line">    [dic setDictionary:@&#123;@&quot;大神&quot;:@&quot;其弟&quot;&#125;];</span><br><span class="line">    </span><br><span class="line">    //删</span><br><span class="line">    //删除某一个键值对</span><br><span class="line">    [dic removeObjectForKey:@&quot;大神&quot;];</span><br><span class="line">    </span><br><span class="line">    //删除字典中的所有元素</span><br><span class="line">    [dic removeAllObjects];</span><br><span class="line">    </span><br><span class="line">    //改</span><br><span class="line">    //改变某个键的值</span><br><span class="line">    dic[@&quot;菜比&quot;] = @&quot;面面&quot;;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    //查</span><br><span class="line">    //注意:字典遍历一遍是在遍历所有的键,我们需要比对键的值来查找某个元素</span><br><span class="line">    for (NSString *key in [dic allKeys]) &#123;</span><br><span class="line">        </span><br><span class="line">        if ([dic[key] isEqualToString:@&quot;栋哥&quot;]) &#123;</span><br><span class="line">            </span><br><span class="line">            NSLog(@&quot;栋哥存在了!&quot;);</span><br><span class="line">            </span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            NSLog(@&quot;栋哥不存在!&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="SQLite数据库"><a href="#SQLite数据库" class="headerlink" title="SQLite数据库"></a>SQLite数据库</h2><hr>
+<h4 id="SQLite数据库是iOS内嵌的一个数据库-合适大型数据的读写-主要用于本地一些信息的存储-SQLite数据库采用表结构来存储数据的-我们想在Xcode中使用SQLite数据库-我们就要先导入我们的库"><a href="#SQLite数据库是iOS内嵌的一个数据库-合适大型数据的读写-主要用于本地一些信息的存储-SQLite数据库采用表结构来存储数据的-我们想在Xcode中使用SQLite数据库-我们就要先导入我们的库" class="headerlink" title="SQLite数据库是iOS内嵌的一个数据库,合适大型数据的读写,主要用于本地一些信息的存储,SQLite数据库采用表结构来存储数据的.我们想在Xcode中使用SQLite数据库,我们就要先导入我们的库."></a>SQLite数据库是iOS内嵌的一个数据库,合适大型数据的读写,主要用于本地一些信息的存储,SQLite数据库采用表结构来存储数据的.我们想在Xcode中使用SQLite数据库,我们就要先导入我们的库.</h4><p><img src="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1t9dm8jkrj20x60l0q47.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="导完了之后-我们首先要有一个Model的模板-这里我就以Student-为类名来创建一个简单的模板"><a href="#导完了之后-我们首先要有一个Model的模板-这里我就以Student-为类名来创建一个简单的模板" class="headerlink" title="导完了之后,我们首先要有一个Model的模板,这里我就以Student 为类名来创建一个简单的模板."></a>导完了之后,我们首先要有一个Model的模板,这里我就以Student 为类名来创建一个简单的模板.</h4><p><br></p>
+<h5 id="我们在Student-h文件中是这样写的"><a href="#我们在Student-h文件中是这样写的" class="headerlink" title="我们在Student.h文件中是这样写的."></a>我们在Student.h文件中是这样写的.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface Student : NSObject</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *name;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *gender;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)int Stu_ID;</span><br><span class="line"></span><br><span class="line">@property(nonatomic,assign)int age;</span><br><span class="line"></span><br><span class="line">-(instancetype)initWithName:(NSString *)name</span><br><span class="line">                     gender:(NSString *)gender</span><br><span class="line">                      stuID:(int)stuID</span><br><span class="line">                        age:(int)age;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h5 id="Student-m是这样写的-都是很简单的"><a href="#Student-m是这样写的-都是很简单的" class="headerlink" title="Student.m是这样写的,都是很简单的"></a>Student.m是这样写的,都是很简单的</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">-(instancetype)initWithName:(NSString *)name</span><br><span class="line">                     gender:(NSString *)gender</span><br><span class="line">                      stuID:(int)stuID</span><br><span class="line">                        age:(int)age&#123;</span><br><span class="line">    </span><br><span class="line">    if (self = [super init]) &#123;</span><br><span class="line">        </span><br><span class="line">        _age = age;</span><br><span class="line">        </span><br><span class="line">        _name = name;</span><br><span class="line">        </span><br><span class="line">        _gender = gender;</span><br><span class="line">        </span><br><span class="line">        _Stu_ID = stuID;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return self;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">-(void)setValue:(id)value forUndefinedKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString *)description</span><br><span class="line">&#123;</span><br><span class="line">    return [NSString stringWithFormat:@&quot;%@&quot;, _name];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="模板做好了-下面我们就对SQLite-数据做一些调用了-在调动之前-先把一些常用的SQLite语句-也是SQLite数据库的增删改查功能"><a href="#模板做好了-下面我们就对SQLite-数据做一些调用了-在调动之前-先把一些常用的SQLite语句-也是SQLite数据库的增删改查功能" class="headerlink" title="模板做好了,下面我们就对SQLite 数据做一些调用了,在调动之前,先把一些常用的SQLite语句,也是SQLite数据库的增删改查功能"></a>模板做好了,下面我们就对SQLite 数据做一些调用了,在调动之前,先把一些常用的SQLite语句,也是SQLite数据库的增删改查功能</h4><p><br></p>
+<blockquote>
+<h3 id="注意-SQLite语句比较容易出错-所以我建议大家尽量全都复制黏贴-不要用手敲SQLite-语句"><a href="#注意-SQLite语句比较容易出错-所以我建议大家尽量全都复制黏贴-不要用手敲SQLite-语句" class="headerlink" title="注意 :SQLite语句比较容易出错,所以我建议大家尽量全都复制黏贴,不要用手敲SQLite 语句!!"></a>注意 :SQLite语句比较容易出错,所以我建议大家尽量全都复制黏贴,不要用手敲SQLite 语句!!</h3></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">//创建表</span><br><span class="line"></span><br><span class="line">CREATE TABLE &quot;Class43&quot; (&quot;Stu_ID&quot; INTEGER PRIMARY KEY NOT NULL UNIQUE, &quot;name&quot; TEXT NOT NULL, &quot;gender&quot; TEXT NOT NULL DEFAULT M, &quot;age&quot; INTEGER NOT NULL);</span><br><span class="line"></span><br><span class="line">//添加</span><br><span class="line"></span><br><span class="line">//方式1(字段和值一一对应(局部添加))</span><br><span class="line">INSERT INTO Class43(Stu_ID,name,gender,age) VALUES (2,&apos;栋哥&apos;,&apos;男&apos;,18)</span><br><span class="line"></span><br><span class="line">//方式2 (整体赋值)(插入数据的时候需要和表里面的顺序一样)</span><br><span class="line">INSERT INTO Class43 VALUES (3,&apos;栋哥&apos;,&apos;男&apos;,17)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//修改</span><br><span class="line"></span><br><span class="line">//方式1整体修改(没有指定指定关键字,则修改全部)</span><br><span class="line">UPDATE Class43 SET age = 18</span><br><span class="line"></span><br><span class="line">//方式2 局部修改</span><br><span class="line">UPDATE Class43 SET age = 18  WHERE  name =&apos;骚栋&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// 查询</span><br><span class="line"></span><br><span class="line">//方式1查询全部</span><br><span class="line">SELECT * FROM Class43 </span><br><span class="line"></span><br><span class="line">//方式2 局部查询</span><br><span class="line">SELECT * FROM Class43  WHERE name = &apos;栋哥&apos;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//删除</span><br><span class="line"></span><br><span class="line">//方式1 局部变量</span><br><span class="line">DELETE FROM Class43 WHERE Stu_ID = 3</span><br><span class="line"></span><br><span class="line">//方式2 全局变量</span><br><span class="line">DELETE FROM Class43 </span><br><span class="line"></span><br><span class="line">//删除表</span><br><span class="line">DROP TABLE Class43</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//查找</span><br><span class="line">select * from users order by id limit 1 offset 0</span><br><span class="line"></span><br><span class="line">offset代表从第几条记录“之后“开始查询，limit表明查询多少条结果</span><br></pre></td></tr></table></figure>
+<p></p>
+<h4 id="这里我们创建一个伪单例来存储我们的SQLite数据库"><a href="#这里我们创建一个伪单例来存储我们的SQLite数据库" class="headerlink" title="这里我们创建一个伪单例来存储我们的SQLite数据库."></a>这里我们创建一个伪单例来存储我们的SQLite数据库.</h4><h5 id="在DataBase-h文件我们做导入sqlite3库-创建单例的方法声明和增删改查的方法声明"><a href="#在DataBase-h文件我们做导入sqlite3库-创建单例的方法声明和增删改查的方法声明" class="headerlink" title="在DataBase.h文件我们做导入sqlite3库 , 创建单例的方法声明和增删改查的方法声明."></a>在DataBase.h文件我们做导入sqlite3库 , 创建单例的方法声明和增删改查的方法声明.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">#import &lt;sqlite3.h&gt;</span><br><span class="line"></span><br><span class="line">@class Student;</span><br><span class="line"></span><br><span class="line">@interface DataBase : NSObject</span><br><span class="line"></span><br><span class="line">//创建单例</span><br><span class="line">+(instancetype)shareDataBase;</span><br><span class="line"></span><br><span class="line">//打开数据库</span><br><span class="line">-(void)openDB;</span><br><span class="line"></span><br><span class="line">//关闭数据库</span><br><span class="line">-(void)closeDB;</span><br><span class="line"></span><br><span class="line">//添加</span><br><span class="line">-(void)insertStudent:(Student *)student;</span><br><span class="line"></span><br><span class="line">//删除</span><br><span class="line">-(void)deleteStudent:(int)studentID;</span><br><span class="line"></span><br><span class="line">//修改</span><br><span class="line">-(void)upDateStudentWithGender:(NSString *)gender andStuID:(int)stu_id;</span><br><span class="line"></span><br><span class="line">//查询全部</span><br><span class="line">-(NSArray &lt;Student *&gt; *)selectAllStudent;</span><br><span class="line"></span><br><span class="line">//查询单个学生</span><br><span class="line">-(Student *)selectStudent:(int)Stu_ID;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="在DataBase-h文件我们对创建单例的方法声明和增删改查的方法进行实现"><a href="#在DataBase-h文件我们对创建单例的方法声明和增删改查的方法进行实现" class="headerlink" title="在DataBase.h文件我们对创建单例的方法声明和增删改查的方法进行实现."></a>在DataBase.h文件我们对创建单例的方法声明和增删改查的方法进行实现.</h5><p><br></p>
+<h5 id="引入Model文件-实现单例初始化方法"><a href="#引入Model文件-实现单例初始化方法" class="headerlink" title="引入Model文件, 实现单例初始化方法."></a>引入Model文件, 实现单例初始化方法.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;DataBase.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Student.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation DataBase</span><br><span class="line"></span><br><span class="line">static DataBase *dataBase = nil;</span><br><span class="line"></span><br><span class="line">+(instancetype)shareDataBase&#123;</span><br><span class="line"></span><br><span class="line">    //加锁(多线程)</span><br><span class="line">    @synchronized(self) &#123;</span><br><span class="line">        </span><br><span class="line">        if (nil == dataBase) &#123;</span><br><span class="line">            </span><br><span class="line">            dataBase = [[DataBase alloc]init];</span><br><span class="line">            </span><br><span class="line">            //打开数据库</span><br><span class="line">            [dataBase openDB];</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return dataBase;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="现在先把SQL数据库定义在静态区"><a href="#现在先把SQL数据库定义在静态区" class="headerlink" title="现在先把SQL数据库定义在静态区."></a>现在先把SQL数据库定义在静态区.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static sqlite3 *db =nil;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="我们不管做增删改查什么操作-都要先打开数据库-然后再做对应的操作"><a href="#我们不管做增删改查什么操作-都要先打开数据库-然后再做对应的操作" class="headerlink" title="我们不管做增删改查什么操作,都要先打开数据库,然后再做对应的操作,"></a>我们不管做增删改查什么操作,都要先打开数据库,然后再做对应的操作,</h5><blockquote>
+<h5 id="打开数据库方法解释-如果数据库不为空-我们就不需要重新创建直接返回-当数据库为空的时候-我们想先找到沙盒对应的路径-然后创建数据库-最后在数据库中创建表格"><a href="#打开数据库方法解释-如果数据库不为空-我们就不需要重新创建直接返回-当数据库为空的时候-我们想先找到沙盒对应的路径-然后创建数据库-最后在数据库中创建表格" class="headerlink" title="打开数据库方法解释 :如果数据库不为空,我们就不需要重新创建直接返回,当数据库为空的时候,我们想先找到沙盒对应的路径,然后创建数据库,最后在数据库中创建表格."></a>打开数据库方法解释 :如果数据库不为空,我们就不需要重新创建直接返回,当数据库为空的时候,我们想先找到沙盒对应的路径,然后创建数据库,最后在数据库中创建表格.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">//打开数据库</span><br><span class="line">-(void)openDB&#123;</span><br><span class="line">    </span><br><span class="line">    //如果数据库已经打开,则不需要执行后面的操作</span><br><span class="line">    if (db != nil) &#123;</span><br><span class="line">        </span><br><span class="line">        return;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"></span><br><span class="line">    //创建保存数据库的路径</span><br><span class="line">    NSString *docmsPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];</span><br><span class="line">    </span><br><span class="line">    docmsPath = [docmsPath stringByAppendingString:@&quot;/LOClass.sqlite&quot;];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,docmsPath);</span><br><span class="line">    //打开数据库(如果该数据库存在,则直接打开,否则,会自动创建一个再打开)</span><br><span class="line">   int result =  sqlite3_open([docmsPath UTF8String], &amp;db);</span><br><span class="line"></span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;数据库成功打开&quot;);</span><br><span class="line">        </span><br><span class="line">        //建表</span><br><span class="line">        //1.准备SQL语句</span><br><span class="line">        NSString *sql = @&quot;CREATE TABLE Class43 (Stu_ID INTEGER PRIMARY KEY NOT NULL UNIQUE, name TEXT NOT NULL, gender TEXT NOT NULL DEFAULT M, age INTEGER NOT NULL);&quot;;</span><br><span class="line">        </span><br><span class="line">        //2.执行语句</span><br><span class="line">        sqlite3_exec(db, [sql UTF8String], nil, nil, nil);</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;%d&quot;,result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="当我们操作完对应的操作后我们需要关闭数据库-代码如下"><a href="#当我们操作完对应的操作后我们需要关闭数据库-代码如下" class="headerlink" title="当我们操作完对应的操作后我们需要关闭数据库,代码如下"></a>当我们操作完对应的操作后我们需要关闭数据库,代码如下</h5><blockquote>
+<h5 id="关闭数据库方法解释-关闭数据库的时候-我们需要调用sqlite3-close-方法-然后把我们的数据库置为nil-这样数据库就完全关闭了"><a href="#关闭数据库方法解释-关闭数据库的时候-我们需要调用sqlite3-close-方法-然后把我们的数据库置为nil-这样数据库就完全关闭了" class="headerlink" title="关闭数据库方法解释 : 关闭数据库的时候,我们需要调用sqlite3_close()方法,然后把我们的数据库置为nil,这样数据库就完全关闭了."></a>关闭数据库方法解释 : 关闭数据库的时候,我们需要调用sqlite3_close()方法,然后把我们的数据库置为nil,这样数据库就完全关闭了.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//关闭数据库</span><br><span class="line">-(void)closeDB&#123;</span><br><span class="line"></span><br><span class="line">    int result = sqlite3_close(db);</span><br><span class="line">    </span><br><span class="line">    //关闭数据库的时候,将db置为空,是因为打开数据库的时候,我们需要使用nil做判断.</span><br><span class="line">    db = nil;</span><br><span class="line">    </span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;数据库关闭成功!&quot;);</span><br><span class="line">               </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;数据库关闭失败:%d&quot;,result);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="SQL数据库增加功能"><a href="#SQL数据库增加功能" class="headerlink" title="SQL数据库增加功能"></a>SQL数据库增加功能</h5><blockquote>
+<h5 id="增添方法的解释-首先我们需要打开数据库-然后创建跟随指针-跟随指针的作用可以理解为绑定一个完整Model数据到要执行的SQLite语句上-然后再对这个Model进行操作-然后创建SQLite语句并运行-当我们的SQLi特语句执行成功的时候-这时候跟随指针就绑定Model-然后单步执行-最后要释放到跟随指针"><a href="#增添方法的解释-首先我们需要打开数据库-然后创建跟随指针-跟随指针的作用可以理解为绑定一个完整Model数据到要执行的SQLite语句上-然后再对这个Model进行操作-然后创建SQLite语句并运行-当我们的SQLi特语句执行成功的时候-这时候跟随指针就绑定Model-然后单步执行-最后要释放到跟随指针" class="headerlink" title="增添方法的解释: 首先我们需要打开数据库,然后创建跟随指针,跟随指针的作用可以理解为绑定一个完整Model数据到要执行的SQLite语句上,然后再对这个Model进行操作.然后创建SQLite语句并运行,当我们的SQLi特语句执行成功的时候,这时候跟随指针就绑定Model ,然后单步执行.最后要释放到跟随指针."></a>增添方法的解释: 首先我们需要打开数据库,然后创建跟随指针,跟随指针的作用可以理解为绑定一个完整Model数据到要执行的SQLite语句上,然后再对这个Model进行操作.然后创建SQLite语句并运行,当我们的SQLi特语句执行成功的时候,这时候跟随指针就绑定Model ,然后单步执行.最后要释放到跟随指针.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line">/添加</span><br><span class="line">-(void)insertStudent:(Student *)student&#123;</span><br><span class="line"></span><br><span class="line">    //1.打开数据库</span><br><span class="line">    [self openDB];</span><br><span class="line">    </span><br><span class="line">    //2.创建跟随指针</span><br><span class="line">    sqlite3_stmt *stmt = nil;</span><br><span class="line">    </span><br><span class="line">    //3.准备sql语句</span><br><span class="line">    NSString *sql =@&quot;INSERT INTO Class43(Stu_ID,name,gender,age) VALUES (?,?,?,?)&quot;;</span><br><span class="line">    </span><br><span class="line">    //4.验证sql语句的正确性</span><br><span class="line">    int result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &amp;stmt, nil);</span><br><span class="line">    </span><br><span class="line">    //5.判断 并且绑定</span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;数据库添加成功&quot;);</span><br><span class="line">        </span><br><span class="line">        //一旦sql语句没有问题就开始绑定数据,替换问号</span><br><span class="line">        //参数:(1)跟随指针 (2)问号的顺序呢(从1开始) (3)要绑定的值</span><br><span class="line">        sqlite3_bind_int(stmt, 1, student.Stu_ID);</span><br><span class="line">        </span><br><span class="line">        sqlite3_bind_text(stmt, 2, [student.name UTF8String], -1, nil);</span><br><span class="line">        </span><br><span class="line">        sqlite3_bind_text(stmt, 3, [student.gender UTF8String], -1, nil);</span><br><span class="line">        </span><br><span class="line">        sqlite3_bind_int(stmt, 4, student.age);</span><br><span class="line">        </span><br><span class="line">        //6.单步执行</span><br><span class="line">        sqlite3_step(stmt);</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;数据库添加失败:%d&quot;,result);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    //释放跟随指针占用的内存</span><br><span class="line">    sqlite3_finalize(stmt);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="SQL数据库删除功能"><a href="#SQL数据库删除功能" class="headerlink" title="SQL数据库删除功能"></a>SQL数据库删除功能</h5><blockquote>
+<h5 id="删除方法的解释-首先我们需要打开数据库-然后创建跟随指针-然后创建删除的SQL语句并执行-当执行成功之后-我们就会让跟随指针绑定我们的删除条件-然后单步执行-执行完成之后-我们需要手动释放跟随指针"><a href="#删除方法的解释-首先我们需要打开数据库-然后创建跟随指针-然后创建删除的SQL语句并执行-当执行成功之后-我们就会让跟随指针绑定我们的删除条件-然后单步执行-执行完成之后-我们需要手动释放跟随指针" class="headerlink" title="删除方法的解释: 首先我们需要打开数据库,然后创建跟随指针,然后创建删除的SQL语句并执行,当执行成功之后,我们就会让跟随指针绑定我们的删除条件,然后单步执行. 执行完成之后,我们需要手动释放跟随指针."></a>删除方法的解释: 首先我们需要打开数据库,然后创建跟随指针,然后创建删除的SQL语句并执行,当执行成功之后,我们就会让跟随指针绑定我们的删除条件,然后单步执行. 执行完成之后,我们需要手动释放跟随指针.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">//删除</span><br><span class="line">-(void)deleteStudent:(int)studentID&#123;</span><br><span class="line"></span><br><span class="line">    [self openDB];</span><br><span class="line">    </span><br><span class="line">    //创建跟随指针</span><br><span class="line">    sqlite3_stmt *stmt = nil;</span><br><span class="line">    </span><br><span class="line">    //准备sql语句</span><br><span class="line">    NSString *sql = @&quot;DELETE FROM Class43 WHERE Stu_ID = ?&quot;;</span><br><span class="line">    </span><br><span class="line">    //验证正确与否</span><br><span class="line">    int result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &amp;stmt, nil);</span><br><span class="line">    </span><br><span class="line">    //开始删除</span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        //开始绑定</span><br><span class="line">        sqlite3_bind_int(stmt, 1, studentID);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        //单步执行</span><br><span class="line">        sqlite3_step(stmt);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;删除成功&quot;);</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;删除失败&quot;);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //释放</span><br><span class="line">    sqlite3_finalize(stmt);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="SQL数据库修改功能"><a href="#SQL数据库修改功能" class="headerlink" title="SQL数据库修改功能"></a>SQL数据库修改功能</h5><blockquote>
+<h5 id="修改方法的解释-首先我们需要打开数据库-然后再创建跟随指针-创建跟随指针完成之后-我们需要创建我们的SQL语句并执行-如果执行成功-我们就让我们的跟随指针绑定我们的筛选条件-然后单步执行-最后释放我们的跟随指针"><a href="#修改方法的解释-首先我们需要打开数据库-然后再创建跟随指针-创建跟随指针完成之后-我们需要创建我们的SQL语句并执行-如果执行成功-我们就让我们的跟随指针绑定我们的筛选条件-然后单步执行-最后释放我们的跟随指针" class="headerlink" title="修改方法的解释: 首先我们需要打开数据库,然后再创建跟随指针,创建跟随指针完成之后,我们需要创建我们的SQL语句并执行,如果执行成功,我们就让我们的跟随指针绑定我们的筛选条件,然后单步执行,最后释放我们的跟随指针."></a>修改方法的解释: 首先我们需要打开数据库,然后再创建跟随指针,创建跟随指针完成之后,我们需要创建我们的SQL语句并执行,如果执行成功,我们就让我们的跟随指针绑定我们的筛选条件,然后单步执行,最后释放我们的跟随指针.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//修改</span><br><span class="line">-(void)upDateStudentWithGender:(NSString *)gender andStuID:(int)stu_id&#123;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    [self openDB];</span><br><span class="line">    </span><br><span class="line">    sqlite3_stmt *stmt = nil;</span><br><span class="line">    </span><br><span class="line">    NSString *sql = @&quot;UPDATE Class43 SET gender = ?  WHERE  Stu_ID = ?&quot;;</span><br><span class="line">    </span><br><span class="line">    int result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &amp;stmt, nil);</span><br><span class="line">    </span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;修改成功&quot;);</span><br><span class="line">        </span><br><span class="line">        sqlite3_bind_int(stmt, 2, stu_id);</span><br><span class="line">        </span><br><span class="line">        sqlite3_bind_text(stmt, 1, [gender UTF8String], -1, nil);</span><br><span class="line">        </span><br><span class="line">        sqlite3_step(stmt);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;修改失败&quot;);</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //释放</span><br><span class="line">    sqlite3_finalize(stmt);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="SQL数据库查询整个表格功能"><a href="#SQL数据库查询整个表格功能" class="headerlink" title="SQL数据库查询整个表格功能"></a>SQL数据库查询整个表格功能</h5><blockquote>
+<h5 id="查询全部方法的解释-首先打开我们的数据库-创建跟随指针-创建完成之后-我们就创建我们的SQL语句并执行-如果执行成功的话-我们就使用while循环反复执行我们的语句-根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针-然后把查询到的数据存到数组中-最后不管是否查询成功-都要释放我们的跟随指针"><a href="#查询全部方法的解释-首先打开我们的数据库-创建跟随指针-创建完成之后-我们就创建我们的SQL语句并执行-如果执行成功的话-我们就使用while循环反复执行我们的语句-根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针-然后把查询到的数据存到数组中-最后不管是否查询成功-都要释放我们的跟随指针" class="headerlink" title="查询全部方法的解释:首先打开我们的数据库,创建跟随指针,创建完成之后,我们就创建我们的SQL语句并执行.如果执行成功的话,我们就使用while循环反复执行我们的语句,根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针,然后把查询到的数据存到数组中,最后不管是否查询成功,都要释放我们的跟随指针."></a>查询全部方法的解释:首先打开我们的数据库,创建跟随指针,创建完成之后,我们就创建我们的SQL语句并执行.如果执行成功的话,我们就使用while循环反复执行我们的语句,根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针,然后把查询到的数据存到数组中,最后不管是否查询成功,都要释放我们的跟随指针.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">-(NSArray&lt;Student *&gt; *)selectAllStudent&#123;</span><br><span class="line"></span><br><span class="line">    [self openDB];</span><br><span class="line">    </span><br><span class="line">    sqlite3_stmt *stmt = nil;</span><br><span class="line">    </span><br><span class="line">    NSString *sql = @&quot;SELECT * FROM Class43&quot;;</span><br><span class="line">    </span><br><span class="line">    int result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &amp;stmt, nil);</span><br><span class="line">    </span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;查询成功!&quot;);</span><br><span class="line">        </span><br><span class="line">        //创建可变数组用来存放查询到的学生</span><br><span class="line">        NSMutableArray *array = [NSMutableArray array];</span><br><span class="line">        </span><br><span class="line">        while (sqlite3_step(stmt) == SQLITE_ROW) &#123;</span><br><span class="line">            </span><br><span class="line">            //根据sql语句将搜索到的符合条件的值取出来(0 代表数据库表的第一列);</span><br><span class="line">            int stu_id = sqlite3_column_int(stmt, 0);</span><br><span class="line">            </span><br><span class="line">            NSString *name =[NSString stringWithUTF8String: (const char *)sqlite3_column_text(stmt, 1)];</span><br><span class="line">            </span><br><span class="line">            NSString *gender = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 2)];</span><br><span class="line">            </span><br><span class="line">            int age = sqlite3_column_int(stmt, 3);</span><br><span class="line">            </span><br><span class="line">            //将取出来的信息赋值给学生的model</span><br><span class="line">            Student *student = [[Student alloc]initWithName:name gender:gender stuID:stu_id age:age];</span><br><span class="line">            </span><br><span class="line">            [array addObject:student];</span><br><span class="line">            </span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        sqlite3_finalize(stmt);</span><br><span class="line">        </span><br><span class="line">        return array;</span><br><span class="line">        </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;查询失败!&quot;);</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">        sqlite3_finalize(stmt);</span><br><span class="line">        </span><br><span class="line">        return nil;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="SQL数据库查询单个表格功能"><a href="#SQL数据库查询单个表格功能" class="headerlink" title="SQL数据库查询单个表格功能"></a>SQL数据库查询单个表格功能</h5><blockquote>
+<h5 id="查询单个方法的解释-首先打开我们的数据库-创建跟随指针-创建完成之后-我们就创建我们的SQL语句并执行-如果执行成功的话-我们就使用while循环反复执行我们的语句-根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针-然后把查询到的数据存到对应Model中-最后不管是否查询成功-都要释放我们的跟随指针"><a href="#查询单个方法的解释-首先打开我们的数据库-创建跟随指针-创建完成之后-我们就创建我们的SQL语句并执行-如果执行成功的话-我们就使用while循环反复执行我们的语句-根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针-然后把查询到的数据存到对应Model中-最后不管是否查询成功-都要释放我们的跟随指针" class="headerlink" title="查询单个方法的解释:首先打开我们的数据库,创建跟随指针,创建完成之后,我们就创建我们的SQL语句并执行.如果执行成功的话,我们就使用while循环反复执行我们的语句,根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针,然后把查询到的数据存到对应Model中,最后不管是否查询成功,都要释放我们的跟随指针."></a>查询单个方法的解释:首先打开我们的数据库,创建跟随指针,创建完成之后,我们就创建我们的SQL语句并执行.如果执行成功的话,我们就使用while循环反复执行我们的语句,根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针,然后把查询到的数据存到对应Model中,最后不管是否查询成功,都要释放我们的跟随指针.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">//查询单个学生</span><br><span class="line">-(Student *)selectStudent:(int)Stu_ID&#123;</span><br><span class="line"></span><br><span class="line">    //打开数据库</span><br><span class="line">    [self openDB];</span><br><span class="line">    </span><br><span class="line">    //创建跟随指针</span><br><span class="line">    sqlite3_stmt *stmt = nil;</span><br><span class="line">    </span><br><span class="line">    //准备sql语句</span><br><span class="line">    NSString *sql = @&quot;SELECT * FROM Class43  WHERE Stu_ID = ?&quot;;</span><br><span class="line">    </span><br><span class="line">    //验证</span><br><span class="line">    int  result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &amp;stmt, nil);</span><br><span class="line">    </span><br><span class="line">    if (result == SQLITE_OK) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;查询成功!&quot;);</span><br><span class="line">        </span><br><span class="line">        //绑定</span><br><span class="line">        sqlite3_bind_int(stmt, 1, Stu_ID);</span><br><span class="line">        </span><br><span class="line">        Student *stu =[Student new];</span><br><span class="line">        </span><br><span class="line">        //执行</span><br><span class="line">        while (sqlite3_step(stmt) == SQLITE_ROW) &#123;</span><br><span class="line">            </span><br><span class="line">            stu.Stu_ID = sqlite3_column_int(stmt, 0);</span><br><span class="line">            </span><br><span class="line">            stu.name = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 1)];</span><br><span class="line">            </span><br><span class="line">            stu.gender = [NSString stringWithUTF8String:(const char *)sqlite3_column_text(stmt, 2)];</span><br><span class="line">            </span><br><span class="line">            stu.age = sqlite3_column_int(stmt, 3);</span><br><span class="line">                </span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        sqlite3_finalize(stmt);</span><br><span class="line">        </span><br><span class="line">        return stu;</span><br><span class="line">          </span><br><span class="line">    &#125;else&#123;</span><br><span class="line">    </span><br><span class="line">        NSLog(@&quot;查询失败:%d&quot;,result);</span><br><span class="line">        </span><br><span class="line">        sqlite3_finalize(stmt);</span><br><span class="line">        </span><br><span class="line">        return nil;</span><br><span class="line">    </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="CoreData数据库"><a href="#CoreData数据库" class="headerlink" title="CoreData数据库"></a>CoreData数据库</h2><hr>
+<h4 id="相比于SQLite数据库-CoreData数据库就先相对的简单了许多-CoreData的实现原理你可以想象是github的文件管理一样-你本地是内存-github的服务器是沙盒-你在内存操作完之后就手动传到沙盒中进行本地化保存-其实-CoreData数据库是对SQLite数据库的封装-而且CoreData支持可视化建模-更是大大减少了我们的代码量-现在我们就看一下CoreData的实现步骤以及增删改查功能"><a href="#相比于SQLite数据库-CoreData数据库就先相对的简单了许多-CoreData的实现原理你可以想象是github的文件管理一样-你本地是内存-github的服务器是沙盒-你在内存操作完之后就手动传到沙盒中进行本地化保存-其实-CoreData数据库是对SQLite数据库的封装-而且CoreData支持可视化建模-更是大大减少了我们的代码量-现在我们就看一下CoreData的实现步骤以及增删改查功能" class="headerlink" title="相比于SQLite数据库, CoreData数据库就先相对的简单了许多,CoreData的实现原理你可以想象是github的文件管理一样.你本地是内存,github的服务器是沙盒,你在内存操作完之后就手动传到沙盒中进行本地化保存.其实 CoreData数据库是对SQLite数据库的封装.而且CoreData支持可视化建模.更是大大减少了我们的代码量,现在我们就看一下CoreData的实现步骤以及增删改查功能."></a>相比于SQLite数据库, CoreData数据库就先相对的简单了许多,CoreData的实现原理你可以想象是github的文件管理一样.你本地是内存,github的服务器是沙盒,你在内存操作完之后就手动传到沙盒中进行本地化保存.其实 CoreData数据库是对SQLite数据库的封装.而且CoreData支持可视化建模.更是大大减少了我们的代码量,现在我们就看一下CoreData的实现步骤以及增删改查功能.</h4><p><br></p>
+<h5 id="创建工程的时候-我们需要手动添加数据库"><a href="#创建工程的时候-我们需要手动添加数据库" class="headerlink" title="创建工程的时候,我们需要手动添加数据库"></a>创建工程的时候,我们需要手动添加数据库</h5><p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f1t9k67ym4j20ka0eeaan.jpg" alt="“神经骚栋”/"></p>
+<h5 id="这时候-Xcode会自动帮助我们在AppDelegate里面生成几个额外的属性-属性的解释如下"><a href="#这时候-Xcode会自动帮助我们在AppDelegate里面生成几个额外的属性-属性的解释如下" class="headerlink" title="这时候,Xcode会自动帮助我们在AppDelegate里面生成几个额外的属性.属性的解释如下"></a>这时候,Xcode会自动帮助我们在AppDelegate里面生成几个额外的属性.属性的解释如下</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//被管理对象上下文,相当于一个临时数据库,我们存储或者查询都是通过这个对象来进行的.</span><br><span class="line">@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;</span><br><span class="line"></span><br><span class="line">//被管理对象模型,可以简单的理解为可视化建模文件.我们在可视化建模中是Entity,自动生成Model,就是这个对象.方便让文件存储助理进行管理.</span><br><span class="line">@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;</span><br><span class="line"></span><br><span class="line">//文件存储助理,他是CoreData的核心.他负责连接所有的模块,包括真实的存储文件.</span><br><span class="line">@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;</span><br><span class="line"></span><br><span class="line">//将我们在内存中的操作进行持久化.</span><br><span class="line">- (void)saveContext;</span><br><span class="line">//获取真实文件的路径.</span><br><span class="line">- (NSURL *)applicationDocumentsDirectory;</span><br></pre></td></tr></table></figure>
+<h5 id="这里我对上面的Core做了一些简单的总结"><a href="#这里我对上面的Core做了一些简单的总结" class="headerlink" title="这里我对上面的Core做了一些简单的总结"></a>这里我对上面的Core做了一些简单的总结</h5><pre><code>/*
+ 1.CoreData 是苹果公司封装的数据持久化框架.在iOS3.0中开始开放.
+ 2.它允许用户按照实体-属性-值模型组织数据,并以二进制,XML,或者sqlite数据文件的格式进行持久化.
+
+ CoreData的优势
+ 1.他是苹果公司原生态的产品.
+ 2.他可以节省代码量,大概是30%~70%.
+ 3.它支持可视化建模.
+ 4.CoreData 支持数据库版本升级.
+
+ 可以通过Editor下的菜单进行生成模型,将Entity生成Model.
+ 在其过程中有一个选项,勾选,生成的是标量,不勾选,生成的是通量.
+
+ */
+</code></pre><h5 id="相对于SQLite中的代码建模-CoreData更加简洁"><a href="#相对于SQLite中的代码建模-CoreData更加简洁" class="headerlink" title="相对于SQLite中的代码建模,CoreData更加简洁."></a>相对于SQLite中的代码建模,CoreData更加简洁.</h5><p><br></p>
+<h5 id="如图添加一个Model"><a href="#如图添加一个Model" class="headerlink" title="如图添加一个Model"></a>如图添加一个Model</h5><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1t9koj3uqj20yg0k8q4a.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h5 id="点击-Create-生成一个Model"><a href="#点击-Create-生成一个Model" class="headerlink" title="点击 Create  生成一个Model"></a>点击 Create  生成一个Model</h5><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1t9l8fv4lj20k10amwgm.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h5 id="选择生成的路径和生成的Model-最后我们需要做标量和通量的选择"><a href="#选择生成的路径和生成的Model-最后我们需要做标量和通量的选择" class="headerlink" title="选择生成的路径和生成的Model ,最后我们需要做标量和通量的选择."></a>选择生成的路径和生成的Model ,最后我们需要做标量和通量的选择.</h5><p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1t9ltkhuyj20jr079t8y.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="在说”增删改查”之前-我要说一个代码块-这个代码块的输入代码是-fetch-Core-Data-Fetch-代码块如下-这就是我们要从沙盒中搬到内存的数据-当然了-我们需要做一些谓词筛选等-下面的增删改查中会用到-查询到的结果就在fetchedObjects这个数组中存储着"><a href="#在说”增删改查”之前-我要说一个代码块-这个代码块的输入代码是-fetch-Core-Data-Fetch-代码块如下-这就是我们要从沙盒中搬到内存的数据-当然了-我们需要做一些谓词筛选等-下面的增删改查中会用到-查询到的结果就在fetchedObjects这个数组中存储着" class="headerlink" title="在说”增删改查”之前,我要说一个代码块 ,这个代码块的输入代码是  fetch - Core Data Fetch 代码块如下,这就是我们要从沙盒中搬到内存的数据,当然了,我们需要做一些谓词筛选等,下面的增删改查中会用到.查询到的结果就在fetchedObjects这个数组中存储着."></a>在说”增删改查”之前,我要说一个代码块 ,这个代码块的输入代码是 <strong><em> fetch - Core Data Fetch</em></strong> 代码块如下,这就是我们要从沙盒中搬到内存的数据,当然了,我们需要做一些谓词筛选等,下面的增删改查中会用到.查询到的结果就在fetchedObjects这个数组中存储着.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];</span><br><span class="line">   NSEntityDescription *entity = [NSEntityDescription entityForName:@&quot;&lt;#Entity name#&gt;&quot; inManagedObjectContext:&lt;#context#&gt;];</span><br><span class="line">   [fetchRequest setEntity:entity];</span><br><span class="line">   // Specify criteria for filtering which objects to fetch</span><br><span class="line">   NSPredicate *predicate = [NSPredicate predicateWithFormat:@&quot;&lt;#format string#&gt;&quot;, &lt;#arguments#&gt;];</span><br><span class="line">   [fetchRequest setPredicate:predicate];</span><br><span class="line">   // Specify how the fetched objects should be sorted</span><br><span class="line">   NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@&quot;&lt;#key#&gt;&quot;</span><br><span class="line">                                                                  ascending:YES];</span><br><span class="line">   [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];</span><br><span class="line">   </span><br><span class="line">   NSError *error = nil;</span><br><span class="line">   NSArray *fetchedObjects = [&lt;#context#&gt; executeFetchRequest:fetchRequest error:&amp;error];</span><br><span class="line">   if (fetchedObjects == nil) &#123;</span><br><span class="line">       &lt;#Error handling code#&gt;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="我是在ViewController做一些”增删改查”的操作-首先我们需要声明两个属性-一个是联系上下文的对象是一个用于保存数据的数组-首先-我们会在ViewDidLoad进行初始化一下"><a href="#我是在ViewController做一些”增删改查”的操作-首先我们需要声明两个属性-一个是联系上下文的对象是一个用于保存数据的数组-首先-我们会在ViewDidLoad进行初始化一下" class="headerlink" title="我是在ViewController做一些”增删改查”的操作,首先我们需要声明两个属性,一个是联系上下文的对象是一个用于保存数据的数组,首先,我们会在ViewDidLoad进行初始化一下."></a>我是在ViewController做一些”增删改查”的操作,首先我们需要声明两个属性,一个是联系上下文的对象是一个用于保存数据的数组,首先,我们会在ViewDidLoad进行初始化一下.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;AppDelegate.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Student.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">//创建一个上下文对象,用于处理所有与存储相关的请求.</span><br><span class="line">@property(nonatomic,strong)NSManagedObjectContext *myContext;</span><br><span class="line"></span><br><span class="line">//创建一个数组,用于存储数组的数据源.</span><br><span class="line">@property(nonatomic,strong)NSMutableArray *allData;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    //进行数据初始化</span><br><span class="line">    self.allData = [ NSMutableArray array];</span><br><span class="line">    </span><br><span class="line">    AppDelegate *dele = [UIApplication sharedApplication].delegate;</span><br><span class="line">    </span><br><span class="line">    self.myContext = dele.managedObjectContext;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="CoreData数据库增添功能"><a href="#CoreData数据库增添功能" class="headerlink" title="CoreData数据库增添功能"></a>CoreData数据库增添功能</h4><blockquote>
+<h5 id="数据库增添功能方法解释-首先我们需要创建一个实体描述对象然后存到联系上下文对象中-给这个实体描述对象进行赋值-再由NSManagedObjectContext对象进行本地化存储"><a href="#数据库增添功能方法解释-首先我们需要创建一个实体描述对象然后存到联系上下文对象中-给这个实体描述对象进行赋值-再由NSManagedObjectContext对象进行本地化存储" class="headerlink" title="数据库增添功能方法解释: 首先我们需要创建一个实体描述对象然后存到联系上下文对象中,给这个实体描述对象进行赋值. 再由NSManagedObjectContext对象进行本地化存储."></a>数据库增添功能方法解释: 首先我们需要创建一个实体描述对象然后存到联系上下文对象中,给这个实体描述对象进行赋值. 再由NSManagedObjectContext对象进行本地化存储.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">-(void)addObject&#123;</span><br><span class="line"></span><br><span class="line">    //1.创建Student对象</span><br><span class="line">    </span><br><span class="line">    //创建一个实体描述对象</span><br><span class="line">    NSEntityDescription *description = [NSEntityDescription entityForName:@&quot;Student&quot; inManagedObjectContext:self.myContext];</span><br><span class="line">    </span><br><span class="line">    Student *stu = [[Student alloc]initWithEntity:description insertIntoManagedObjectContext:self.myContext];</span><br><span class="line">    //给属性赋值</span><br><span class="line">    </span><br><span class="line">    stu.name = @&quot;张三&quot;;</span><br><span class="line">    </span><br><span class="line">    stu.age = arc4random()%73+1;</span><br><span class="line">    </span><br><span class="line">    [self.allData addObject:stu];</span><br><span class="line">    </span><br><span class="line">    //本地化保存</span><br><span class="line">    AppDelegate *dele = [UIApplication sharedApplication].delegate;</span><br><span class="line">    </span><br><span class="line">    [dele saveContext];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="CoreData数据库删除功能"><a href="#CoreData数据库删除功能" class="headerlink" title="CoreData数据库删除功能"></a>CoreData数据库删除功能</h4><blockquote>
+<h5 id="数据库删除功能方法解释-删除只需要我们把本地的myContext对象中的实体化对象删除掉-然后再保存就行"><a href="#数据库删除功能方法解释-删除只需要我们把本地的myContext对象中的实体化对象删除掉-然后再保存就行" class="headerlink" title="数据库删除功能方法解释: 删除只需要我们把本地的myContext对象中的实体化对象删除掉,然后再保存就行."></a>数据库删除功能方法解释: 删除只需要我们把本地的myContext对象中的实体化对象删除掉,然后再保存就行.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">-(void)deleteObject&#123;</span><br><span class="line"></span><br><span class="line">    //获取当前代表的数据</span><br><span class="line">    Student *stu = self.allData[1];</span><br><span class="line">    </span><br><span class="line">    //将临时数据库进行删除并进行本地持久化</span><br><span class="line">    [self.myContext  deleteObject:stu];</span><br><span class="line">    </span><br><span class="line">    [self.myContext save:nil];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="CoreData数据库修改功能"><a href="#CoreData数据库修改功能" class="headerlink" title="CoreData数据库修改功能"></a>CoreData数据库修改功能</h4><blockquote>
+<h5 id="数据库修改功能方法解释-首先我们需要把沙盒中的数据表格更新到我们的内存对象myContext中去-然后修改实例化对象的值-然后保存到数组-中-最后在进行数据持久化操作"><a href="#数据库修改功能方法解释-首先我们需要把沙盒中的数据表格更新到我们的内存对象myContext中去-然后修改实例化对象的值-然后保存到数组-中-最后在进行数据持久化操作" class="headerlink" title="数据库修改功能方法解释: 首先我们需要把沙盒中的数据表格更新到我们的内存对象myContext中去,然后修改实例化对象的值,然后保存到数组,中,最后在进行数据持久化操作."></a>数据库修改功能方法解释: 首先我们需要把沙盒中的数据表格更新到我们的内存对象myContext中去,然后修改实例化对象的值,然后保存到数组,中,最后在进行数据持久化操作.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"> -(void)upDataObject&#123;</span><br><span class="line"></span><br><span class="line">    //先查询</span><br><span class="line">    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];</span><br><span class="line">    NSEntityDescription *entity = [NSEntityDescription entityForName:@&quot;Student&quot; inManagedObjectContext:self.myContext];</span><br><span class="line">    [fetchRequest setEntity:entity];</span><br><span class="line">    // Specify criteria for filtering which objects to fetch</span><br><span class="line">    </span><br><span class="line">    //  how the fetched objects should be sorted</span><br><span class="line">    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@&quot;age&quot;</span><br><span class="line">                                                                   ascending:YES];</span><br><span class="line">    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];</span><br><span class="line">    </span><br><span class="line">    NSError *error = nil;</span><br><span class="line">    NSArray *fetchedObjects = [self.myContext executeFetchRequest:fetchRequest error:&amp;error];</span><br><span class="line">    if (fetchedObjects == nil) &#123;</span><br><span class="line">        </span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    //修改对对应的数据</span><br><span class="line">    Student *stu  = self.allData[1];</span><br><span class="line">    stu.name = @&quot;尼古拉斯-赵四&quot;;</span><br><span class="line">    //更新数据源</span><br><span class="line">    [self.allData removeAllObjects];</span><br><span class="line">    [self.allData addObjectsFromArray:fetchedObjects];</span><br><span class="line">    </span><br><span class="line">    //将修改本地持久化</span><br><span class="line">    [self.myContext save:nil];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h4 id="CoreData数据库查询功能"><a href="#CoreData数据库查询功能" class="headerlink" title="CoreData数据库查询功能"></a>CoreData数据库查询功能</h4><blockquote>
+<h5 id="数据库查询功能方法解释-这里只做整体的查询-当我们需要查询某个数据的时候-我们就要先从山河中下载到内存中-然后保存到我们的数组中-在对数组进行遍历操作-查询我们的对象"><a href="#数据库查询功能方法解释-这里只做整体的查询-当我们需要查询某个数据的时候-我们就要先从山河中下载到内存中-然后保存到我们的数组中-在对数组进行遍历操作-查询我们的对象" class="headerlink" title="数据库查询功能方法解释: 这里只做整体的查询,当我们需要查询某个数据的时候,我们就要先从山河中下载到内存中,然后保存到我们的数组中.在对数组进行遍历操作,查询我们的对象."></a>数据库查询功能方法解释: 这里只做整体的查询,当我们需要查询某个数据的时候,我们就要先从山河中下载到内存中,然后保存到我们的数组中.在对数组进行遍历操作,查询我们的对象.</h5></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">-(void)selectAllData&#123;</span><br><span class="line"></span><br><span class="line">    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];</span><br><span class="line">    NSEntityDescription *entity = [NSEntityDescription entityForName:@&quot;Student&quot; inManagedObjectContext:self.myContext];</span><br><span class="line">    [fetchRequest setEntity:entity];</span><br><span class="line">    // Specify criteria for filtering which objects to fetch</span><br><span class="line">    </span><br><span class="line">    // Specify how the fetched objects should be sorted</span><br><span class="line">    //排序条件</span><br><span class="line">    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@&quot;age&quot;</span><br><span class="line">                                                                   ascending:YES];</span><br><span class="line">    [fetchRequest setSortDescriptors:[NSArray arrayWithObjects:sortDescriptor, nil]];</span><br><span class="line">    </span><br><span class="line">    NSError *error = nil;</span><br><span class="line">    NSArray *fetchedObjects = [self.myContext executeFetchRequest:fetchRequest error:&amp;error];</span><br><span class="line">    if (fetchedObjects == nil) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;两手空空,你让我拿什么飞天?&quot;);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    //将查询到的数据添加到数据源</span><br><span class="line">    [self.allData addObjectsFromArray:fetchedObjects];</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<p><br></p>
+<h5 id="作为”增删改查”这四个操作-是我们程序员对数据最基本的操作-希望大家能够喜欢这篇-如果喜欢就点个赞呗-😃"><a href="#作为”增删改查”这四个操作-是我们程序员对数据最基本的操作-希望大家能够喜欢这篇-如果喜欢就点个赞呗-😃" class="headerlink" title="作为”增删改查”这四个操作,是我们程序员对数据最基本的操作,希望大家能够喜欢这篇,如果喜欢就点个赞呗 😃"></a>作为”增删改查”这四个操作,是我们程序员对数据最基本的操作,希望大家能够喜欢这篇,如果喜欢就点个赞呗 😃</h5>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/09/09/iOS中TableViewController的cell重用出错-内容错乱/" rel="next" title="iOS中TableViewController的cell重用出错(内容错乱)">
+                <i class="fa fa-chevron-left"></i> iOS中TableViewController的cell重用出错(内容错乱)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/25/华山论剑之iOS的淫思巧计/" rel="prev" title="华山论剑之iOS的淫思巧计">
+                华山论剑之iOS的淫思巧计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#我们的生活态度就应该是-“不抱怨”"><span class="nav-number">1.</span> <span class="nav-text">我们的生活态度就应该是 “不抱怨” !</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#其实我想写这篇文章很久了-因为自己做的iOS开发-对数据这一块有这极高的要求-所以一些必须的存储数据的使用-我们都有必要熟悉用法-在以前我的简书中我也是写过数据持久化-但是我觉得那一篇是不够完整的-所有我把”增删改查”这个话题单独拿出来说一下-今天主要说4个方面的增删改查-分别是数组-字典-SQLite数据库-CoreData数据"><span class="nav-number"></span> <span class="nav-text">其实我想写这篇文章很久了,因为自己做的iOS开发 ,对数据这一块有这极高的要求.所以一些必须的存储数据的使用,我们都有必要熟悉用法.在以前我的简书中我也是写过数据持久化,但是我觉得那一篇是不够完整的,所有我把”增删改查”这个话题单独拿出来说一下. 今天主要说4个方面的增删改查,分别是数组,字典,SQLite数据库,CoreData数据.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组"><span class="nav-number"></span> <span class="nav-text">数组</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先说一下数组的增删改查-数组结构是我们做开发中经常使用的一种结构-然后看一下数组的”增删改查”是如何进行的吧-当然了-我们要事项说明一点-就是数组分为可变数组-和不可变数组-不可变数组是没有增删改查的-所有我们只会对可变数组的增删改查进行研究-当然了-字典也是一样的"><span class="nav-number"></span> <span class="nav-text">首先说一下数组的增删改查.数组结构是我们做开发中经常使用的一种结构.然后看一下数组的”增删改查”是如何进行的吧.当然了,我们要事项说明一点,就是数组分为可变数组,和不可变数组.不可变数组是没有增删改查的,所有我们只会对可变数组的增删改查进行研究.当然了.字典也是一样的.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字典"><span class="nav-number"></span> <span class="nav-text">字典</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#字典是根据键值对存储数据的-当然了字典和数组的”增删改查”比较类似-不可变字典是没有”增删改查”的功能的-只有可变字典存在”增删改查”-那我们看一下字典中的增删改查是如何进行的"><span class="nav-number"></span> <span class="nav-text">字典是根据键值对存储数据的,当然了字典和数组的”增删改查”比较类似,不可变字典是没有”增删改查”的功能的.只有可变字典存在”增删改查”;那我们看一下字典中的增删改查是如何进行的</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQLite数据库"><span class="nav-number"></span> <span class="nav-text">SQLite数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#SQLite数据库是iOS内嵌的一个数据库-合适大型数据的读写-主要用于本地一些信息的存储-SQLite数据库采用表结构来存储数据的-我们想在Xcode中使用SQLite数据库-我们就要先导入我们的库"><span class="nav-number"></span> <span class="nav-text">SQLite数据库是iOS内嵌的一个数据库,合适大型数据的读写,主要用于本地一些信息的存储,SQLite数据库采用表结构来存储数据的.我们想在Xcode中使用SQLite数据库,我们就要先导入我们的库.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导完了之后-我们首先要有一个Model的模板-这里我就以Student-为类名来创建一个简单的模板"><span class="nav-number"></span> <span class="nav-text">导完了之后,我们首先要有一个Model的模板,这里我就以Student 为类名来创建一个简单的模板.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#我们在Student-h文件中是这样写的"><span class="nav-number">1.</span> <span class="nav-text">我们在Student.h文件中是这样写的.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Student-m是这样写的-都是很简单的"><span class="nav-number">2.</span> <span class="nav-text">Student.m是这样写的,都是很简单的</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#模板做好了-下面我们就对SQLite-数据做一些调用了-在调动之前-先把一些常用的SQLite语句-也是SQLite数据库的增删改查功能"><span class="nav-number"></span> <span class="nav-text">模板做好了,下面我们就对SQLite 数据做一些调用了,在调动之前,先把一些常用的SQLite语句,也是SQLite数据库的增删改查功能</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-SQLite语句比较容易出错-所以我建议大家尽量全都复制黏贴-不要用手敲SQLite-语句"><span class="nav-number"></span> <span class="nav-text">注意 :SQLite语句比较容易出错,所以我建议大家尽量全都复制黏贴,不要用手敲SQLite 语句!!</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这里我们创建一个伪单例来存储我们的SQLite数据库"><span class="nav-number"></span> <span class="nav-text">这里我们创建一个伪单例来存储我们的SQLite数据库.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在DataBase-h文件我们做导入sqlite3库-创建单例的方法声明和增删改查的方法声明"><span class="nav-number">1.</span> <span class="nav-text">在DataBase.h文件我们做导入sqlite3库 , 创建单例的方法声明和增删改查的方法声明.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在DataBase-h文件我们对创建单例的方法声明和增删改查的方法进行实现"><span class="nav-number">2.</span> <span class="nav-text">在DataBase.h文件我们对创建单例的方法声明和增删改查的方法进行实现.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引入Model文件-实现单例初始化方法"><span class="nav-number">3.</span> <span class="nav-text">引入Model文件, 实现单例初始化方法.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#现在先把SQL数据库定义在静态区"><span class="nav-number">4.</span> <span class="nav-text">现在先把SQL数据库定义在静态区.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我们不管做增删改查什么操作-都要先打开数据库-然后再做对应的操作"><span class="nav-number">5.</span> <span class="nav-text">我们不管做增删改查什么操作,都要先打开数据库,然后再做对应的操作,</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#打开数据库方法解释-如果数据库不为空-我们就不需要重新创建直接返回-当数据库为空的时候-我们想先找到沙盒对应的路径-然后创建数据库-最后在数据库中创建表格"><span class="nav-number">6.</span> <span class="nav-text">打开数据库方法解释 :如果数据库不为空,我们就不需要重新创建直接返回,当数据库为空的时候,我们想先找到沙盒对应的路径,然后创建数据库,最后在数据库中创建表格.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#当我们操作完对应的操作后我们需要关闭数据库-代码如下"><span class="nav-number">7.</span> <span class="nav-text">当我们操作完对应的操作后我们需要关闭数据库,代码如下</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#关闭数据库方法解释-关闭数据库的时候-我们需要调用sqlite3-close-方法-然后把我们的数据库置为nil-这样数据库就完全关闭了"><span class="nav-number">8.</span> <span class="nav-text">关闭数据库方法解释 : 关闭数据库的时候,我们需要调用sqlite3_close()方法,然后把我们的数据库置为nil,这样数据库就完全关闭了.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SQL数据库增加功能"><span class="nav-number">9.</span> <span class="nav-text">SQL数据库增加功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#增添方法的解释-首先我们需要打开数据库-然后创建跟随指针-跟随指针的作用可以理解为绑定一个完整Model数据到要执行的SQLite语句上-然后再对这个Model进行操作-然后创建SQLite语句并运行-当我们的SQLi特语句执行成功的时候-这时候跟随指针就绑定Model-然后单步执行-最后要释放到跟随指针"><span class="nav-number">10.</span> <span class="nav-text">增添方法的解释: 首先我们需要打开数据库,然后创建跟随指针,跟随指针的作用可以理解为绑定一个完整Model数据到要执行的SQLite语句上,然后再对这个Model进行操作.然后创建SQLite语句并运行,当我们的SQLi特语句执行成功的时候,这时候跟随指针就绑定Model ,然后单步执行.最后要释放到跟随指针.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SQL数据库删除功能"><span class="nav-number">11.</span> <span class="nav-text">SQL数据库删除功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#删除方法的解释-首先我们需要打开数据库-然后创建跟随指针-然后创建删除的SQL语句并执行-当执行成功之后-我们就会让跟随指针绑定我们的删除条件-然后单步执行-执行完成之后-我们需要手动释放跟随指针"><span class="nav-number">12.</span> <span class="nav-text">删除方法的解释: 首先我们需要打开数据库,然后创建跟随指针,然后创建删除的SQL语句并执行,当执行成功之后,我们就会让跟随指针绑定我们的删除条件,然后单步执行. 执行完成之后,我们需要手动释放跟随指针.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SQL数据库修改功能"><span class="nav-number">13.</span> <span class="nav-text">SQL数据库修改功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#修改方法的解释-首先我们需要打开数据库-然后再创建跟随指针-创建跟随指针完成之后-我们需要创建我们的SQL语句并执行-如果执行成功-我们就让我们的跟随指针绑定我们的筛选条件-然后单步执行-最后释放我们的跟随指针"><span class="nav-number">14.</span> <span class="nav-text">修改方法的解释: 首先我们需要打开数据库,然后再创建跟随指针,创建跟随指针完成之后,我们需要创建我们的SQL语句并执行,如果执行成功,我们就让我们的跟随指针绑定我们的筛选条件,然后单步执行,最后释放我们的跟随指针.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SQL数据库查询整个表格功能"><span class="nav-number">15.</span> <span class="nav-text">SQL数据库查询整个表格功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查询全部方法的解释-首先打开我们的数据库-创建跟随指针-创建完成之后-我们就创建我们的SQL语句并执行-如果执行成功的话-我们就使用while循环反复执行我们的语句-根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针-然后把查询到的数据存到数组中-最后不管是否查询成功-都要释放我们的跟随指针"><span class="nav-number">16.</span> <span class="nav-text">查询全部方法的解释:首先打开我们的数据库,创建跟随指针,创建完成之后,我们就创建我们的SQL语句并执行.如果执行成功的话,我们就使用while循环反复执行我们的语句,根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针,然后把查询到的数据存到数组中,最后不管是否查询成功,都要释放我们的跟随指针.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#SQL数据库查询单个表格功能"><span class="nav-number">17.</span> <span class="nav-text">SQL数据库查询单个表格功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#查询单个方法的解释-首先打开我们的数据库-创建跟随指针-创建完成之后-我们就创建我们的SQL语句并执行-如果执行成功的话-我们就使用while循环反复执行我们的语句-根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针-然后把查询到的数据存到对应Model中-最后不管是否查询成功-都要释放我们的跟随指针"><span class="nav-number">18.</span> <span class="nav-text">查询单个方法的解释:首先打开我们的数据库,创建跟随指针,创建完成之后,我们就创建我们的SQL语句并执行.如果执行成功的话,我们就使用while循环反复执行我们的语句,根据sql语句将搜索到的符合条件的值取出来并绑定我们的跟随指针,然后把查询到的数据存到对应Model中,最后不管是否查询成功,都要释放我们的跟随指针.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreData数据库"><span class="nav-number"></span> <span class="nav-text">CoreData数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相比于SQLite数据库-CoreData数据库就先相对的简单了许多-CoreData的实现原理你可以想象是github的文件管理一样-你本地是内存-github的服务器是沙盒-你在内存操作完之后就手动传到沙盒中进行本地化保存-其实-CoreData数据库是对SQLite数据库的封装-而且CoreData支持可视化建模-更是大大减少了我们的代码量-现在我们就看一下CoreData的实现步骤以及增删改查功能"><span class="nav-number"></span> <span class="nav-text">相比于SQLite数据库, CoreData数据库就先相对的简单了许多,CoreData的实现原理你可以想象是github的文件管理一样.你本地是内存,github的服务器是沙盒,你在内存操作完之后就手动传到沙盒中进行本地化保存.其实 CoreData数据库是对SQLite数据库的封装.而且CoreData支持可视化建模.更是大大减少了我们的代码量,现在我们就看一下CoreData的实现步骤以及增删改查功能.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#创建工程的时候-我们需要手动添加数据库"><span class="nav-number">1.</span> <span class="nav-text">创建工程的时候,我们需要手动添加数据库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这时候-Xcode会自动帮助我们在AppDelegate里面生成几个额外的属性-属性的解释如下"><span class="nav-number">2.</span> <span class="nav-text">这时候,Xcode会自动帮助我们在AppDelegate里面生成几个额外的属性.属性的解释如下</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#这里我对上面的Core做了一些简单的总结"><span class="nav-number">3.</span> <span class="nav-text">这里我对上面的Core做了一些简单的总结</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#相对于SQLite中的代码建模-CoreData更加简洁"><span class="nav-number">4.</span> <span class="nav-text">相对于SQLite中的代码建模,CoreData更加简洁.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如图添加一个Model"><span class="nav-number">5.</span> <span class="nav-text">如图添加一个Model</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#点击-Create-生成一个Model"><span class="nav-number">6.</span> <span class="nav-text">点击 Create  生成一个Model</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#选择生成的路径和生成的Model-最后我们需要做标量和通量的选择"><span class="nav-number">7.</span> <span class="nav-text">选择生成的路径和生成的Model ,最后我们需要做标量和通量的选择.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在说”增删改查”之前-我要说一个代码块-这个代码块的输入代码是-fetch-Core-Data-Fetch-代码块如下-这就是我们要从沙盒中搬到内存的数据-当然了-我们需要做一些谓词筛选等-下面的增删改查中会用到-查询到的结果就在fetchedObjects这个数组中存储着"><span class="nav-number"></span> <span class="nav-text">在说”增删改查”之前,我要说一个代码块 ,这个代码块的输入代码是  fetch - Core Data Fetch 代码块如下,这就是我们要从沙盒中搬到内存的数据,当然了,我们需要做一些谓词筛选等,下面的增删改查中会用到.查询到的结果就在fetchedObjects这个数组中存储着.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#我是在ViewController做一些”增删改查”的操作-首先我们需要声明两个属性-一个是联系上下文的对象是一个用于保存数据的数组-首先-我们会在ViewDidLoad进行初始化一下"><span class="nav-number">1.</span> <span class="nav-text">我是在ViewController做一些”增删改查”的操作,首先我们需要声明两个属性,一个是联系上下文的对象是一个用于保存数据的数组,首先,我们会在ViewDidLoad进行初始化一下.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreData数据库增添功能"><span class="nav-number"></span> <span class="nav-text">CoreData数据库增添功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库增添功能方法解释-首先我们需要创建一个实体描述对象然后存到联系上下文对象中-给这个实体描述对象进行赋值-再由NSManagedObjectContext对象进行本地化存储"><span class="nav-number">1.</span> <span class="nav-text">数据库增添功能方法解释: 首先我们需要创建一个实体描述对象然后存到联系上下文对象中,给这个实体描述对象进行赋值. 再由NSManagedObjectContext对象进行本地化存储.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreData数据库删除功能"><span class="nav-number"></span> <span class="nav-text">CoreData数据库删除功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库删除功能方法解释-删除只需要我们把本地的myContext对象中的实体化对象删除掉-然后再保存就行"><span class="nav-number">1.</span> <span class="nav-text">数据库删除功能方法解释: 删除只需要我们把本地的myContext对象中的实体化对象删除掉,然后再保存就行.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreData数据库修改功能"><span class="nav-number"></span> <span class="nav-text">CoreData数据库修改功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库修改功能方法解释-首先我们需要把沙盒中的数据表格更新到我们的内存对象myContext中去-然后修改实例化对象的值-然后保存到数组-中-最后在进行数据持久化操作"><span class="nav-number">1.</span> <span class="nav-text">数据库修改功能方法解释: 首先我们需要把沙盒中的数据表格更新到我们的内存对象myContext中去,然后修改实例化对象的值,然后保存到数组,中,最后在进行数据持久化操作.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CoreData数据库查询功能"><span class="nav-number"></span> <span class="nav-text">CoreData数据库查询功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#数据库查询功能方法解释-这里只做整体的查询-当我们需要查询某个数据的时候-我们就要先从山河中下载到内存中-然后保存到我们的数组中-在对数组进行遍历操作-查询我们的对象"><span class="nav-number">1.</span> <span class="nav-text">数据库查询功能方法解释: 这里只做整体的查询,当我们需要查询某个数据的时候,我们就要先从山河中下载到内存中,然后保存到我们的数组中.在对数组进行遍历操作,查询我们的对象.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#作为”增删改查”这四个操作-是我们程序员对数据最基本的操作-希望大家能够喜欢这篇-如果喜欢就点个赞呗-😃"><span class="nav-number">2.</span> <span class="nav-text">作为”增删改查”这四个操作,是我们程序员对数据最基本的操作,希望大家能够喜欢这篇,如果喜欢就点个赞呗 😃</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。 –栋哥">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之iOS动画">
+<meta property="og:url" content="http://yoursite.com/2015/03/06/华山论剑之iOS动画/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。 –栋哥">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzur9mjog20dw08mdgt.gif">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qzv1yydog208q0bwabv.gif">
+<meta property="og:updated_time" content="2016-03-11T13:59:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之iOS动画">
+<meta name="twitter:description" content="你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。 –栋哥">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzur9mjog20dw08mdgt.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之iOS动画 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之iOS动画
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-06T22:41:59+08:00" content="2015-03-06">
+              2015-03-06
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。-–栋哥"><a href="#你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。-–栋哥" class="headerlink" title="你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。 –栋哥"></a>你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。 –栋哥</h4></blockquote>
+<hr>
+<a id="more"></a>
+<h5 id="做了这么长时间的iOS的开发-越来越发现一个问题-那就是iOS的动画的问题-一个好的APP一定要有一个完美的UI界面和使人们舒服的动画效果-但是前几次我所负责的项目所做的动画效果并不能是我满意-因为APP中的controller的跳转还有一些效果都没有达到预期的效果程度-今天接着这篇文章-我就说一说关于动画的一些事情"><a href="#做了这么长时间的iOS的开发-越来越发现一个问题-那就是iOS的动画的问题-一个好的APP一定要有一个完美的UI界面和使人们舒服的动画效果-但是前几次我所负责的项目所做的动画效果并不能是我满意-因为APP中的controller的跳转还有一些效果都没有达到预期的效果程度-今天接着这篇文章-我就说一说关于动画的一些事情" class="headerlink" title="做了这么长时间的iOS的开发,越来越发现一个问题,那就是iOS的动画的问题,一个好的APP一定要有一个完美的UI界面和使人们舒服的动画效果,但是前几次我所负责的项目所做的动画效果并不能是我满意,因为APP中的controller的跳转还有一些效果都没有达到预期的效果程度,今天接着这篇文章,我就说一说关于动画的一些事情."></a>做了这么长时间的iOS的开发,越来越发现一个问题,那就是iOS的动画的问题,一个好的APP一定要有一个完美的UI界面和使人们舒服的动画效果,但是前几次我所负责的项目所做的动画效果并不能是我满意,因为APP中的controller的跳转还有一些效果都没有达到预期的效果程度,今天接着这篇文章,我就说一说关于动画的一些事情.</h5><p><b></b></p>
+<h5 id="在iOS当中-很多的属性可是设置动画效果-比如backgroundColor-bounds-frames-今天就从三个方面来说一下这个动画-分别是UIView动画-CALayer动画-转场动画"><a href="#在iOS当中-很多的属性可是设置动画效果-比如backgroundColor-bounds-frames-今天就从三个方面来说一下这个动画-分别是UIView动画-CALayer动画-转场动画" class="headerlink" title="在iOS当中,很多的属性可是设置动画效果,比如backgroundColor,bounds,frames,今天就从三个方面来说一下这个动画 分别是UIView动画,CALayer动画,转场动画."></a>在iOS当中,很多的属性可是设置动画效果,比如backgroundColor,bounds,frames,今天就从三个方面来说一下这个动画 分别是UIView动画,CALayer动画,转场动画.</h5><p>我们动画的效果把.</p>
+<p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1qzur9mjog20dw08mdgt.gif" alt="“神经骚栋”/"></p>
+<p><br></p>
+<p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1qzv1yydog208q0bwabv.gif" alt="“神经骚栋”/"></p>
+<h3 id="1-UIView动画"><a href="#1-UIView动画" class="headerlink" title="1.UIView动画"></a>1.UIView动画</h3><h4 id="1-1动画代理方法效果的演示，"><a href="#1-1动画代理方法效果的演示，" class="headerlink" title="1.1动画代理方法效果的演示，"></a>1.1动画代理方法效果的演示，</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event &#123;</span><br><span class="line">//首尾式动画</span><br><span class="line">  [UIView beginAnimations:nil context:nil];</span><br><span class="line"> //执行动画 //设置动画执行时间</span><br><span class="line"> [UIView setAnimationDuration:2.0]; //设置代理</span><br><span class="line">  [UIView setAnimationDelegate:self];</span><br><span class="line">//设置动画执行完毕调用的事件</span><br><span class="line"> [UIView setAnimationDidStopSelector:@selector(didStopAnimation)];</span><br><span class="line">self.customView.center=CGPointMake(200, 300);</span><br><span class="line"> [UIView commitAnimations];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="我们把动画效果放在一个button的事件当中-在上面的方法当中-我们需要把无们所需要做的动画效果放在beginAnimations和commitAnimations两个方法当中-比如设置动画的事件-设置动画的代理"><a href="#我们把动画效果放在一个button的事件当中-在上面的方法当中-我们需要把无们所需要做的动画效果放在beginAnimations和commitAnimations两个方法当中-比如设置动画的事件-设置动画的代理" class="headerlink" title="我们把动画效果放在一个button的事件当中,在上面的方法当中,我们需要把无们所需要做的动画效果放在beginAnimations和commitAnimations两个方法当中,比如设置动画的事件 ,设置动画的代理."></a>我们把动画效果放在一个button的事件当中,在上面的方法当中,我们需要把无们所需要做的动画效果放在beginAnimations和commitAnimations两个方法当中,比如设置动画的事件 ,设置动画的代理.</h4><p><br></p>
+<h4 id="1-2动画的block块模式-包含转场动画"><a href="#1-2动画的block块模式-包含转场动画" class="headerlink" title="1.2动画的block块模式(包含转场动画)"></a>1.2动画的block块模式(包含转场动画)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">+ (void)**transitionFromView:(UIView *)fromView  toView:(UIView *)toView duration:(NSTimeInterval)duration options:(UIViewAnimationOptions*)options  completion:(void (^)(BOOL finished))completion</span><br></pre></td></tr></table></figure>
+<h4 id="上面的方法是我们最常用的block动画方法-也是我们的转场动画-在这个方法当中-我们可以指定从哪一个页面跳转到那一个页面-还可以设置下面的一些属性"><a href="#上面的方法是我们最常用的block动画方法-也是我们的转场动画-在这个方法当中-我们可以指定从哪一个页面跳转到那一个页面-还可以设置下面的一些属性" class="headerlink" title="上面的方法是我们最常用的block动画方法,也是我们的转场动画,在这个方法当中 ,我们可以指定从哪一个页面跳转到那一个页面.还可以设置下面的一些属性."></a>上面的方法是我们最常用的block动画方法,也是我们的转场动画,在这个方法当中 ,我们可以指定从哪一个页面跳转到那一个页面.还可以设置下面的一些属性.</h4><p>duration：动画的持续时间<br>options：转场动画的类型<br>animations：将改变视图属性的代码放在这个block中<br>completion：动画结束后，会自动调用这个block</p>
+<p><br> </p>
+<h3 id="2-CALayer动画"><a href="#2-CALayer动画" class="headerlink" title="2.CALayer动画"></a>2.CALayer动画</h3><h4 id="关于CALayer动画和UIView动画相似-但是也是有区别的"><a href="#关于CALayer动画和UIView动画相似-但是也是有区别的" class="headerlink" title="关于CALayer动画和UIView动画相似,但是也是有区别的"></a>关于CALayer动画和UIView动画相似,但是也是有区别的</h4><h4 id="UIView封装的动画执行完毕之后不会反弹。即如果是通过CALayer核心动画改变layer的位置状态，表面上看虽然已经改变了，但是实际上它的位置是没有改变的。"><a href="#UIView封装的动画执行完毕之后不会反弹。即如果是通过CALayer核心动画改变layer的位置状态，表面上看虽然已经改变了，但是实际上它的位置是没有改变的。" class="headerlink" title="UIView封装的动画执行完毕之后不会反弹。即如果是通过CALayer核心动画改变layer的位置状态，表面上看虽然已经改变了，但是实际上它的位置是没有改变的。"></a>UIView封装的动画执行完毕之后不会反弹。即如果是通过CALayer核心动画改变layer的位置状态，表面上看虽然已经改变了，但是实际上它的位置是没有改变的。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event &#123;</span><br><span class="line"> //1.创建核心动画</span><br><span class="line">CABasicAnimation *anima=[CABasicAnimation animation];</span><br><span class="line">//平移</span><br><span class="line"> anima.keyPath=@&quot;position&quot;;</span><br><span class="line"> //设置执行的动画</span><br><span class="line"> anima.toValue=[NSValue valueWithCGPoint:CGPointMake(200, 300)];</span><br><span class="line"> //设置执行动画的时间</span><br><span class="line"> anima.duration=2.0;</span><br><span class="line"> //设置动画执行完毕之后不删除动画</span><br><span class="line"> anima.removedOnCompletion=NO;</span><br><span class="line"> //设置保存动画的最新状态</span><br><span class="line"> anima.fillMode=kCAFillModeForwards;</span><br><span class="line"> // anima.fillMode=kCAFillModeBackwards;</span><br><span class="line"> //设置动画的代理</span><br><span class="line">anima.delegate=self;</span><br><span class="line">//2.添加核心动画</span><br><span class="line"> [self.customView.layer addAnimation:anima forKey:nil];</span><br></pre></td></tr></table></figure>
+<h4 id="CALayer动画代理方法如下"><a href="#CALayer动画代理方法如下" class="headerlink" title="CALayer动画代理方法如下"></a>CALayer动画代理方法如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">-(void)animationDidStart:(CAAnimation *)anim &#123;</span><br><span class="line">//打印动画块的位置</span><br><span class="line">NSLog(@&quot;动画开始执行前的位置：%@&quot;,NSStringFromCGPoint(self.customView.center));</span><br><span class="line">NSLog(@&quot;动画开始执行前的位置：%@&quot;,NSStringFromCGPoint( self.customView.layer.position));</span><br><span class="line"> &#125;</span><br><span class="line"> -(void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag &#123;</span><br><span class="line">//打印动画块的位置</span><br><span class="line">NSLog(@&quot;动画执行完毕后的位置：%@&quot;,NSStringFromCGPoint( self.customView.layer.position));</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="注意：keyPath有一些动画是iOS内部动画，不能使用"><a href="#注意：keyPath有一些动画是iOS内部动画，不能使用" class="headerlink" title="注意：keyPath有一些动画是iOS内部动画，不能使用.."></a>注意：keyPath有一些动画是iOS内部动画，不能使用..</h4></blockquote>
+<h4 id="今天的动画就到这了"><a href="#今天的动画就到这了" class="headerlink" title="今天的动画就到这了~"></a>今天的动画就到这了~</h4>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/03/15/华山论剑之iOS手势（UIGestureRecognizer-）/" rel="prev" title="华山论剑之iOS手势（UIGestureRecognizer ）">
+                华山论剑之iOS手势（UIGestureRecognizer ） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。-–栋哥"><span class="nav-number">1.</span> <span class="nav-text">你要搞清楚自己人生的剧本——不是你父母的续集，不是你子女的前传，更不是你朋友的外篇。 –栋哥</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#做了这么长时间的iOS的开发-越来越发现一个问题-那就是iOS的动画的问题-一个好的APP一定要有一个完美的UI界面和使人们舒服的动画效果-但是前几次我所负责的项目所做的动画效果并不能是我满意-因为APP中的controller的跳转还有一些效果都没有达到预期的效果程度-今天接着这篇文章-我就说一说关于动画的一些事情"><span class="nav-number">1.1.</span> <span class="nav-text">做了这么长时间的iOS的开发,越来越发现一个问题,那就是iOS的动画的问题,一个好的APP一定要有一个完美的UI界面和使人们舒服的动画效果,但是前几次我所负责的项目所做的动画效果并不能是我满意,因为APP中的controller的跳转还有一些效果都没有达到预期的效果程度,今天接着这篇文章,我就说一说关于动画的一些事情.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在iOS当中-很多的属性可是设置动画效果-比如backgroundColor-bounds-frames-今天就从三个方面来说一下这个动画-分别是UIView动画-CALayer动画-转场动画"><span class="nav-number">1.2.</span> <span class="nav-text">在iOS当中,很多的属性可是设置动画效果,比如backgroundColor,bounds,frames,今天就从三个方面来说一下这个动画 分别是UIView动画,CALayer动画,转场动画.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-UIView动画"><span class="nav-number"></span> <span class="nav-text">1.UIView动画</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1动画代理方法效果的演示，"><span class="nav-number">1.</span> <span class="nav-text">1.1动画代理方法效果的演示，</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#我们把动画效果放在一个button的事件当中-在上面的方法当中-我们需要把无们所需要做的动画效果放在beginAnimations和commitAnimations两个方法当中-比如设置动画的事件-设置动画的代理"><span class="nav-number">2.</span> <span class="nav-text">我们把动画效果放在一个button的事件当中,在上面的方法当中,我们需要把无们所需要做的动画效果放在beginAnimations和commitAnimations两个方法当中,比如设置动画的事件 ,设置动画的代理.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2动画的block块模式-包含转场动画"><span class="nav-number">3.</span> <span class="nav-text">1.2动画的block块模式(包含转场动画)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#上面的方法是我们最常用的block动画方法-也是我们的转场动画-在这个方法当中-我们可以指定从哪一个页面跳转到那一个页面-还可以设置下面的一些属性"><span class="nav-number">4.</span> <span class="nav-text">上面的方法是我们最常用的block动画方法,也是我们的转场动画,在这个方法当中 ,我们可以指定从哪一个页面跳转到那一个页面.还可以设置下面的一些属性.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-CALayer动画"><span class="nav-number"></span> <span class="nav-text">2.CALayer动画</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#关于CALayer动画和UIView动画相似-但是也是有区别的"><span class="nav-number">1.</span> <span class="nav-text">关于CALayer动画和UIView动画相似,但是也是有区别的</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#UIView封装的动画执行完毕之后不会反弹。即如果是通过CALayer核心动画改变layer的位置状态，表面上看虽然已经改变了，但是实际上它的位置是没有改变的。"><span class="nav-number">2.</span> <span class="nav-text">UIView封装的动画执行完毕之后不会反弹。即如果是通过CALayer核心动画改变layer的位置状态，表面上看虽然已经改变了，但是实际上它的位置是没有改变的。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CALayer动画代理方法如下"><span class="nav-number">3.</span> <span class="nav-text">CALayer动画代理方法如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意：keyPath有一些动画是iOS内部动画，不能使用"><span class="nav-number">4.</span> <span class="nav-text">注意：keyPath有一些动画是iOS内部动画，不能使用..</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#今天的动画就到这了"><span class="nav-number">5.</span> <span class="nav-text">今天的动画就到这了~</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

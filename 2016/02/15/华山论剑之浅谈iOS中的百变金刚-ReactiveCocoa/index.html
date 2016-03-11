@@ -1,0 +1,757 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="人生如戏,全靠演技.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈iOS中的百变金刚---ReactiveCocoa">
+<meta property="og:url" content="http://yoursite.com/2016/02/15/华山论剑之浅谈iOS中的百变金刚-ReactiveCocoa/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="人生如戏,全靠演技.">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta4fl1c2j20g90a63zy.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f1ta45x5hjj20h90ak3yh.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f1ta3rl632j20hj0aqaaa.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta365dfej20dp0dcdhl.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta2v5ipcj20bs07vmy1.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta2iyjm5j20af07zq3n.jpg">
+<meta property="og:updated_time" content="2016-03-11T14:12:47.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈iOS中的百变金刚---ReactiveCocoa">
+<meta name="twitter:description" content="人生如戏,全靠演技.">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta4fl1c2j20g90a63zy.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈iOS中的百变金刚---ReactiveCocoa | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈iOS中的百变金刚---ReactiveCocoa
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-02-15T22:08:06+08:00" content="2016-02-15">
+              2016-02-15
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="人生如戏-全靠演技"><a href="#人生如戏-全靠演技" class="headerlink" title="人生如戏,全靠演技."></a>人生如戏,全靠演技.</h5></blockquote>
+<a id="more"></a>
+<p><br></p>
+<h4 id="对于ReactiveCocoa的安装-最便捷的方法无疑是CocoaPods-关于CocoaPods的使用-我的文章中曾经提到过-所以我们就看一下ReactiveCocoa是如何使用CocoaPods安装的"><a href="#对于ReactiveCocoa的安装-最便捷的方法无疑是CocoaPods-关于CocoaPods的使用-我的文章中曾经提到过-所以我们就看一下ReactiveCocoa是如何使用CocoaPods安装的" class="headerlink" title="对于ReactiveCocoa的安装,最便捷的方法无疑是CocoaPods,关于CocoaPods的使用,我的文章中曾经提到过.所以我们就看一下ReactiveCocoa是如何使用CocoaPods安装的."></a>对于ReactiveCocoa的安装,最便捷的方法无疑是CocoaPods,关于CocoaPods的使用,我的文章中曾经提到过.所以我们就看一下ReactiveCocoa是如何使用CocoaPods安装的.</h4><p><br></p>
+<h1 id="ReactiveCocoa的安装"><a href="#ReactiveCocoa的安装" class="headerlink" title="ReactiveCocoa的安装"></a>ReactiveCocoa的安装</h1><hr>
+<h4 id="首先我们要先安装CocoaPods-这里就不说了-给大家一个关于CocoaPods的链接"><a href="#首先我们要先安装CocoaPods-这里就不说了-给大家一个关于CocoaPods的链接" class="headerlink" title="首先我们要先安装CocoaPods,这里就不说了,给大家一个关于CocoaPods的链接"></a>首先我们要先安装CocoaPods,这里就不说了,给大家一个关于CocoaPods的链接</h4><p></p>
+<h4 id="—-gt-华山论剑之浅谈iOS第三方终结者CocoaPods"><a href="#—-gt-华山论剑之浅谈iOS第三方终结者CocoaPods" class="headerlink" title=" —&gt; 华山论剑之浅谈iOS第三方终结者CocoaPods"></a><a href="http://www.jianshu.com/p/abac9de82577" target="_blank" rel="external"> —&gt; 华山论剑之浅谈iOS第三方终结者CocoaPods</a></h4><p><br></p>
+<h4 id="安装CocoaPods完成之后-然后使用下面的终端语句查找ReactiveCocoa"><a href="#安装CocoaPods完成之后-然后使用下面的终端语句查找ReactiveCocoa" class="headerlink" title="安装CocoaPods完成之后,然后使用下面的终端语句查找ReactiveCocoa."></a>安装CocoaPods完成之后,然后使用下面的终端语句查找ReactiveCocoa.</h4><blockquote>
+<p>pod search ReactiveCocoa</p>
+</blockquote>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta4fl1c2j20g90a63zy.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="然后-我们就需要创建我们的Demo文件-然后cd-这个文件夹-就是在终端输入如下格式的指令"><a href="#然后-我们就需要创建我们的Demo文件-然后cd-这个文件夹-就是在终端输入如下格式的指令" class="headerlink" title="然后,我们就需要创建我们的Demo文件,然后cd 这个文件夹.就是在终端输入如下格式的指令;"></a>然后,我们就需要创建我们的Demo文件,然后cd 这个文件夹.就是在终端输入如下格式的指令;</h4><blockquote>
+<p>cd + “空格” + “文件路径”</p>
+</blockquote>
+<p><br></p>
+<h4 id="然后-我们就需要创建一个Podfile文件-输入如下的指令"><a href="#然后-我们就需要创建一个Podfile文件-输入如下的指令" class="headerlink" title="然后,我们就需要创建一个Podfile文件,输入如下的指令"></a>然后,我们就需要创建一个Podfile文件,输入如下的指令</h4><blockquote>
+<p> touch Podfile</p>
+</blockquote>
+<p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f1ta45x5hjj20h90ak3yh.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="这时候我们就要对我们Podfile文件进行ReactiveCocoa第三方类的下载设置-两种方法-一种是输入下面的终端指令-在终端进行输入-另外一种是我们打开我们的Podfile文件输入"><a href="#这时候我们就要对我们Podfile文件进行ReactiveCocoa第三方类的下载设置-两种方法-一种是输入下面的终端指令-在终端进行输入-另外一种是我们打开我们的Podfile文件输入" class="headerlink" title="这时候我们就要对我们Podfile文件进行ReactiveCocoa第三方类的下载设置,两种方法,一种是输入下面的终端指令,在终端进行输入,另外一种是我们打开我们的Podfile文件输入."></a>这时候我们就要对我们Podfile文件进行ReactiveCocoa第三方类的下载设置,两种方法,一种是输入下面的终端指令,在终端进行输入,另外一种是我们打开我们的Podfile文件输入.</h4><blockquote>
+<p>vim Podfile</p>
+</blockquote>
+<p></p>
+<h6 id="输入的信息如下-因为我们是用OC的最新版本-所以就是2-5版本"><a href="#输入的信息如下-因为我们是用OC的最新版本-所以就是2-5版本" class="headerlink" title="输入的信息如下,因为我们是用OC的最新版本  所以就是2.5版本."></a>输入的信息如下,因为我们是用OC的最新版本  所以就是2.5版本.</h6><blockquote>
+<p>platform :ios, ‘7.0’<br>pod “ReactiveCocoa”, “~&gt;2.5”</p>
+</blockquote>
+<h5 id="输入完成之后-我们就需要保存-所以要输入保存指令-先Esc一下-然后输入如下指令回车"><a href="#输入完成之后-我们就需要保存-所以要输入保存指令-先Esc一下-然后输入如下指令回车" class="headerlink" title="输入完成之后,我们就需要保存,所以要输入保存指令.先Esc一下,然后输入如下指令回车"></a>输入完成之后,我们就需要保存,所以要输入保存指令.先Esc一下,然后输入如下指令回车</h5><blockquote>
+<p>:wq</p>
+</blockquote>
+<p><br></p>
+<h4 id="这时候我们就需要下载ReactiveCocoa了-还是在终端中的当前项目目录下，运行以下命令"><a href="#这时候我们就需要下载ReactiveCocoa了-还是在终端中的当前项目目录下，运行以下命令" class="headerlink" title="这时候我们就需要下载ReactiveCocoa了.还是在终端中的当前项目目录下，运行以下命令."></a>这时候我们就需要下载ReactiveCocoa了.还是在终端中的当前项目目录下，运行以下命令.</h4><blockquote>
+<p>pod install</p>
+</blockquote>
+<p><br></p>
+<h4 id="下载完成之后-我们要打开那个带有ReactiveCocoa的Xcode"><a href="#下载完成之后-我们要打开那个带有ReactiveCocoa的Xcode" class="headerlink" title="下载完成之后,我们要打开那个带有ReactiveCocoa的Xcode."></a>下载完成之后,我们要打开那个带有ReactiveCocoa的Xcode.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f1ta3rl632j20hj0aqaaa.jpg" alt="“神经骚栋”/"></p>
+<p><br><br><br></p>
+<h1 id="ReactiveCocoa的功能"><a href="#ReactiveCocoa的功能" class="headerlink" title="ReactiveCocoa的功能"></a>ReactiveCocoa的功能</h1><hr>
+<p><br></p>
+<h4 id="在说所有的功能之前-我要先说一下ReactiveCocoa的通俗说法-每一行代码几乎都是在相应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。"><a href="#在说所有的功能之前-我要先说一下ReactiveCocoa的通俗说法-每一行代码几乎都是在相应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。" class="headerlink" title="在说所有的功能之前,我要先说一下ReactiveCocoa的通俗说法.每一行代码几乎都是在相应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。"></a>在说所有的功能之前,我要先说一下ReactiveCocoa的通俗说法.每一行代码几乎都是在相应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。</h4><p></p>
+<p>####上面可能说的可能对大多数初学ReactiveCocoa的人不太清楚,你可以想象ReactiveCocoa的一个相应事件就是水龙头,水龙头需要中有水(其实官方的说法就是消息 ),然后水龙头需要一个开关,并且水龙头需要下面需要一个容器接水. ReactiveCocoa可以替代的东西很多,今天我就介绍简单介绍一下ReactiveCocoa替换代理/KVO ,谓词,映射/改变,广播/通知中心.<br><br></p>
+<h4 id="这里我在ViewController中做一些ReactiveCocoa功能的描述-让我们一起见证ReactiveCocoa的强大之处之前-我们首先要先导入ReactiveCocoa的库"><a href="#这里我在ViewController中做一些ReactiveCocoa功能的描述-让我们一起见证ReactiveCocoa的强大之处之前-我们首先要先导入ReactiveCocoa的库" class="headerlink" title="这里我在ViewController中做一些ReactiveCocoa功能的描述.让我们一起见证ReactiveCocoa的强大之处之前,我们首先要先导入ReactiveCocoa的库."></a>这里我在ViewController中做一些ReactiveCocoa功能的描述.让我们一起见证ReactiveCocoa的强大之处之前,我们首先要先导入ReactiveCocoa的库.</h4><blockquote>
+<h6 id="import"><a href="#import" class="headerlink" title="#import "></a>#import <reactivecocoa reactivecocoa.h=""></reactivecocoa></h6></blockquote>
+<p><br></p>
+<h3 id="代理-KVO"><a href="#代理-KVO" class="headerlink" title="代理/KVO"></a>代理/KVO</h3><hr>
+<h4 id="我们在main-storyboard里面做一个textfield-然后在ViewController声明成属性"><a href="#我们在main-storyboard里面做一个textfield-然后在ViewController声明成属性" class="headerlink" title="我们在main.storyboard里面做一个textfield,然后在ViewController声明成属性."></a>我们在main.storyboard里面做一个textfield,然后在ViewController声明成属性.</h4><blockquote>
+<h6 id="代码解释-self-myTextField的text的值相当于水龙头中的水-rac-textSignal相当于水龙头开关-subscribeNext-这个方法就相当于接水的容器-当水符合水龙头的要求的时候-水就会流出来-其实通过这里我们就可以看出-ReactiveCocoa是一个消息机制-self-myTextField-rac-textSignal整一个是个消息-当有消息的时候就会调用subscribeNext-这样就代替了KVO-每当myTextField的值发生改变的时候-都会发出消息"><a href="#代码解释-self-myTextField的text的值相当于水龙头中的水-rac-textSignal相当于水龙头开关-subscribeNext-这个方法就相当于接水的容器-当水符合水龙头的要求的时候-水就会流出来-其实通过这里我们就可以看出-ReactiveCocoa是一个消息机制-self-myTextField-rac-textSignal整一个是个消息-当有消息的时候就会调用subscribeNext-这样就代替了KVO-每当myTextField的值发生改变的时候-都会发出消息" class="headerlink" title="代码解释 :self.myTextField的text的值相当于水龙头中的水.rac_textSignal相当于水龙头开关. subscribeNext:这个方法就相当于接水的容器.当水符合水龙头的要求的时候 ,水就会流出来.其实通过这里我们就可以看出,ReactiveCocoa是一个消息机制,self.myTextField.rac_textSignal整一个是个消息,当有消息的时候就会调用subscribeNext,这样就代替了KVO,每当myTextField的值发生改变的时候,都会发出消息."></a>代码解释 :self.myTextField的text的值相当于水龙头中的水.rac_textSignal相当于水龙头开关. subscribeNext:这个方法就相当于接水的容器.当水符合水龙头的要求的时候 ,水就会流出来.其实通过这里我们就可以看出,ReactiveCocoa是一个消息机制,self.myTextField.rac_textSignal整一个是个消息,当有消息的时候就会调用subscribeNext,这样就代替了KVO,每当myTextField的值发生改变的时候,都会发出消息.</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[self.myTextField.rac_textSignal subscribeNext:^(id x) &#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@&quot;,x);</span><br><span class="line">        </span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<p>我们看一下输入一段字符串,然后删除会有什么效果.</p>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta365dfej20dp0dcdhl.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h3 id="谓词"><a href="#谓词" class="headerlink" title="谓词"></a>谓词</h3><hr>
+<h4 id="我们可以使用ReactiveCocoa来达到谓词的筛选效果"><a href="#我们可以使用ReactiveCocoa来达到谓词的筛选效果" class="headerlink" title="我们可以使用ReactiveCocoa来达到谓词的筛选效果.."></a>我们可以使用ReactiveCocoa来达到谓词的筛选效果..</h4><blockquote>
+<h6 id="代码解释-根据上一个模块说到ReactiveCocoa可以代替KVO-可是当我们需要筛选一些不许的数据的时候-我们应该怎么做呢-代码如下-我们是使用ReactiveCocoa的一个方法filter-然后返回筛选条件-就能对我们的消息中的值进行筛选再输出了"><a href="#代码解释-根据上一个模块说到ReactiveCocoa可以代替KVO-可是当我们需要筛选一些不许的数据的时候-我们应该怎么做呢-代码如下-我们是使用ReactiveCocoa的一个方法filter-然后返回筛选条件-就能对我们的消息中的值进行筛选再输出了" class="headerlink" title="代码解释:根据上一个模块说到ReactiveCocoa可以代替KVO,可是当我们需要筛选一些不许的数据的时候,我们应该怎么做呢?代码如下,我们是使用ReactiveCocoa的一个方法filter.然后返回筛选条件,就能对我们的消息中的值进行筛选再输出了."></a>代码解释:根据上一个模块说到ReactiveCocoa可以代替KVO,可是当我们需要筛选一些不许的数据的时候,我们应该怎么做呢?代码如下,我们是使用ReactiveCocoa的一个方法filter.然后返回筛选条件,就能对我们的消息中的值进行筛选再输出了.</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[[self.myTextField.rac_textSignal filter:^BOOL(NSString * value) &#123;</span><br><span class="line">      </span><br><span class="line">      return value.length &gt;3 ;</span><br><span class="line">      </span><br><span class="line">  &#125;] subscribeNext:^(id x) &#123;</span><br><span class="line">      NSLog(@&quot;%@&quot;,x);</span><br><span class="line">  &#125;];</span><br></pre></td></tr></table></figure>
+<p>我们看一下控制台输出的结果吧.控制台只会从length长度大于3开始输出.起到了谓词的效果.</p>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta2v5ipcj20bs07vmy1.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h3 id="映射"><a href="#映射" class="headerlink" title="映射"></a>映射</h3><hr>
+<h4 id="我们可以使用ReactiveCocoa来达到映射的效果"><a href="#我们可以使用ReactiveCocoa来达到映射的效果" class="headerlink" title="我们可以使用ReactiveCocoa来达到映射的效果.."></a>我们可以使用ReactiveCocoa来达到映射的效果..</h4><blockquote>
+<h6 id="代码解释-ReactiveCocoa的map方法就是起到了映射的效果"><a href="#代码解释-ReactiveCocoa的map方法就是起到了映射的效果" class="headerlink" title="代码解释: ReactiveCocoa的map方法就是起到了映射的效果."></a>代码解释: ReactiveCocoa的map方法就是起到了映射的效果.</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[[[self.myTextField.rac_textSignal map:^id(NSString * value) &#123;</span><br><span class="line">    </span><br><span class="line">    return @(value.length);</span><br><span class="line">&#125;] filter:^BOOL(NSNumber *value) &#123;</span><br><span class="line">    </span><br><span class="line">    return [value integerValue]&gt;3;</span><br><span class="line">&#125;] subscribeNext:^(id x) &#123;</span><br><span class="line">    </span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,x);</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>那么加上映射的输出结果又是如何呢?如下</p>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f1ta2iyjm5j20af07zq3n.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h3 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h3><hr>
+<h4 id="我们可以使用ReactiveCocoa来达到通知中心的效果"><a href="#我们可以使用ReactiveCocoa来达到通知中心的效果" class="headerlink" title="我们可以使用ReactiveCocoa来达到通知中心的效果."></a>我们可以使用ReactiveCocoa来达到通知中心的效果.</h4><blockquote>
+<h6 id="代码解释-通知使用-ReactiveCocoa-也是能够代替的-而且使用ReactiveCocoa做广播的时候-不需要我们delloc我们的通知中心的观察者"><a href="#代码解释-通知使用-ReactiveCocoa-也是能够代替的-而且使用ReactiveCocoa做广播的时候-不需要我们delloc我们的通知中心的观察者" class="headerlink" title="代码解释:通知使用 ReactiveCocoa 也是能够代替的.而且使用ReactiveCocoa做广播的时候,不需要我们delloc我们的通知中心的观察者."></a>代码解释:通知使用 ReactiveCocoa 也是能够代替的.而且使用ReactiveCocoa做广播的时候,不需要我们delloc我们的通知中心的观察者.</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">//添加通知中心</span><br><span class="line">   [[[NSNotificationCenter defaultCenter] rac_addObserverForName:@&quot;dongGe&quot; object:nil] subscribeNext:^(id x) &#123;</span><br><span class="line">       </span><br><span class="line">       NSLog(@&quot;吼吼!!&quot;);</span><br><span class="line">       </span><br><span class="line">   &#125;];</span><br><span class="line">   </span><br><span class="line">   //发送消息</span><br><span class="line">   [[NSNotificationCenter defaultCenter] postNotificationName:@&quot;dongGe&quot; object:nil];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="自定义信号"><a href="#自定义信号" class="headerlink" title="自定义信号"></a>自定义信号</h3><hr>
+<h4 id="如果上面的案例不能满足我们的需求怎么办-这时候我们就需要自定义信号了"><a href="#如果上面的案例不能满足我们的需求怎么办-这时候我们就需要自定义信号了" class="headerlink" title="如果上面的案例不能满足我们的需求怎么办?这时候我们就需要自定义信号了."></a>如果上面的案例不能满足我们的需求怎么办?这时候我们就需要自定义信号了.</h4><blockquote>
+<h6 id="代码解释-首先我们先创建三个小管道-switchSinal就是开关-然后就是铺设管道-铺设完之后我们就需要往其中注水-然后就会从管道中流出"><a href="#代码解释-首先我们先创建三个小管道-switchSinal就是开关-然后就是铺设管道-铺设完之后我们就需要往其中注水-然后就会从管道中流出" class="headerlink" title="代码解释:首先我们先创建三个小管道. switchSinal就是开关,然后就是铺设管道,铺设完之后我们就需要往其中注水.然后就会从管道中流出."></a>代码解释:首先我们先创建三个小管道. switchSinal就是开关,然后就是铺设管道,铺设完之后我们就需要往其中注水.然后就会从管道中流出.</h6></blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line">//1.关键字</span><br><span class="line">RACSubject *dongGe = [RACSubject subject];</span><br><span class="line"></span><br><span class="line">RACSubject *maincode = [RACSubject subject];</span><br><span class="line"></span><br><span class="line">RACSubject *signalOfSignal = [RACSubject subject];</span><br><span class="line"></span><br><span class="line">//2.开关是怎么设置的</span><br><span class="line">RACSignal * switchSinal = [signalOfSignal switchToLatest];</span><br><span class="line"></span><br><span class="line">//铺设管道.</span><br><span class="line">[switchSinal subscribeNext:^(id x) &#123;</span><br><span class="line">   </span><br><span class="line">    NSLog(@&quot;%@&quot;,x);</span><br><span class="line">    </span><br><span class="line">&#125;];</span><br><span class="line"></span><br><span class="line">//3.为信号添加数据</span><br><span class="line">[signalOfSignal sendNext:dongGe];</span><br><span class="line"></span><br><span class="line">[dongGe sendNext:@&quot;dongGe&quot;];</span><br><span class="line"></span><br><span class="line">[signalOfSignal sendNext:maincode];</span><br><span class="line"></span><br><span class="line">[maincode sendNext:@&quot;www.maincode.com&quot;];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<blockquote>
+<h5 id="总结-ReactiveCocoa总体上来说是一个很强大的类库-虽然抽象比较难理解-但是当我们真正理解它的时候-你就会发现它其实很强大-所以学习他是一种必然-但愿我这篇文章能对您有所帮助-谢谢-😃"><a href="#总结-ReactiveCocoa总体上来说是一个很强大的类库-虽然抽象比较难理解-但是当我们真正理解它的时候-你就会发现它其实很强大-所以学习他是一种必然-但愿我这篇文章能对您有所帮助-谢谢-😃" class="headerlink" title="总结:ReactiveCocoa总体上来说是一个很强大的类库,虽然抽象比较难理解,但是当我们真正理解它的时候,你就会发现它其实很强大.所以学习他是一种必然,但愿我这篇文章能对您有所帮助.谢谢.😃"></a>总结:ReactiveCocoa总体上来说是一个很强大的类库,虽然抽象比较难理解,但是当我们真正理解它的时候,你就会发现它其实很强大.所以学习他是一种必然,但愿我这篇文章能对您有所帮助.谢谢.😃</h5></blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/02/12/华山论剑之Swift初体验-二/" rel="next" title="华山论剑之Swift初体验(二)">
+                <i class="fa fa-chevron-left"></i> 华山论剑之Swift初体验(二)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/02/25/华山论剑之浅谈iOS的ApplePay/" rel="prev" title="华山论剑之浅谈iOS的ApplePay">
+                华山论剑之浅谈iOS的ApplePay <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#人生如戏-全靠演技"><span class="nav-number">1.</span> <span class="nav-text">人生如戏,全靠演技.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对于ReactiveCocoa的安装-最便捷的方法无疑是CocoaPods-关于CocoaPods的使用-我的文章中曾经提到过-所以我们就看一下ReactiveCocoa是如何使用CocoaPods安装的"><span class="nav-number"></span> <span class="nav-text">对于ReactiveCocoa的安装,最便捷的方法无疑是CocoaPods,关于CocoaPods的使用,我的文章中曾经提到过.所以我们就看一下ReactiveCocoa是如何使用CocoaPods安装的.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReactiveCocoa的安装"><span class="nav-number"></span> <span class="nav-text">ReactiveCocoa的安装</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#首先我们要先安装CocoaPods-这里就不说了-给大家一个关于CocoaPods的链接"><span class="nav-number"></span> <span class="nav-text">首先我们要先安装CocoaPods,这里就不说了,给大家一个关于CocoaPods的链接</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#—-gt-华山论剑之浅谈iOS第三方终结者CocoaPods"><span class="nav-number"></span> <span class="nav-text"> —> 华山论剑之浅谈iOS第三方终结者CocoaPods</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安装CocoaPods完成之后-然后使用下面的终端语句查找ReactiveCocoa"><span class="nav-number"></span> <span class="nav-text">安装CocoaPods完成之后,然后使用下面的终端语句查找ReactiveCocoa.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们就需要创建我们的Demo文件-然后cd-这个文件夹-就是在终端输入如下格式的指令"><span class="nav-number"></span> <span class="nav-text">然后,我们就需要创建我们的Demo文件,然后cd 这个文件夹.就是在终端输入如下格式的指令;</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们就需要创建一个Podfile文件-输入如下的指令"><span class="nav-number"></span> <span class="nav-text">然后,我们就需要创建一个Podfile文件,输入如下的指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这时候我们就要对我们Podfile文件进行ReactiveCocoa第三方类的下载设置-两种方法-一种是输入下面的终端指令-在终端进行输入-另外一种是我们打开我们的Podfile文件输入"><span class="nav-number"></span> <span class="nav-text">这时候我们就要对我们Podfile文件进行ReactiveCocoa第三方类的下载设置,两种方法,一种是输入下面的终端指令,在终端进行输入,另外一种是我们打开我们的Podfile文件输入.</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#输入的信息如下-因为我们是用OC的最新版本-所以就是2-5版本"><span class="nav-number">0.1.</span> <span class="nav-text">输入的信息如下,因为我们是用OC的最新版本  所以就是2.5版本.</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#输入完成之后-我们就需要保存-所以要输入保存指令-先Esc一下-然后输入如下指令回车"><span class="nav-number">1.</span> <span class="nav-text">输入完成之后,我们就需要保存,所以要输入保存指令.先Esc一下,然后输入如下指令回车</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这时候我们就需要下载ReactiveCocoa了-还是在终端中的当前项目目录下，运行以下命令"><span class="nav-number"></span> <span class="nav-text">这时候我们就需要下载ReactiveCocoa了.还是在终端中的当前项目目录下，运行以下命令.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#下载完成之后-我们要打开那个带有ReactiveCocoa的Xcode"><span class="nav-number"></span> <span class="nav-text">下载完成之后,我们要打开那个带有ReactiveCocoa的Xcode.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ReactiveCocoa的功能"><span class="nav-number"></span> <span class="nav-text">ReactiveCocoa的功能</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在说所有的功能之前-我要先说一下ReactiveCocoa的通俗说法-每一行代码几乎都是在相应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。"><span class="nav-number"></span> <span class="nav-text">在说所有的功能之前,我要先说一下ReactiveCocoa的通俗说法.每一行代码几乎都是在相应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#这里我在ViewController中做一些ReactiveCocoa功能的描述-让我们一起见证ReactiveCocoa的强大之处之前-我们首先要先导入ReactiveCocoa的库"><span class="nav-number"></span> <span class="nav-text">这里我在ViewController中做一些ReactiveCocoa功能的描述.让我们一起见证ReactiveCocoa的强大之处之前,我们首先要先导入ReactiveCocoa的库.</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#import"><span class="nav-number">0.1.</span> <span class="nav-text">#import </span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代理-KVO"><span class="nav-number"></span> <span class="nav-text">代理/KVO</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们在main-storyboard里面做一个textfield-然后在ViewController声明成属性"><span class="nav-number"></span> <span class="nav-text">我们在main.storyboard里面做一个textfield,然后在ViewController声明成属性.</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码解释-self-myTextField的text的值相当于水龙头中的水-rac-textSignal相当于水龙头开关-subscribeNext-这个方法就相当于接水的容器-当水符合水龙头的要求的时候-水就会流出来-其实通过这里我们就可以看出-ReactiveCocoa是一个消息机制-self-myTextField-rac-textSignal整一个是个消息-当有消息的时候就会调用subscribeNext-这样就代替了KVO-每当myTextField的值发生改变的时候-都会发出消息"><span class="nav-number">0.1.</span> <span class="nav-text">代码解释 :self.myTextField的text的值相当于水龙头中的水.rac_textSignal相当于水龙头开关. subscribeNext:这个方法就相当于接水的容器.当水符合水龙头的要求的时候 ,水就会流出来.其实通过这里我们就可以看出,ReactiveCocoa是一个消息机制,self.myTextField.rac_textSignal整一个是个消息,当有消息的时候就会调用subscribeNext,这样就代替了KVO,每当myTextField的值发生改变的时候,都会发出消息.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#谓词"><span class="nav-number"></span> <span class="nav-text">谓词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们可以使用ReactiveCocoa来达到谓词的筛选效果"><span class="nav-number"></span> <span class="nav-text">我们可以使用ReactiveCocoa来达到谓词的筛选效果..</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码解释-根据上一个模块说到ReactiveCocoa可以代替KVO-可是当我们需要筛选一些不许的数据的时候-我们应该怎么做呢-代码如下-我们是使用ReactiveCocoa的一个方法filter-然后返回筛选条件-就能对我们的消息中的值进行筛选再输出了"><span class="nav-number">0.1.</span> <span class="nav-text">代码解释:根据上一个模块说到ReactiveCocoa可以代替KVO,可是当我们需要筛选一些不许的数据的时候,我们应该怎么做呢?代码如下,我们是使用ReactiveCocoa的一个方法filter.然后返回筛选条件,就能对我们的消息中的值进行筛选再输出了.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#映射"><span class="nav-number"></span> <span class="nav-text">映射</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们可以使用ReactiveCocoa来达到映射的效果"><span class="nav-number"></span> <span class="nav-text">我们可以使用ReactiveCocoa来达到映射的效果..</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码解释-ReactiveCocoa的map方法就是起到了映射的效果"><span class="nav-number">0.1.</span> <span class="nav-text">代码解释: ReactiveCocoa的map方法就是起到了映射的效果.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广播"><span class="nav-number"></span> <span class="nav-text">广播</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#我们可以使用ReactiveCocoa来达到通知中心的效果"><span class="nav-number"></span> <span class="nav-text">我们可以使用ReactiveCocoa来达到通知中心的效果.</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码解释-通知使用-ReactiveCocoa-也是能够代替的-而且使用ReactiveCocoa做广播的时候-不需要我们delloc我们的通知中心的观察者"><span class="nav-number">0.1.</span> <span class="nav-text">代码解释:通知使用 ReactiveCocoa 也是能够代替的.而且使用ReactiveCocoa做广播的时候,不需要我们delloc我们的通知中心的观察者.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义信号"><span class="nav-number"></span> <span class="nav-text">自定义信号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#如果上面的案例不能满足我们的需求怎么办-这时候我们就需要自定义信号了"><span class="nav-number"></span> <span class="nav-text">如果上面的案例不能满足我们的需求怎么办?这时候我们就需要自定义信号了.</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#代码解释-首先我们先创建三个小管道-switchSinal就是开关-然后就是铺设管道-铺设完之后我们就需要往其中注水-然后就会从管道中流出"><span class="nav-number">0.1.</span> <span class="nav-text">代码解释:首先我们先创建三个小管道. switchSinal就是开关,然后就是铺设管道,铺设完之后我们就需要往其中注水.然后就会从管道中流出.</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#总结-ReactiveCocoa总体上来说是一个很强大的类库-虽然抽象比较难理解-但是当我们真正理解它的时候-你就会发现它其实很强大-所以学习他是一种必然-但愿我这篇文章能对您有所帮助-谢谢-😃"><span class="nav-number">1.</span> <span class="nav-text">总结:ReactiveCocoa总体上来说是一个很强大的类库,虽然抽象比较难理解,但是当我们真正理解它的时候,你就会发现它其实很强大.所以学习他是一种必然,但愿我这篇文章能对您有所帮助.谢谢.😃</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

@@ -1,0 +1,697 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="好好活就是做有意义的事,做有意义的是就是好好活.
+
+今天,我们就来说一下iOS多线程的问题,为什么要使用iOS多线程?因为一个应用程序在一个时间内可能有一个呗或者多任务,我们不可能都放在主线程当中执行,这样会大大的降低程序的运行效率.所以就需要用到多线程的.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之iOS多线程">
+<meta property="og:url" content="http://yoursite.com/2015/04/20/华山论剑之iOS多线程/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="好好活就是做有意义的事,做有意义的是就是好好活.
+
+今天,我们就来说一下iOS多线程的问题,为什么要使用iOS多线程?因为一个应用程序在一个时间内可能有一个呗或者多任务,我们不可能都放在主线程当中执行,这样会大大的降低程序的运行效率.所以就需要用到多线程的.">
+<meta property="og:updated_time" content="2016-03-11T13:59:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之iOS多线程">
+<meta name="twitter:description" content="好好活就是做有意义的事,做有意义的是就是好好活.
+
+今天,我们就来说一下iOS多线程的问题,为什么要使用iOS多线程?因为一个应用程序在一个时间内可能有一个呗或者多任务,我们不可能都放在主线程当中执行,这样会大大的降低程序的运行效率.所以就需要用到多线程的.">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之iOS多线程 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之iOS多线程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-20T23:19:44+08:00" content="2015-04-20">
+              2015-04-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h4 id="好好活就是做有意义的事-做有意义的是就是好好活"><a href="#好好活就是做有意义的事-做有意义的是就是好好活" class="headerlink" title="好好活就是做有意义的事,做有意义的是就是好好活."></a>好好活就是做有意义的事,做有意义的是就是好好活.</h4></blockquote>
+<p><br></p>
+<h4 id="今天-我们就来说一下iOS多线程的问题-为什么要使用iOS多线程-因为一个应用程序在一个时间内可能有一个呗或者多任务-我们不可能都放在主线程当中执行-这样会大大的降低程序的运行效率-所以就需要用到多线程的"><a href="#今天-我们就来说一下iOS多线程的问题-为什么要使用iOS多线程-因为一个应用程序在一个时间内可能有一个呗或者多任务-我们不可能都放在主线程当中执行-这样会大大的降低程序的运行效率-所以就需要用到多线程的" class="headerlink" title="今天,我们就来说一下iOS多线程的问题,为什么要使用iOS多线程?因为一个应用程序在一个时间内可能有一个呗或者多任务,我们不可能都放在主线程当中执行,这样会大大的降低程序的运行效率.所以就需要用到多线程的."></a>今天,我们就来说一下iOS多线程的问题,为什么要使用iOS多线程?因为一个应用程序在一个时间内可能有一个呗或者多任务,我们不可能都放在主线程当中执行,这样会大大的降低程序的运行效率.所以就需要用到多线程的.</h4><a id="more"></a>
+<p><br></p>
+<p>####多线程的优点<br>能适当提高程序的执行效率</p>
+<p>能适当提高资源利用率（CPU、内存利用率）  </p>
+<p>延缓内存使用高峰的到来</p>
+<h4 id="然后-我们就说一下现在iOS当中人们主要使用到多线程技术-一共是4种-分别是NSObject-NSThread-NSOperation-以及CGD"><a href="#然后-我们就说一下现在iOS当中人们主要使用到多线程技术-一共是4种-分别是NSObject-NSThread-NSOperation-以及CGD" class="headerlink" title="然后,我们就说一下现在iOS当中人们主要使用到多线程技术.一共是4种,分别是NSObject,NSThread,NSOperation,以及CGD."></a>然后,我们就说一下现在iOS当中人们主要使用到多线程技术.一共是4种,分别是NSObject,NSThread,NSOperation,以及CGD.</h4><p><br></p>
+<h2 id="NSObject"><a href="#NSObject" class="headerlink" title="NSObject"></a>NSObject</h2><h4 id="1-NSObject创建多线程的方式比较简单-只有一个方法-就是使用performSelectorInBackground-withObject-的方式创建多线程"><a href="#1-NSObject创建多线程的方式比较简单-只有一个方法-就是使用performSelectorInBackground-withObject-的方式创建多线程" class="headerlink" title="(1)NSObject创建多线程的方式比较简单,只有一个方法.就是使用performSelectorInBackground:withObject: 的方式创建多线程"></a>(1)NSObject创建多线程的方式比较简单,只有一个方法.就是使用performSelectorInBackground:withObject: 的方式创建多线程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Obj performSelectorInBackground:@selector(doSomething) withObject:nil];</span><br><span class="line"></span><br><span class="line">[Obj performSelectorOnMainThread:@selector(doSomethingOnMainThread:) withObject:image waitUntilDone:YES];</span><br></pre></td></tr></table></figure>
+<h4 id="doSomething-在这个自定义的方法内-写自己想要做的事情"><a href="#doSomething-在这个自定义的方法内-写自己想要做的事情" class="headerlink" title="doSomething:在这个自定义的方法内,写自己想要做的事情."></a>doSomething:在这个自定义的方法内,写自己想要做的事情.</h4><h4 id="doSomethingOnMainThread-在这个方法中我们写返回到主线程所做的事情-比如刷新UI等等"><a href="#doSomethingOnMainThread-在这个方法中我们写返回到主线程所做的事情-比如刷新UI等等" class="headerlink" title="doSomethingOnMainThread:在这个方法中我们写返回到主线程所做的事情,比如刷新UI等等."></a>doSomethingOnMainThread:在这个方法中我们写返回到主线程所做的事情,比如刷新UI等等.</h4><p><br></p>
+<h2 id="NSThread"><a href="#NSThread" class="headerlink" title="NSThread"></a>NSThread</h2><h4 id="2-相对于其他两种-NSThread-是一种轻量级的多线程"><a href="#2-相对于其他两种-NSThread-是一种轻量级的多线程" class="headerlink" title="(2)相对于其他两种,NSThread 是一种轻量级的多线程."></a>(2)相对于其他两种,NSThread 是一种轻量级的多线程.</h4><h4 id="创建NSThread-有两种方式-一种对象创建方式-一种是类创建方式-对象创建方式当中我们需要手动启动线程-但是类创建方式中-我们不需要手动启动线程-系统回自动帮助我们启动线程"><a href="#创建NSThread-有两种方式-一种对象创建方式-一种是类创建方式-对象创建方式当中我们需要手动启动线程-但是类创建方式中-我们不需要手动启动线程-系统回自动帮助我们启动线程" class="headerlink" title="创建NSThread 有两种方式,一种对象创建方式,一种是类创建方式.对象创建方式当中我们需要手动启动线程,但是类创建方式中,我们不需要手动启动线程,系统回自动帮助我们启动线程."></a>创建NSThread 有两种方式,一种对象创建方式,一种是类创建方式.对象创建方式当中我们需要手动启动线程,但是类创建方式中,我们不需要手动启动线程,系统回自动帮助我们启动线程.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (id)initWithTarget:(id)target selector:(SEL)selector object:(id)argument </span><br><span class="line">+ (void)detachNewThreadSelector:(SEL)aSelector toTarget:(id)aTarget withObject:(id)anArgument</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[NSThread detachNewThreadSelector:@selector(doSomething:) toTarget:self withObject:nil];   </span><br><span class="line"> </span><br><span class="line">NSThread* testThead = [[NSThread alloc] initWithTarget:self   </span><br><span class="line">                                        selector:@selector(doSomething:)   </span><br><span class="line">                                        object:nil];   </span><br><span class="line">[testThead start];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h2><h4 id="3-NSOperation类是一个抽象的类-我们一般不使用NSOperation-而是使用他的子类NSInvocationOperation和NSOperationQueue"><a href="#3-NSOperation类是一个抽象的类-我们一般不使用NSOperation-而是使用他的子类NSInvocationOperation和NSOperationQueue" class="headerlink" title="(3)NSOperation类是一个抽象的类,我们一般不使用NSOperation,而是使用他的子类NSInvocationOperation和NSOperationQueue."></a>(3)NSOperation类是一个抽象的类,我们一般不使用NSOperation,而是使用他的子类NSInvocationOperation和NSOperationQueue.</h4><h4 id="NSInvocationOperation-这是由系统定义的NSOperation的子类，省去了继承的代码，使用该类可以方便的制定操作对象，方法"><a href="#NSInvocationOperation-这是由系统定义的NSOperation的子类，省去了继承的代码，使用该类可以方便的制定操作对象，方法" class="headerlink" title="NSInvocationOperation:这是由系统定义的NSOperation的子类，省去了继承的代码，使用该类可以方便的制定操作对象，方法."></a>NSInvocationOperation:这是由系统定义的NSOperation的子类，省去了继承的代码，使用该类可以方便的制定操作对象，方法.</h4><h4 id="NSOperationQueue：这是Operation对象的管理者，OperationQueue负责执行放入其中的所有操作对象"><a href="#NSOperationQueue：这是Operation对象的管理者，OperationQueue负责执行放入其中的所有操作对象" class="headerlink" title="NSOperationQueue：这是Operation对象的管理者，OperationQueue负责执行放入其中的所有操作对象."></a>NSOperationQueue：这是Operation对象的管理者，OperationQueue负责执行放入其中的所有操作对象.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">NSInvocationOperation *operation = [[NSInvocationOperation alloc]initWithTarget:self   </span><br><span class="line">                                                                          selector:@selector(operationAction:)   </span><br><span class="line">                                                                            object:myObject];   </span><br><span class="line"></span><br><span class="line">   NSOperationQueue *queue = [[NSOperationQueue alloc]init];   </span><br><span class="line">   [queue addOperation:operation];</span><br></pre></td></tr></table></figure>
+<h4 id="注意-operationAction-线程的方法-参数就是myObject"><a href="#注意-operationAction-线程的方法-参数就是myObject" class="headerlink" title="注意:operationAction:线程的方法,参数就是myObject!!!"></a>注意:operationAction:线程的方法,参数就是myObject!!!</h4><p><br></p>
+<h2 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h2><h4 id="4-Grand-Central-Dispatch-简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac-OS-X-10-6-，iOS-4及以上也可用。"><a href="#4-Grand-Central-Dispatch-简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac-OS-X-10-6-，iOS-4及以上也可用。" class="headerlink" title="(4)Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。"></a>(4)Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">block块创建多线程,并且回到主线程刷新UI</span><br><span class="line">dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^&#123;   </span><br><span class="line">    // 子线程操作..... </span><br><span class="line">    dispatch_async(dispatch_get_main_queue(), ^&#123;   </span><br><span class="line">        //返回主线程, 更新UI界面   </span><br><span class="line">    &#125;);   </span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="然后我们就说一下-我们在GCD中使用的多线程分类dispatch-group-async-分组线程-dispatch-barrier-async-顺序线程-dispatch-apply-重复线程"><a href="#然后我们就说一下-我们在GCD中使用的多线程分类dispatch-group-async-分组线程-dispatch-barrier-async-顺序线程-dispatch-apply-重复线程" class="headerlink" title="然后我们就说一下,我们在GCD中使用的多线程分类dispatch_group_async(分组线程) ,dispatch_barrier_async(顺序线程),dispatch_apply (重复线程)"></a>然后我们就说一下,我们在GCD中使用的多线程分类<strong>dispatch_group_async(分组线程)</strong> ,<strong>dispatch_barrier_async(顺序线程)</strong>,<strong>dispatch_apply (重复线程)</strong></h4><h4 id="dispatch-group-async可以实现监听一组任务是否完成，完成后得到通知执行其他的操作"><a href="#dispatch-group-async可以实现监听一组任务是否完成，完成后得到通知执行其他的操作" class="headerlink" title="dispatch_group_async可以实现监听一组任务是否完成，完成后得到通知执行其他的操作"></a>dispatch_group_async可以实现监听一组任务是否完成，完成后得到通知执行其他的操作</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);   </span><br><span class="line">dispatch_group_t group = dispatch_group_create();   </span><br><span class="line">dispatch_group_async(group, queue, ^&#123;   </span><br><span class="line">    NSLog(@&quot;group1&quot;);   //分组线程任务1</span><br><span class="line">&#125;);   </span><br><span class="line">dispatch_group_async(group, queue, ^&#123;   </span><br><span class="line">    NSLog(@&quot;group2&quot;);   //分组线程任务2</span><br><span class="line">&#125;);   </span><br><span class="line">dispatch_group_async(group, queue, ^&#123;   </span><br><span class="line">    NSLog(@&quot;group3&quot;);   //分组线程任务3</span><br><span class="line">&#125;);   </span><br><span class="line">dispatch_group_notify(group, dispatch_get_main_queue(), ^&#123;   </span><br><span class="line">    NSLog(@&quot;updateUi&quot;);   //主线程任务</span><br><span class="line">&#125;);   </span><br><span class="line">dispatch_release(group);</span><br></pre></td></tr></table></figure>
+<h4 id="注意-在dispatch-group-async当中，所有线程任务都是并发执行的，没有先后顺序，但是如上面的代码当中只有当分组线程任务完成的时候，主线程任务才会执行。"><a href="#注意-在dispatch-group-async当中，所有线程任务都是并发执行的，没有先后顺序，但是如上面的代码当中只有当分组线程任务完成的时候，主线程任务才会执行。" class="headerlink" title="注意:在dispatch_group_async当中，所有线程任务都是并发执行的，没有先后顺序，但是如上面的代码当中只有当分组线程任务完成的时候，主线程任务才会执行。"></a><strong>注意:</strong>在dispatch_group_async当中，所有线程任务都是并发执行的，没有先后顺序，但是如上面的代码当中只有当分组线程任务完成的时候，主线程任务才会执行。</h4><h4 id="dispatch-barrier-async是在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行"><a href="#dispatch-barrier-async是在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行" class="headerlink" title="dispatch_barrier_async是在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行"></a>dispatch_barrier_async是在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">dispatch_queue_t queue = dispatch_queue_create(&quot;gcdtest.rongfzh.yc&quot;, DISPATCH_QUEUE_CONCURRENT);   </span><br><span class="line">dispatch_async(queue, ^&#123;   </span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;dispatch_async1&quot;);   //子线程任务1</span><br><span class="line"></span><br><span class="line">&#125;);   </span><br><span class="line"></span><br><span class="line">dispatch_async(queue, ^&#123;   </span><br><span class="line"></span><br><span class="line"> NSLog(@&quot;dispatch_async2&quot;); //子线程任务2</span><br><span class="line"></span><br><span class="line">&#125;);   </span><br><span class="line">dispatch_barrier_async(queue, ^&#123;   </span><br><span class="line">    NSLog(@&quot;dispatch_barrier_async&quot;);   //顺序线程任务</span><br><span class="line"> </span><br><span class="line">&#125;);   </span><br><span class="line">dispatch_async(queue, ^&#123;   </span><br><span class="line">    NSLog(@&quot;dispatch_async3&quot;);   //子线程任务3</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="子线程任务1和子线程任务2执行完成可能有所不同-但是子线程任务1和子线程任务2一定在顺序线程任务之前-当顺序线程任务执行完成之后-子线程任务3才会执行"><a href="#子线程任务1和子线程任务2执行完成可能有所不同-但是子线程任务1和子线程任务2一定在顺序线程任务之前-当顺序线程任务执行完成之后-子线程任务3才会执行" class="headerlink" title="子线程任务1和子线程任务2执行完成可能有所不同,但是子线程任务1和子线程任务2一定在顺序线程任务之前,当顺序线程任务执行完成之后,子线程任务3才会执行."></a>子线程任务1和子线程任务2执行完成可能有所不同,但是子线程任务1和子线程任务2一定在顺序线程任务之前,当顺序线程任务执行完成之后,子线程任务3才会执行.</h4><h4 id="dispatch-apply-是将block块中的代码执行n次"><a href="#dispatch-apply-是将block块中的代码执行n次" class="headerlink" title="dispatch_apply 是将block块中的代码执行n次"></a><strong>dispatch_apply </strong>是将block块中的代码执行n次</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dispatch_apply(3, globalQ, ^(size_t index) &#123; </span><br><span class="line">    // 执行3次block中的代码</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/15/华山论剑之iOS手势（UIGestureRecognizer-）/" rel="next" title="华山论剑之iOS手势（UIGestureRecognizer ）">
+                <i class="fa fa-chevron-left"></i> 华山论剑之iOS手势（UIGestureRecognizer ）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/04/21/华山论剑之iOS的数据持久化/" rel="prev" title="华山论剑之iOS的数据持久化">
+                华山论剑之iOS的数据持久化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#好好活就是做有意义的事-做有意义的是就是好好活"><span class="nav-number">1.</span> <span class="nav-text">好好活就是做有意义的事,做有意义的是就是好好活.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#今天-我们就来说一下iOS多线程的问题-为什么要使用iOS多线程-因为一个应用程序在一个时间内可能有一个呗或者多任务-我们不可能都放在主线程当中执行-这样会大大的降低程序的运行效率-所以就需要用到多线程的"><span class="nav-number">2.</span> <span class="nav-text">今天,我们就来说一下iOS多线程的问题,为什么要使用iOS多线程?因为一个应用程序在一个时间内可能有一个呗或者多任务,我们不可能都放在主线程当中执行,这样会大大的降低程序的运行效率.所以就需要用到多线程的.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们就说一下现在iOS当中人们主要使用到多线程技术-一共是4种-分别是NSObject-NSThread-NSOperation-以及CGD"><span class="nav-number">3.</span> <span class="nav-text">然后,我们就说一下现在iOS当中人们主要使用到多线程技术.一共是4种,分别是NSObject,NSThread,NSOperation,以及CGD.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSObject"><span class="nav-number"></span> <span class="nav-text">NSObject</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-NSObject创建多线程的方式比较简单-只有一个方法-就是使用performSelectorInBackground-withObject-的方式创建多线程"><span class="nav-number">1.</span> <span class="nav-text">(1)NSObject创建多线程的方式比较简单,只有一个方法.就是使用performSelectorInBackground:withObject: 的方式创建多线程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#doSomething-在这个自定义的方法内-写自己想要做的事情"><span class="nav-number">2.</span> <span class="nav-text">doSomething:在这个自定义的方法内,写自己想要做的事情.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#doSomethingOnMainThread-在这个方法中我们写返回到主线程所做的事情-比如刷新UI等等"><span class="nav-number">3.</span> <span class="nav-text">doSomethingOnMainThread:在这个方法中我们写返回到主线程所做的事情,比如刷新UI等等.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSThread"><span class="nav-number"></span> <span class="nav-text">NSThread</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-相对于其他两种-NSThread-是一种轻量级的多线程"><span class="nav-number">1.</span> <span class="nav-text">(2)相对于其他两种,NSThread 是一种轻量级的多线程.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建NSThread-有两种方式-一种对象创建方式-一种是类创建方式-对象创建方式当中我们需要手动启动线程-但是类创建方式中-我们不需要手动启动线程-系统回自动帮助我们启动线程"><span class="nav-number">2.</span> <span class="nav-text">创建NSThread 有两种方式,一种对象创建方式,一种是类创建方式.对象创建方式当中我们需要手动启动线程,但是类创建方式中,我们不需要手动启动线程,系统回自动帮助我们启动线程.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NSOperation"><span class="nav-number"></span> <span class="nav-text">NSOperation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-NSOperation类是一个抽象的类-我们一般不使用NSOperation-而是使用他的子类NSInvocationOperation和NSOperationQueue"><span class="nav-number">1.</span> <span class="nav-text">(3)NSOperation类是一个抽象的类,我们一般不使用NSOperation,而是使用他的子类NSInvocationOperation和NSOperationQueue.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSInvocationOperation-这是由系统定义的NSOperation的子类，省去了继承的代码，使用该类可以方便的制定操作对象，方法"><span class="nav-number">2.</span> <span class="nav-text">NSInvocationOperation:这是由系统定义的NSOperation的子类，省去了继承的代码，使用该类可以方便的制定操作对象，方法.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NSOperationQueue：这是Operation对象的管理者，OperationQueue负责执行放入其中的所有操作对象"><span class="nav-number">3.</span> <span class="nav-text">NSOperationQueue：这是Operation对象的管理者，OperationQueue负责执行放入其中的所有操作对象.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-operationAction-线程的方法-参数就是myObject"><span class="nav-number">4.</span> <span class="nav-text">注意:operationAction:线程的方法,参数就是myObject!!!</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GCD"><span class="nav-number"></span> <span class="nav-text">GCD</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Grand-Central-Dispatch-简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac-OS-X-10-6-，iOS-4及以上也可用。"><span class="nav-number">1.</span> <span class="nav-text">(4)Grand Central Dispatch 简称（GCD）是苹果公司开发的技术，以优化的应用程序支持多核心处理器和其他的对称多处理系统的系统。这建立在任务并行执行的线程池模式的基础上的。它首次发布在Mac OS X 10.6 ，iOS 4及以上也可用。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后我们就说一下-我们在GCD中使用的多线程分类dispatch-group-async-分组线程-dispatch-barrier-async-顺序线程-dispatch-apply-重复线程"><span class="nav-number">2.</span> <span class="nav-text">然后我们就说一下,我们在GCD中使用的多线程分类dispatch_group_async(分组线程) ,dispatch_barrier_async(顺序线程),dispatch_apply (重复线程)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-group-async可以实现监听一组任务是否完成，完成后得到通知执行其他的操作"><span class="nav-number">3.</span> <span class="nav-text">dispatch_group_async可以实现监听一组任务是否完成，完成后得到通知执行其他的操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-在dispatch-group-async当中，所有线程任务都是并发执行的，没有先后顺序，但是如上面的代码当中只有当分组线程任务完成的时候，主线程任务才会执行。"><span class="nav-number">4.</span> <span class="nav-text">注意:在dispatch_group_async当中，所有线程任务都是并发执行的，没有先后顺序，但是如上面的代码当中只有当分组线程任务完成的时候，主线程任务才会执行。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-barrier-async是在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行"><span class="nav-number">5.</span> <span class="nav-text">dispatch_barrier_async是在前面的任务执行结束后它才执行，而且它后面的任务等它执行完成之后才会执行</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#子线程任务1和子线程任务2执行完成可能有所不同-但是子线程任务1和子线程任务2一定在顺序线程任务之前-当顺序线程任务执行完成之后-子线程任务3才会执行"><span class="nav-number">6.</span> <span class="nav-text">子线程任务1和子线程任务2执行完成可能有所不同,但是子线程任务1和子线程任务2一定在顺序线程任务之前,当顺序线程任务执行完成之后,子线程任务3才会执行.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#dispatch-apply-是将block块中的代码执行n次"><span class="nav-number">7.</span> <span class="nav-text">dispatch_apply 是将block块中的代码执行n次</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

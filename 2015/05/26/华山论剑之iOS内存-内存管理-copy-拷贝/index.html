@@ -1,0 +1,771 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="我想大部分人都知道通常一个程序员会具有的美德。当然了，有三种：懒惰，暴躁，傲慢。  —-Perl语言发明者Larry Wall 
+
+我想不管是iOS的,还是Java的初学者,内存算得上心中的一个永远抹不去的痛吧,当时作为初学者的我也是一度苦恼,不知道该如何理解这个内存,随着不断的学习,自己对内存也有更深的了解.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之iOS内存,内存管理,copy(拷贝)">
+<meta property="og:url" content="http://yoursite.com/2015/05/26/华山论剑之iOS内存-内存管理-copy-拷贝/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="我想大部分人都知道通常一个程序员会具有的美德。当然了，有三种：懒惰，暴躁，傲慢。  —-Perl语言发明者Larry Wall 
+
+我想不管是iOS的,还是Java的初学者,内存算得上心中的一个永远抹不去的痛吧,当时作为初学者的我也是一度苦恼,不知道该如何理解这个内存,随着不断的学习,自己对内存也有更深的了解.">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql271sbsj20ko0j840p.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql27tvgzj20yg0c6abw.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/mw690/8446c8c7gw1f1ql28sy81j20yg0p30uy.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql29a46tj20p10ca3yp.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql29z4o2j20yg0dyjsl.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql2b7kexj20yg0k441k.jpg">
+<meta property="og:image" content="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql2brmfrj20yg0kjwga.jpg">
+<meta property="og:updated_time" content="2016-03-11T13:59:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之iOS内存,内存管理,copy(拷贝)">
+<meta name="twitter:description" content="我想大部分人都知道通常一个程序员会具有的美德。当然了，有三种：懒惰，暴躁，傲慢。  —-Perl语言发明者Larry Wall 
+
+我想不管是iOS的,还是Java的初学者,内存算得上心中的一个永远抹不去的痛吧,当时作为初学者的我也是一度苦恼,不知道该如何理解这个内存,随着不断的学习,自己对内存也有更深的了解.">
+<meta name="twitter:image" content="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql271sbsj20ko0j840p.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之iOS内存,内存管理,copy(拷贝) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之iOS内存,内存管理,copy(拷贝)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-26T18:58:16+08:00" content="2015-05-26">
+              2015-05-26
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>我想大部分人都知道通常一个程序员会具有的美德。当然了，有三种：懒惰，暴躁，傲慢。  —-Perl语言发明者Larry Wall </p>
+</blockquote>
+<h5 id="我想不管是iOS的-还是Java的初学者-内存算得上心中的一个永远抹不去的痛吧-当时作为初学者的我也是一度苦恼-不知道该如何理解这个内存-随着不断的学习-自己对内存也有更深的了解"><a href="#我想不管是iOS的-还是Java的初学者-内存算得上心中的一个永远抹不去的痛吧-当时作为初学者的我也是一度苦恼-不知道该如何理解这个内存-随着不断的学习-自己对内存也有更深的了解" class="headerlink" title="我想不管是iOS的,还是Java的初学者,内存算得上心中的一个永远抹不去的痛吧,当时作为初学者的我也是一度苦恼,不知道该如何理解这个内存,随着不断的学习,自己对内存也有更深的了解."></a>我想不管是iOS的,还是Java的初学者,内存算得上心中的一个永远抹不去的痛吧,当时作为初学者的我也是一度苦恼,不知道该如何理解这个内存,随着不断的学习,自己对内存也有更深的了解.</h5><a id="more"></a>
+<p><br></p>
+<hr>
+<h2 id="内存"><a href="#内存" class="headerlink" title="内存"></a>内存</h2><p> </p>
+<h5 id="说到内存-不能不说一下内存的分区-内存总共分为五大区-分别是栈区-堆区-静态区-常量区-代码区-五个区是按照内存地址从大到小分配的"><a href="#说到内存-不能不说一下内存的分区-内存总共分为五大区-分别是栈区-堆区-静态区-常量区-代码区-五个区是按照内存地址从大到小分配的" class="headerlink" title="说到内存,不能不说一下内存的分区,内存总共分为五大区,分别是栈区 堆区 静态区 常量区 代码区,五个区是按照内存地址从大到小分配的."></a>说到内存,不能不说一下内存的分区,内存总共分为五大区,分别是栈区 堆区 静态区 常量区 代码区,五个区是按照内存地址从大到小分配的.</h5><p><img src="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql271sbsj20ko0j840p.jpg" alt="“神经骚栋”/"></p>
+<p><img src="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql27tvgzj20yg0c6abw.jpg" alt="“神经骚栋”/"></p>
+<h5 id="其实我们最常用的还是栈区和堆区的内存-然后首先来看一下栈区内存的特点吧"><a href="#其实我们最常用的还是栈区和堆区的内存-然后首先来看一下栈区内存的特点吧" class="headerlink" title="其实我们最常用的还是栈区和堆区的内存,然后首先来看一下栈区内存的特点吧,"></a>其实我们最常用的还是栈区和堆区的内存,然后首先来看一下栈区内存的特点吧,</h5><h4 id="1-栈区内存"><a href="#1-栈区内存" class="headerlink" title="1.栈区内存"></a>1.栈区内存</h4><pre><code>1.局部变量的存储空间基本都是栈区,局部变量在函数,循环,分支中定义
+
+2.在栈区的存储空间由高向低分配,从低向高存储.!!
+
+3.栈区内存由系统负责分配和回收,程序员开发者没有管理权限.
+
+4.当函数,循环,分支执行结束后,局部变量的生命周期就结束了.之后不能再进行使用,由系统销毁
+
+5.栈底,栈顶:栈底是栈区内存的起始位置,先定义的变量所占用的内存,从栈底开始分配,后定义的变量所占用的内存,逐渐向栈顶分配.
+
+6.入栈,出栈:入栈,定义新的局部变量,分配存储空间.出栈,局部变量被销毁,存储空间被收回.
+
+7.栈的特点:先进后出,后进先出.例如:子弹夹添加子弹,打出子弹.
+</code></pre><h4 id="2-堆区内存"><a href="#2-堆区内存" class="headerlink" title="2.堆区内存"></a>2.堆区内存</h4><pre><code>1.由开发者负责分配和回收.
+
+2.忘记回收会造成泄漏.
+
+3.程序运行结束后,需要及时回收堆内存,但是如果不能及时回收堆内存程序运行期间可能会因为内存泄漏造成堆内存被全部使用,导致程序无法使用.
+</code></pre><h4 id="3-常量区内存"><a href="#3-常量区内存" class="headerlink" title="3.常量区内存"></a>3.常量区内存</h4><pre><code>1.常量存储在常量区,例如:常量数字,常量字符串,常量字符,
+
+2.常量区存储空间由系统分配和回收
+
+3.程序运行结束后,常量区的存储空间被回收
+
+4.常量区的数据只能读取,不能修改,修改的话会造成崩溃.
+</code></pre><h4 id="4-静态区内存"><a href="#4-静态区内存" class="headerlink" title="4.静态区内存"></a>4.静态区内存</h4><pre><code>1.全局变量,使用static修饰的局部变量,都存储在静态区.
+
+2.静态区的存储空间由系统分配和回收.
+
+3.程序运行结束后,静态区的存储空间被回收,静态变量的生命周期和程序一样长.
+
+4.静态变量只能初始化一次,在编译时进行初始化,运行时可以修改值
+
+5.静态变量如果没有设置初始值,默认为0.
+</code></pre><h4 id="5-代码区内存"><a href="#5-代码区内存" class="headerlink" title="5.代码区内存"></a>5.代码区内存</h4><pre><code>1.由系统分配和回收
+
+2.程序运行结束之后,由系统回收分配过的内存存储空间
+</code></pre><hr>
+<h2 id="内存管理"><a href="#内存管理" class="headerlink" title="内存管理"></a>内存管理</h2><p></p>
+<h5 id="上面我们说到了内存的五大区-现在我从内存的管理来说一下内存-为什么我们开发应用的时候要要注意内存呢-由于移动设备的内存有限-所以每一个APP应用程序的内存也是有限的-App所占用的内存较多时-系统就会发出内存警告-为了节省内存的使用-所以我们就要使用到内存管理-就是当对象不再被使用的时候-我们要对其内存及时的进行回收"><a href="#上面我们说到了内存的五大区-现在我从内存的管理来说一下内存-为什么我们开发应用的时候要要注意内存呢-由于移动设备的内存有限-所以每一个APP应用程序的内存也是有限的-App所占用的内存较多时-系统就会发出内存警告-为了节省内存的使用-所以我们就要使用到内存管理-就是当对象不再被使用的时候-我们要对其内存及时的进行回收" class="headerlink" title="上面我们说到了内存的五大区,现在我从内存的管理来说一下内存,为什么我们开发应用的时候要要注意内存呢?由于移动设备的内存有限,所以每一个APP应用程序的内存也是有限的,App所占用的内存较多时,系统就会发出内存警告.为了节省内存的使用.所以我们就要使用到内存管理,就是当对象不再被使用的时候,我们要对其内存及时的进行回收."></a>上面我们说到了内存的五大区,现在我从内存的管理来说一下内存,为什么我们开发应用的时候要要注意内存呢?由于移动设备的内存有限,所以每一个APP应用程序的内存也是有限的,App所占用的内存较多时,系统就会发出内存警告.为了节省内存的使用.所以我们就要使用到内存管理,就是当对象不再被使用的时候,我们要对其内存及时的进行回收.</h5><h5 id="内存管理这一块我要说的是我们在MRC-Manual-Reference-Counting-环境下需要手动管理堆区的内存-进行release操作等-但是在-ARC-Automatic-Reference-Counting-环境下-我们不需要手动管理我们的内存-首先我们需要看一下如何切换ARC环境和MRC环境"><a href="#内存管理这一块我要说的是我们在MRC-Manual-Reference-Counting-环境下需要手动管理堆区的内存-进行release操作等-但是在-ARC-Automatic-Reference-Counting-环境下-我们不需要手动管理我们的内存-首先我们需要看一下如何切换ARC环境和MRC环境" class="headerlink" title="内存管理这一块我要说的是我们在MRC(Manual Reference Counting)环境下需要手动管理堆区的内存,进行release操作等,但是在 ARC(Automatic Reference Counting)环境下,我们不需要手动管理我们的内存.首先我们需要看一下如何切换ARC环境和MRC环境."></a>内存管理这一块我要说的是我们在MRC(Manual Reference Counting)环境下需要手动管理堆区的内存,进行release操作等,但是在 ARC(Automatic Reference Counting)环境下,我们不需要手动管理我们的内存.首先我们需要看一下如何切换ARC环境和MRC环境.</h5><p></p>
+<p>首选我们需要打开工程的配置面板,然后Build setting面板中搜索auto(自动)关键的字样,然后就可以查找到ARC环境的切换选项了</p>
+<p><img src="http://ww4.sinaimg.cn/mw690/8446c8c7gw1f1ql28sy81j20yg0p30uy.jpg" alt="“神经骚栋”/"></p>
+<h5 id="下面我就说一下内存管理的核心-内存管理的核心就是引用计数的加减-引用计数相当于对象的一个属性-当然了-这个属性是不需要我们手动创建的-系统会帮每一个对象进行创建的"><a href="#下面我就说一下内存管理的核心-内存管理的核心就是引用计数的加减-引用计数相当于对象的一个属性-当然了-这个属性是不需要我们手动创建的-系统会帮每一个对象进行创建的" class="headerlink" title="下面我就说一下内存管理的核心,内存管理的核心就是引用计数的加减,引用计数相当于对象的一个属性,当然了,这个属性是不需要我们手动创建的,系统会帮每一个对象进行创建的."></a>下面我就说一下内存管理的核心,内存管理的核心就是<strong><em>引用计数</em></strong>的加减,引用计数相当于对象的一个属性,当然了,这个属性是不需要我们手动创建的,系统会帮每一个对象进行创建的.</h5><p><img src="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql29a46tj20p10ca3yp.jpg" alt="“神经骚栋”/"></p>
+<h5 id="引用计数器的作用-用来判断对象是否应该回收内存空间-当引用计数器为0时-此时需要回收对象的内存空间"><a href="#引用计数器的作用-用来判断对象是否应该回收内存空间-当引用计数器为0时-此时需要回收对象的内存空间" class="headerlink" title="引用计数器的作用:用来判断对象是否应该回收内存空间,当引用计数器为0时,此时需要回收对象的内存空间."></a>引用计数器的作用:用来判断对象是否应该回收内存空间,当引用计数器为0时,此时需要回收对象的内存空间.</h5><h5 id="引用计数器的操作"><a href="#引用计数器的操作" class="headerlink" title="引用计数器的操作:"></a>引用计数器的操作:</h5><h5 id="retain-引用计数器-1"><a href="#retain-引用计数器-1" class="headerlink" title="retain 引用计数器 +1"></a>retain 引用计数器 +1</h5><h5 id="release-引用计数器-1"><a href="#release-引用计数器-1" class="headerlink" title="release 引用计数器 -1"></a>release 引用计数器 -1</h5><h5 id="retainCount-得到引用计数器的值"><a href="#retainCount-得到引用计数器的值" class="headerlink" title="retainCount   得到引用计数器的值"></a>retainCount   得到引用计数器的值</h5><h5 id="如果一个对象被释放的时候-引用计数为0了-就会使用一个方法-析构函数dealloc"><a href="#如果一个对象被释放的时候-引用计数为0了-就会使用一个方法-析构函数dealloc" class="headerlink" title="如果一个对象被释放的时候,引用计数为0了,就会使用一个方法,析构函数dealloc;"></a>如果一个对象被释放的时候,引用计数为0了,就会使用一个方法,析构函数dealloc;</h5><p></p>
+<h5 id="然后-我们就看一下内存管理的黄金法则"><a href="#然后-我们就看一下内存管理的黄金法则" class="headerlink" title="然后,我们就看一下内存管理的黄金法则,"></a>然后,我们就看一下内存管理的黄金法则,</h5><blockquote>
+<h3 id="内存黄金法则"><a href="#内存黄金法则" class="headerlink" title="内存黄金法则:"></a>内存黄金法则:</h3></blockquote>
+<h4 id="谁alloc-谁release-包括new"><a href="#谁alloc-谁release-包括new" class="headerlink" title="谁alloc,谁release!(包括new);"></a>谁alloc,谁release!(包括new);</h4><h4 id="谁retain-谁release"><a href="#谁retain-谁release" class="headerlink" title="谁retain,谁release!"></a>谁retain,谁release!</h4><h4 id="retain-引用计数-1"><a href="#retain-引用计数-1" class="headerlink" title="(retain) 引用计数+1"></a>(retain) 引用计数+1</h4><h4 id="release-引用计数-1"><a href="#release-引用计数-1" class="headerlink" title="(release) 引用计数-1"></a>(release) 引用计数-1</h4><h4 id="谁copy-谁release"><a href="#谁copy-谁release" class="headerlink" title="谁copy,谁release!"></a>谁copy,谁release!</h4><p><br></p>
+<p>##野指针与内存泄露</p>
+<p>#####说到内存管理就不得不说一下内存泄露和野指针问题.</p>
+<p>#####内存泄漏　<br>用动态存储分配函数动态开辟的空间，在使用完毕后未释放，结果导致一直占据该内存单元，不能被任何程序再次使用，直到程序结束。即所谓内存泄漏。<br>   注意：内存泄漏是指堆内存的泄漏。<br>　简单的说就是申请了一块内存空间，使用完毕后没有释放掉。它的一般表现方式是程序运行时间越长，占用内存越多，最终用尽全部内存，整个系统崩溃。由程序申请的一块内存，且没有任何一个指针指向它，那么这块内存就泄露了。</p>
+<p>#####野指针<br>　　“野指针”不是NULL指针，是未初始化或未清零的指针，他指向的内存地址不是程序员想要的。人们一般不会错用NULL指针，因为用if语句很容易判断。但是“野指针”是很危险的，if语句对它不起作用。野指针的成因主要有两种：<br>　　一、指针变量没有被初始化。任何指针变量刚被创建时不会自动成为NULL指针，它的缺省值是随机的，它会乱指一气。所以，指针变量在创建的同时应当被初始化，要么将指针设置为NULL，要么让它指向合法的内存。<br>　　二、指针p被free或者delete之后，没有置为NULL，让人误以为p是个合法的指针。别看free和delete的名字恶狠狠的（尤其是delete），它们只是把指针所指的内存给释放掉，但并没有把指针本身干掉。通常会用语句if (p != NULL)进行防错处理。很遗憾，此时if语句起不到防错作用，因为即便p不是NULL指针，它也不指向合法的内存块。
+　　</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark---研究简单的野指针---</span><br><span class="line">        Person *p = [Person new];</span><br><span class="line">        </span><br><span class="line">        //使用KVC对属性进行赋值</span><br><span class="line">        [p setValue:@&quot;栋栋&quot; forKey:@&quot;name&quot;];</span><br><span class="line">        [p  retain];</span><br><span class="line"></span><br><span class="line">        //调用方法</span><br><span class="line">        [p eat];</span><br><span class="line">  </span><br><span class="line">        //释放</span><br><span class="line">        [p release];</span><br><span class="line"></span><br><span class="line">        //此处是野指针,在正常的情况下是可以访问的.如果想要查找野指针,就要打开僵尸模式,editscheme-&gt;diagnostics-&gt;zombie</span><br><span class="line">        [p eat];</span><br><span class="line"></span><br><span class="line">        [p release];//如果不release就会产生内存泄漏.</span><br></pre></td></tr></table></figure>
+<p>上面说到了僵尸模式,然后我们就看看如何开启僵尸模式,检测野指针的存在.</p>
+<p><img src="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql29z4o2j20yg0dyjsl.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h2 id="拷贝"><a href="#拷贝" class="headerlink" title="拷贝"></a>拷贝</h2><p>对于拷贝,也是让大多数人头疼的,因为拷贝烤着烤着就把自己给弄糊涂了,所以,今天最后我还要说一下这个copy相关的问题,首先拷贝分为可变拷贝和不可变的拷贝.来看一下实际的范例吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">NSString * p1 =@&quot;Jobs&quot;;</span><br><span class="line">        </span><br><span class="line">        NSString *p2 = [NSString stringWithFormat:@&quot;wang&quot;];</span><br><span class="line">        </span><br><span class="line">        NSString *p3 = [[NSString alloc]initWithString:p1];</span><br><span class="line">        </span><br><span class="line">        NSString *p4 = [NSString stringWithString:p1];</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p1,p1);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p2,p2);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p3,p3);</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@ ----- %p&quot;,p4,p4);</span><br><span class="line"></span><br><span class="line">        NSLog(@&quot;%p&quot;,p1);</span><br></pre></td></tr></table></figure>
+<p>根据代言结果,我们不难发现,p3和p4只是指针的重指向而已.</p>
+<p><br></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSString * p1 =@&quot;Jobs&quot;;</span><br><span class="line"></span><br><span class="line">       NSLog(@&quot;%p&quot;,p1);</span><br><span class="line">       </span><br><span class="line">       //可变字符串对象  指向   不可变拷贝的数据</span><br><span class="line">       NSMutableString * p2 = [p1 copy];</span><br><span class="line">       </span><br><span class="line">       NSLog(@&quot;%p&quot;,p2);</span><br><span class="line">       </span><br><span class="line">       //如果上面使用的是 copy,那么此处就会crash,如果使用的是,mutableCopy那么将会改变</span><br><span class="line">       </span><br><span class="line">       [p2 appendString:@&quot;steve&quot;];</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww2.sinaimg.cn/mw690/8446c8c7gw1f1ql2b7kexj20yg0k441k.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="可变拷贝"><a href="#可变拷贝" class="headerlink" title="可变拷贝"></a>可变拷贝</h4><p>如果我们将上面的过程换成可变的拷贝,然后再进行字符串的拼接会有什么情况的产生呢?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">NSString * p1 =@&quot;Jobs&quot;;</span><br><span class="line"></span><br><span class="line">      NSLog(@&quot;%p&quot;,p1);</span><br><span class="line">      </span><br><span class="line">      //可变字符串对象  指向   不可变拷贝的数据</span><br><span class="line">      NSMutableString * p2 = [p1 mutableCopy];</span><br><span class="line">      </span><br><span class="line">      NSLog(@&quot;%p&quot;,p2);</span><br><span class="line">      </span><br><span class="line">      //如果上面使用的是 copy,那么此处就会crash,如果使用的是,mutableCopy那么将会改变</span><br><span class="line">      </span><br><span class="line">      [p2 appendString:@&quot;steve&quot;];</span><br></pre></td></tr></table></figure>
+<p><img src="http://ww3.sinaimg.cn/mw690/8446c8c7gw1f1ql2brmfrj20yg0kjwga.jpg" alt="“神经骚栋”/"></p>
+<p>通过上面的两个实例,我们简单的对可变拷贝和不可变拷贝做一下总结,用于以后的工作中</p>
+<blockquote>
+<h2 id="上述总结"><a href="#上述总结" class="headerlink" title="上述总结:"></a>上述总结:</h2><h4 id="copy-不可变拷贝-如果使用了不可变拷贝-那么接收的对象不管是可变对象还是不可变的对象-都不能改变拷贝过来的内容"><a href="#copy-不可变拷贝-如果使用了不可变拷贝-那么接收的对象不管是可变对象还是不可变的对象-都不能改变拷贝过来的内容" class="headerlink" title="copy(不可变拷贝),如果使用了不可变拷贝,那么接收的对象不管是可变对象还是不可变的对象,都不能改变拷贝过来的内容"></a>copy(不可变拷贝),如果使用了不可变拷贝,那么接收的对象不管是可变对象还是不可变的对象,都不能改变拷贝过来的内容</h4><h4 id="mutableCopy-可变拷贝-如果使用了可变拷贝-那么接收对象不管是可变的还是不可变的对象-都可以改变拷贝过来的内容"><a href="#mutableCopy-可变拷贝-如果使用了可变拷贝-那么接收对象不管是可变的还是不可变的对象-都可以改变拷贝过来的内容" class="headerlink" title="mutableCopy(可变拷贝),如果使用了可变拷贝,那么接收对象不管是可变的还是不可变的对象,都可以改变拷贝过来的内容"></a>mutableCopy(可变拷贝),如果使用了可变拷贝,那么接收对象不管是可变的还是不可变的对象,都可以改变拷贝过来的内容</h4></blockquote>
+<p><br></p>
+<h3 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h3><p>对于浅拷贝和深拷贝,其实就是拷贝对象的区别,浅拷贝拷贝的是地址,而深拷贝拷贝的是对象的本身.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark---怎么判断深拷贝----</span><br><span class="line">        </span><br><span class="line">        //通过两个对象的地址来判断,如果地址不同,那么就是深拷贝.</span><br><span class="line">        </span><br><span class="line">#pragma mark---怎么判断浅拷贝----</span><br><span class="line">        </span><br><span class="line">        //通过两个对象的地址来判断,如果地址相同,那么就是浅拷贝.</span><br></pre></td></tr></table></figure>
+<p>这里我给大家附加上一道面试题,来提高大家对copy的理解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#pragma mark--- 面试题 ---</span><br><span class="line">        </span><br><span class="line">        //1.你怎么样理解深拷贝和浅拷贝.</span><br><span class="line">        //浅拷贝:就如同人和影子,在内存,人没影子就没了,影子没了人就没了.就是操作的同一个空间.</span><br><span class="line">        //深拷贝:就如同人和克隆,在内存中,人没了克隆还在,克隆没有,人还在.就是操作的不同的空间.</span><br><span class="line">        </span><br><span class="line">        //2.如何对深拷贝和浅拷贝进行内存释放</span><br><span class="line">        //浅拷贝:释放一个即可.因为释放哪个对象,都是同一个空间.</span><br><span class="line">        //深拷贝:释放全部,因为是两个对象,而且是两个空间.</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<h5 id="今天我就先说到这-后期将说一下-对象属性的实现原理"><a href="#今天我就先说到这-后期将说一下-对象属性的实现原理" class="headerlink" title="今天我就先说到这,后期将说一下,对象属性的实现原理,"></a>今天我就先说到这,后期将说一下,对象属性的实现原理,</h5><p><br><br><br><br>参考博客原文:<a href="http://blog.csdn.net/dangercheng/article/details/12618161" target="_blank" rel="external">http://blog.csdn.net/dangercheng/article/details/12618161</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/21/华山论剑之iOS的数据持久化/" rel="next" title="华山论剑之iOS的数据持久化">
+                <i class="fa fa-chevron-left"></i> 华山论剑之iOS的数据持久化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/08/华山论剑之浅谈iOS的-target-action设计模式-和-代理模式-以及Bolck/" rel="prev" title="华山论剑之浅谈iOS的 target - action设计模式 和 代理模式 以及Bolck">
+                华山论剑之浅谈iOS的 target - action设计模式 和 代理模式 以及Bolck <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#我想不管是iOS的-还是Java的初学者-内存算得上心中的一个永远抹不去的痛吧-当时作为初学者的我也是一度苦恼-不知道该如何理解这个内存-随着不断的学习-自己对内存也有更深的了解"><span class="nav-number">1.</span> <span class="nav-text">我想不管是iOS的,还是Java的初学者,内存算得上心中的一个永远抹不去的痛吧,当时作为初学者的我也是一度苦恼,不知道该如何理解这个内存,随着不断的学习,自己对内存也有更深的了解.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存"><span class="nav-number"></span> <span class="nav-text">内存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#说到内存-不能不说一下内存的分区-内存总共分为五大区-分别是栈区-堆区-静态区-常量区-代码区-五个区是按照内存地址从大到小分配的"><span class="nav-number">1.</span> <span class="nav-text">说到内存,不能不说一下内存的分区,内存总共分为五大区,分别是栈区 堆区 静态区 常量区 代码区,五个区是按照内存地址从大到小分配的.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#其实我们最常用的还是栈区和堆区的内存-然后首先来看一下栈区内存的特点吧"><span class="nav-number">2.</span> <span class="nav-text">其实我们最常用的还是栈区和堆区的内存,然后首先来看一下栈区内存的特点吧,</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-栈区内存"><span class="nav-number"></span> <span class="nav-text">1.栈区内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-堆区内存"><span class="nav-number"></span> <span class="nav-text">2.堆区内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-常量区内存"><span class="nav-number"></span> <span class="nav-text">3.常量区内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-静态区内存"><span class="nav-number"></span> <span class="nav-text">4.静态区内存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-代码区内存"><span class="nav-number"></span> <span class="nav-text">5.代码区内存</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存管理"><span class="nav-number"></span> <span class="nav-text">内存管理</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#上面我们说到了内存的五大区-现在我从内存的管理来说一下内存-为什么我们开发应用的时候要要注意内存呢-由于移动设备的内存有限-所以每一个APP应用程序的内存也是有限的-App所占用的内存较多时-系统就会发出内存警告-为了节省内存的使用-所以我们就要使用到内存管理-就是当对象不再被使用的时候-我们要对其内存及时的进行回收"><span class="nav-number">1.</span> <span class="nav-text">上面我们说到了内存的五大区,现在我从内存的管理来说一下内存,为什么我们开发应用的时候要要注意内存呢?由于移动设备的内存有限,所以每一个APP应用程序的内存也是有限的,App所占用的内存较多时,系统就会发出内存警告.为了节省内存的使用.所以我们就要使用到内存管理,就是当对象不再被使用的时候,我们要对其内存及时的进行回收.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#内存管理这一块我要说的是我们在MRC-Manual-Reference-Counting-环境下需要手动管理堆区的内存-进行release操作等-但是在-ARC-Automatic-Reference-Counting-环境下-我们不需要手动管理我们的内存-首先我们需要看一下如何切换ARC环境和MRC环境"><span class="nav-number">2.</span> <span class="nav-text">内存管理这一块我要说的是我们在MRC(Manual Reference Counting)环境下需要手动管理堆区的内存,进行release操作等,但是在 ARC(Automatic Reference Counting)环境下,我们不需要手动管理我们的内存.首先我们需要看一下如何切换ARC环境和MRC环境.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下面我就说一下内存管理的核心-内存管理的核心就是引用计数的加减-引用计数相当于对象的一个属性-当然了-这个属性是不需要我们手动创建的-系统会帮每一个对象进行创建的"><span class="nav-number">3.</span> <span class="nav-text">下面我就说一下内存管理的核心,内存管理的核心就是引用计数的加减,引用计数相当于对象的一个属性,当然了,这个属性是不需要我们手动创建的,系统会帮每一个对象进行创建的.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用计数器的作用-用来判断对象是否应该回收内存空间-当引用计数器为0时-此时需要回收对象的内存空间"><span class="nav-number">4.</span> <span class="nav-text">引用计数器的作用:用来判断对象是否应该回收内存空间,当引用计数器为0时,此时需要回收对象的内存空间.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#引用计数器的操作"><span class="nav-number">5.</span> <span class="nav-text">引用计数器的操作:</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#retain-引用计数器-1"><span class="nav-number">6.</span> <span class="nav-text">retain 引用计数器 +1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#release-引用计数器-1"><span class="nav-number">7.</span> <span class="nav-text">release 引用计数器 -1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#retainCount-得到引用计数器的值"><span class="nav-number">8.</span> <span class="nav-text">retainCount   得到引用计数器的值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#如果一个对象被释放的时候-引用计数为0了-就会使用一个方法-析构函数dealloc"><span class="nav-number">9.</span> <span class="nav-text">如果一个对象被释放的时候,引用计数为0了,就会使用一个方法,析构函数dealloc;</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#然后-我们就看一下内存管理的黄金法则"><span class="nav-number">10.</span> <span class="nav-text">然后,我们就看一下内存管理的黄金法则,</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内存黄金法则"><span class="nav-number"></span> <span class="nav-text">内存黄金法则:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#谁alloc-谁release-包括new"><span class="nav-number"></span> <span class="nav-text">谁alloc,谁release!(包括new);</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#谁retain-谁release"><span class="nav-number"></span> <span class="nav-text">谁retain,谁release!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#retain-引用计数-1"><span class="nav-number"></span> <span class="nav-text">(retain) 引用计数+1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#release-引用计数-1"><span class="nav-number"></span> <span class="nav-text">(release) 引用计数-1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#谁copy-谁release"><span class="nav-number"></span> <span class="nav-text">谁copy,谁release!</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝"><span class="nav-number"></span> <span class="nav-text">拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可变拷贝"><span class="nav-number"></span> <span class="nav-text">可变拷贝</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#上述总结"><span class="nav-number"></span> <span class="nav-text">上述总结:</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#copy-不可变拷贝-如果使用了不可变拷贝-那么接收的对象不管是可变对象还是不可变的对象-都不能改变拷贝过来的内容"><span class="nav-number"></span> <span class="nav-text">copy(不可变拷贝),如果使用了不可变拷贝,那么接收的对象不管是可变对象还是不可变的对象,都不能改变拷贝过来的内容</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mutableCopy-可变拷贝-如果使用了可变拷贝-那么接收对象不管是可变的还是不可变的对象-都可以改变拷贝过来的内容"><span class="nav-number"></span> <span class="nav-text">mutableCopy(可变拷贝),如果使用了可变拷贝,那么接收对象不管是可变的还是不可变的对象,都可以改变拷贝过来的内容</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#浅拷贝和深拷贝"><span class="nav-number"></span> <span class="nav-text">浅拷贝和深拷贝</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#今天我就先说到这-后期将说一下-对象属性的实现原理"><span class="nav-number">1.</span> <span class="nav-text">今天我就先说到这,后期将说一下,对象属性的实现原理,</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
