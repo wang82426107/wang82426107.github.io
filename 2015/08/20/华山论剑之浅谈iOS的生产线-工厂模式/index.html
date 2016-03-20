@@ -1,0 +1,719 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="科技是第一生产力. 那么对于程序员什么是生产力呢?一是对象,二还是对象.
+
+工厂模式是一种快速创建大量对象的模式.简单易上手,今天我就谈一下我对工厂模式的理解.工厂模式的核心思想就是继承.子类继承父类的方法并且重写父类方法.下面我们就看一下实际中是如何使用工厂模式的.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈iOS的生产线---工厂模式">
+<meta property="og:url" content="http://yoursite.com/2015/08/20/华山论剑之浅谈iOS的生产线-工厂模式/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="科技是第一生产力. 那么对于程序员什么是生产力呢?一是对象,二还是对象.
+
+工厂模式是一种快速创建大量对象的模式.简单易上手,今天我就谈一下我对工厂模式的理解.工厂模式的核心思想就是继承.子类继承父类的方法并且重写父类方法.下面我们就看一下实际中是如何使用工厂模式的.">
+<meta property="og:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f23pl1s6apj20fp0al3z7.jpg">
+<meta property="og:updated_time" content="2016-03-20T14:43:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈iOS的生产线---工厂模式">
+<meta name="twitter:description" content="科技是第一生产力. 那么对于程序员什么是生产力呢?一是对象,二还是对象.
+
+工厂模式是一种快速创建大量对象的模式.简单易上手,今天我就谈一下我对工厂模式的理解.工厂模式的核心思想就是继承.子类继承父类的方法并且重写父类方法.下面我们就看一下实际中是如何使用工厂模式的.">
+<meta name="twitter:image" content="http://ww3.sinaimg.cn/large/8446c8c7gw1f23pl1s6apj20fp0al3z7.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈iOS的生产线---工厂模式 | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈iOS的生产线---工厂模式
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-08-20T22:36:42+08:00" content="2015-08-20">
+              2015-08-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="科技是第一生产力-那么对于程序员什么是生产力呢-一是对象-二还是对象"><a href="#科技是第一生产力-那么对于程序员什么是生产力呢-一是对象-二还是对象" class="headerlink" title="科技是第一生产力. 那么对于程序员什么是生产力呢?一是对象,二还是对象."></a>科技是第一生产力. 那么对于程序员什么是生产力呢?一是对象,二还是对象.</h5></blockquote>
+<p><br></p>
+<h4 id="工厂模式是一种快速创建大量对象的模式-简单易上手-今天我就谈一下我对工厂模式的理解-工厂模式的核心思想就是继承-子类继承父类的方法并且重写父类方法-下面我们就看一下实际中是如何使用工厂模式的"><a href="#工厂模式是一种快速创建大量对象的模式-简单易上手-今天我就谈一下我对工厂模式的理解-工厂模式的核心思想就是继承-子类继承父类的方法并且重写父类方法-下面我们就看一下实际中是如何使用工厂模式的" class="headerlink" title="工厂模式是一种快速创建大量对象的模式.简单易上手,今天我就谈一下我对工厂模式的理解.工厂模式的核心思想就是继承.子类继承父类的方法并且重写父类方法.下面我们就看一下实际中是如何使用工厂模式的."></a>工厂模式是一种快速创建大量对象的模式.简单易上手,今天我就谈一下我对工厂模式的理解.工厂模式的核心思想就是继承.子类继承父类的方法并且重写父类方法.下面我们就看一下实际中是如何使用工厂模式的.</h4><a id="more"></a>
+<p><img src="http://ww3.sinaimg.cn/large/8446c8c7gw1f23pl1s6apj20fp0al3z7.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<hr>
+<h5 id="现在我们需要创建一百个对象-其中五十个是学生对象-五十是老师对象-两者都继承与Person类"><a href="#现在我们需要创建一百个对象-其中五十个是学生对象-五十是老师对象-两者都继承与Person类" class="headerlink" title="现在我们需要创建一百个对象,其中五十个是学生对象,五十是老师对象.两者都继承与Person类."></a>现在我们需要创建一百个对象,其中五十个是学生对象,五十是老师对象.两者都继承与Person类.</h5><p><br></p>
+<h5 id="现在我们需要在Person-h中声明一个创建方法-但是在Person-m中不做实现"><a href="#现在我们需要在Person-h中声明一个创建方法-但是在Person-m中不做实现" class="headerlink" title="现在我们需要在Person.h中声明一个创建方法.但是在Person.m中不做实现."></a>现在我们需要在Person.h中声明一个创建方法.但是在Person.m中不做实现.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@interface Person : NSObject</span><br><span class="line"></span><br><span class="line">@property(nonatomic,strong)NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="然后我们需要在Student类中和Teacher类中对createNewObject方法进行方法的实现-当然了-Student类和Teacher类是继承于Person类的"><a href="#然后我们需要在Student类中和Teacher类中对createNewObject方法进行方法的实现-当然了-Student类和Teacher类是继承于Person类的" class="headerlink" title="然后我们需要在Student类中和Teacher类中对createNewObject方法进行方法的实现.当然了,Student类和Teacher类是继承于Person类的."></a>然后我们需要在Student类中和Teacher类中对createNewObject方法进行方法的实现.当然了,Student类和Teacher类是继承于Person类的.</h5><p></p>
+<p>Student.中代码实现</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Person.h&quot;</span><br><span class="line"></span><br><span class="line">@interface Student : Person</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Student.h&quot;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>Teacher中代码实现如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Person.h&quot;</span><br><span class="line"></span><br><span class="line">@interface Teacher : Person</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;Teacher.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation Teacher</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p></p>
+<p>下面就需要创建批量生产的初始化工厂PersonFactory.</p>
+<p></p>
+<p>PersonFactory.h中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@class Teacher;</span><br><span class="line"></span><br><span class="line">@class Student;</span><br><span class="line"></span><br><span class="line">@interface PersonFactory : NSObject</span><br><span class="line"></span><br><span class="line">//声明创建新对象的方法.</span><br><span class="line">+(Student *)createNewStudent;</span><br><span class="line"></span><br><span class="line">+(Teacher *)createNewTeacher;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><br>PersonFactory.m中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;PersonFactory.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Student.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Teacher.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation PersonFactory</span><br><span class="line"></span><br><span class="line">//实现创建新对象的方法.</span><br><span class="line">+(Student *)createNewStudent&#123;</span><br><span class="line"></span><br><span class="line">    Student *student = [[Student alloc]init];</span><br><span class="line">    </span><br><span class="line">    student.name = @&quot;栋哥&quot;;</span><br><span class="line">    </span><br><span class="line">    return student;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+(Teacher *)createNewTeacher&#123;</span><br><span class="line"></span><br><span class="line">    Teacher *teacher = [[Teacher alloc]init];</span><br><span class="line">    </span><br><span class="line">    teacher.name = @&quot;政哥&quot;;</span><br><span class="line">    </span><br><span class="line">    return teacher;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>这里,我就使用ViewController调用一下createNewObject方法.然后我们就能批量生产带有特定name属性的学生对象和教师对象了.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Teacher.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Student.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;PersonFactory.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    Teacher *teacher = [PersonFactory createNewTeacher];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,teacher.name);</span><br><span class="line">    </span><br><span class="line">    Student *student = [PersonFactory createNewStudent];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,student.name);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<hr>
+<h4 id="通过上面的方法-我们只能批量创建一些带有特殊属性的对象-如果现在我们需要把这些对象全部改变成另外的对象-我们改如何做呢-这就需要我们再一步的细分我们的工厂-Person工厂中只做方法的声明-在Student工厂和Teacher中做出方法的实现"><a href="#通过上面的方法-我们只能批量创建一些带有特殊属性的对象-如果现在我们需要把这些对象全部改变成另外的对象-我们改如何做呢-这就需要我们再一步的细分我们的工厂-Person工厂中只做方法的声明-在Student工厂和Teacher中做出方法的实现" class="headerlink" title="通过上面的方法,我们只能批量创建一些带有特殊属性的对象,如果现在我们需要把这些对象全部改变成另外的对象,我们改如何做呢? 这就需要我们再一步的细分我们的工厂.Person工厂中只做方法的声明,在Student工厂和Teacher中做出方法的实现."></a>通过上面的方法,我们只能批量创建一些带有特殊属性的对象,如果现在我们需要把这些对象全部改变成另外的对象,我们改如何做呢? 这就需要我们再一步的细分我们的工厂.Person工厂中只做方法的声明,在Student工厂和Teacher中做出方法的实现.</h4><p><br></p>
+<p>PersonFactory.h中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Foundation/Foundation.h&gt;</span><br><span class="line"></span><br><span class="line">@class Person;</span><br><span class="line"></span><br><span class="line">@interface PersonFactory : NSObject</span><br><span class="line"></span><br><span class="line">//只在.h中做方法的声明,在.m中不做方法的实现.</span><br><span class="line">+(Person *)createNewObject;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>StudentFactory.m中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;StudentFactory.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Student.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation StudentFactory</span><br><span class="line"></span><br><span class="line">+(Person *)createNewObject&#123;</span><br><span class="line"></span><br><span class="line">    Student *student = [[Student alloc]init];</span><br><span class="line">    </span><br><span class="line">    student.name = @&quot;栋哥&quot;;</span><br><span class="line">    </span><br><span class="line">    return student;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>同样.TeacherFactory.m中.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;TeacherFactory.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Teacher.h&quot;</span><br><span class="line"></span><br><span class="line">@implementation TeacherFactory</span><br><span class="line"></span><br><span class="line">+(Person *)createNewObject&#123;</span><br><span class="line">    </span><br><span class="line">    Teacher *teacher = [[Teacher alloc]init];</span><br><span class="line">    </span><br><span class="line">    teacher.name = @&quot;政哥&quot;;</span><br><span class="line">    </span><br><span class="line">    return teacher;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>然后我们在ViewController中创建我们的两种对象.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &quot;ViewController.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;Person.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;PersonFactory.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;StudentFactory.h&quot;</span><br><span class="line"></span><br><span class="line">#import &quot;TeacherFactory.h&quot;</span><br><span class="line"></span><br><span class="line">@interface ViewController ()</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ViewController</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    Person *teacher = [TeacherFactory createNewObject];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,teacher.name);</span><br><span class="line">    </span><br><span class="line">    Person *student = [StudentFactory createNewObject];</span><br><span class="line">    </span><br><span class="line">    NSLog(@&quot;%@&quot;,student.name);</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<hr>
+<p><br></p>
+<h5 id="如上-如果我们需要在对我们的两种对象创建做修改只需要修改我们的生产工厂的类中的代码就行-不需要修改我们徐如其他地方的代码了-大大的减省了冗杂度和耦合度-今天的iOS工厂模式就到此结束了-希望这一篇文章能对您有所帮助-😃"><a href="#如上-如果我们需要在对我们的两种对象创建做修改只需要修改我们的生产工厂的类中的代码就行-不需要修改我们徐如其他地方的代码了-大大的减省了冗杂度和耦合度-今天的iOS工厂模式就到此结束了-希望这一篇文章能对您有所帮助-😃" class="headerlink" title="如上,如果我们需要在对我们的两种对象创建做修改只需要修改我们的生产工厂的类中的代码就行,不需要修改我们徐如其他地方的代码了,大大的减省了冗杂度和耦合度,今天的iOS工厂模式就到此结束了,希望这一篇文章能对您有所帮助.😃"></a>如上,如果我们需要在对我们的两种对象创建做修改只需要修改我们的生产工厂的类中的代码就行,不需要修改我们徐如其他地方的代码了,大大的减省了冗杂度和耦合度,今天的iOS工厂模式就到此结束了,希望这一篇文章能对您有所帮助.😃</h5>
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/08/19/华山论剑之浅谈iOS瀑布流/" rel="next" title="华山论剑之浅谈iOS瀑布流">
+                <i class="fa fa-chevron-left"></i> 华山论剑之浅谈iOS瀑布流
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/08/22/App-store-项目被拒的理由-综合各种大神的被拒理由/" rel="prev" title="App  store 项目被拒的理由(综合各种大神的被拒理由~)">
+                App  store 项目被拒的理由(综合各种大神的被拒理由~) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">29</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#科技是第一生产力-那么对于程序员什么是生产力呢-一是对象-二还是对象"><span class="nav-number">1.</span> <span class="nav-text">科技是第一生产力. 那么对于程序员什么是生产力呢?一是对象,二还是对象.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工厂模式是一种快速创建大量对象的模式-简单易上手-今天我就谈一下我对工厂模式的理解-工厂模式的核心思想就是继承-子类继承父类的方法并且重写父类方法-下面我们就看一下实际中是如何使用工厂模式的"><span class="nav-number"></span> <span class="nav-text">工厂模式是一种快速创建大量对象的模式.简单易上手,今天我就谈一下我对工厂模式的理解.工厂模式的核心思想就是继承.子类继承父类的方法并且重写父类方法.下面我们就看一下实际中是如何使用工厂模式的.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#现在我们需要创建一百个对象-其中五十个是学生对象-五十是老师对象-两者都继承与Person类"><span class="nav-number">1.</span> <span class="nav-text">现在我们需要创建一百个对象,其中五十个是学生对象,五十是老师对象.两者都继承与Person类.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#现在我们需要在Person-h中声明一个创建方法-但是在Person-m中不做实现"><span class="nav-number">2.</span> <span class="nav-text">现在我们需要在Person.h中声明一个创建方法.但是在Person.m中不做实现.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#然后我们需要在Student类中和Teacher类中对createNewObject方法进行方法的实现-当然了-Student类和Teacher类是继承于Person类的"><span class="nav-number">3.</span> <span class="nav-text">然后我们需要在Student类中和Teacher类中对createNewObject方法进行方法的实现.当然了,Student类和Teacher类是继承于Person类的.</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过上面的方法-我们只能批量创建一些带有特殊属性的对象-如果现在我们需要把这些对象全部改变成另外的对象-我们改如何做呢-这就需要我们再一步的细分我们的工厂-Person工厂中只做方法的声明-在Student工厂和Teacher中做出方法的实现"><span class="nav-number"></span> <span class="nav-text">通过上面的方法,我们只能批量创建一些带有特殊属性的对象,如果现在我们需要把这些对象全部改变成另外的对象,我们改如何做呢? 这就需要我们再一步的细分我们的工厂.Person工厂中只做方法的声明,在Student工厂和Teacher中做出方法的实现.</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#如上-如果我们需要在对我们的两种对象创建做修改只需要修改我们的生产工厂的类中的代码就行-不需要修改我们徐如其他地方的代码了-大大的减省了冗杂度和耦合度-今天的iOS工厂模式就到此结束了-希望这一篇文章能对您有所帮助-😃"><span class="nav-number">1.</span> <span class="nav-text">如上,如果我们需要在对我们的两种对象创建做修改只需要修改我们的生产工厂的类中的代码就行,不需要修改我们徐如其他地方的代码了,大大的减省了冗杂度和耦合度,今天的iOS工厂模式就到此结束了,希望这一篇文章能对您有所帮助.😃</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
