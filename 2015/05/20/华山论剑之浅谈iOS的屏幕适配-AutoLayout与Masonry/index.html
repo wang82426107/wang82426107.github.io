@@ -1,0 +1,743 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭
+在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈iOS的屏幕适配(AutoLayout与Masonry)">
+<meta property="og:url" content="http://yoursite.com/2015/05/20/华山论剑之浅谈iOS的屏幕适配-AutoLayout与Masonry/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭
+在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题.">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f23di03kujj20yg0me75o.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f23dia96a9j20ml0g9my4.jpg">
+<meta property="og:image" content="http://ww2.sinaimg.cn/large/8446c8c7gw1f23diidbyjj20yg0m9di8.jpg">
+<meta property="og:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f23dkun7evj20ra0omabj.jpg">
+<meta property="og:updated_time" content="2016-03-20T07:48:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈iOS的屏幕适配(AutoLayout与Masonry)">
+<meta name="twitter:description" content="每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭
+在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题.">
+<meta name="twitter:image" content="http://ww4.sinaimg.cn/large/8446c8c7gw1f23di03kujj20yg0me75o.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈iOS的屏幕适配(AutoLayout与Masonry) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈iOS的屏幕适配(AutoLayout与Masonry)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-20T15:42:29+08:00" content="2015-05-20">
+              2015-05-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="每一个人都有不高兴-不愉快的时候-请记住那句话-宝宝心里苦-但是宝宝不说-😭😭"><a href="#每一个人都有不高兴-不愉快的时候-请记住那句话-宝宝心里苦-但是宝宝不说-😭😭" class="headerlink" title="每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭"></a>每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭</h5></blockquote>
+<h4 id="在iPhone之初-4s的屏幕逻辑分辨率只有320-480-我们是不需要做屏幕适配的-但是到了如今-iPhone5-iPhone6s-iPhone-6s-plus-屏幕的逻辑分辨率已经大大的有所改变了-所以-作为程序猿的我们做的就是屏幕的适配工作-今天-我就重可视化和纯代码来说一下屏幕适配的问题"><a href="#在iPhone之初-4s的屏幕逻辑分辨率只有320-480-我们是不需要做屏幕适配的-但是到了如今-iPhone5-iPhone6s-iPhone-6s-plus-屏幕的逻辑分辨率已经大大的有所改变了-所以-作为程序猿的我们做的就是屏幕的适配工作-今天-我就重可视化和纯代码来说一下屏幕适配的问题" class="headerlink" title="在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题."></a>在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题.</h4><p><br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">iPhone机型</th>
+<th style="text-align:center">屏幕分辨率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">iPhone4(s)</td>
+<td style="text-align:center">320x480</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone5c</td>
+<td style="text-align:center">320x568</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone5(s)</td>
+<td style="text-align:center">320x568</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone6</td>
+<td style="text-align:center">375x667</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone6s(plus)</td>
+<td style="text-align:center">375x667</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h2 id="可视化编程"><a href="#可视化编程" class="headerlink" title="可视化编程"></a>可视化编程</h2><hr>
+<h4 id="可视化编程是适合独立开发-快速开发的一种形式-但是不利于后期的维护-可视化编程的屏幕适配主要是用到了AutoLayout的-当然了还有SizeClasses-今天我只谈一下我对AutoLayout的理解和认识-AutoLayout加起来比较简单-但是对于初学者而言-可能加约束加着加着就加错了-那么我们在加约束的期间要遵循什么的原则呢-其实很简单-就是大小和位置-大小就是宽和高-位置就是x和y-下面我们看一个范例-看AutoLayout是如何实现屏幕适配的"><a href="#可视化编程是适合独立开发-快速开发的一种形式-但是不利于后期的维护-可视化编程的屏幕适配主要是用到了AutoLayout的-当然了还有SizeClasses-今天我只谈一下我对AutoLayout的理解和认识-AutoLayout加起来比较简单-但是对于初学者而言-可能加约束加着加着就加错了-那么我们在加约束的期间要遵循什么的原则呢-其实很简单-就是大小和位置-大小就是宽和高-位置就是x和y-下面我们看一个范例-看AutoLayout是如何实现屏幕适配的" class="headerlink" title="可视化编程是适合独立开发,快速开发的一种形式,但是不利于后期的维护,可视化编程的屏幕适配主要是用到了AutoLayout的,当然了还有SizeClasses,今天我只谈一下我对AutoLayout的理解和认识.AutoLayout加起来比较简单,但是对于初学者而言,可能加约束加着加着就加错了,那么我们在加约束的期间要遵循什么的原则呢? 其实很简单,就是大小和位置,大小就是宽和高,位置就是x和y.下面我们看一个范例,看AutoLayout是如何实现屏幕适配的."></a>可视化编程是适合独立开发,快速开发的一种形式,但是不利于后期的维护,可视化编程的屏幕适配主要是用到了AutoLayout的,当然了还有SizeClasses,今天我只谈一下我对AutoLayout的理解和认识.AutoLayout加起来比较简单,但是对于初学者而言,可能加约束加着加着就加错了,那么我们在加约束的期间要遵循什么的原则呢? 其实很简单,就是大小和位置,大小就是宽和高,位置就是x和y.下面我们看一个范例,看AutoLayout是如何实现屏幕适配的.</h4><a id="more"></a>
+<p><br></p>
+<h4 id="首先我们现在创建一个新的工程-然后在main-storyboard里面ViewController上面添加一View-并给它添加颜色"><a href="#首先我们现在创建一个新的工程-然后在main-storyboard里面ViewController上面添加一View-并给它添加颜色" class="headerlink" title="首先我们现在创建一个新的工程,然后在main.storyboard里面ViewController上面添加一View,并给它添加颜色"></a>首先我们现在创建一个新的工程,然后在main.storyboard里面ViewController上面添加一View,并给它添加颜色</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f23di03kujj20yg0me75o.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="然后我们就选中这个View-我们用右下角的倒数第三个图标按钮给他添加约束-添加约束的工具栏如下"><a href="#然后我们就选中这个View-我们用右下角的倒数第三个图标按钮给他添加约束-添加约束的工具栏如下" class="headerlink" title="然后我们就选中这个View,我们用右下角的倒数第三个图标按钮给他添加约束.添加约束的工具栏如下."></a>然后我们就选中这个View,我们用右下角的倒数第三个图标按钮给他添加约束.添加约束的工具栏如下.</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f23dia96a9j20ml0g9my4.jpg" alt="“神经骚栋”/"></p>
+<blockquote>
+<h4 id="添加约束的原则就是如何固定一个对象-从位置和大小入手"><a href="#添加约束的原则就是如何固定一个对象-从位置和大小入手" class="headerlink" title="添加约束的原则就是如何固定一个对象!(从位置和大小入手)"></a>添加约束的原则就是如何固定一个对象!(从位置和大小入手)</h4></blockquote>
+<p><br></p>
+<h4 id="当我们添加完成约束之后-我们就要调整约束对象的位置-如下图使用右下角第四个图标把我们的约束添加到对象身上去"><a href="#当我们添加完成约束之后-我们就要调整约束对象的位置-如下图使用右下角第四个图标把我们的约束添加到对象身上去" class="headerlink" title="当我们添加完成约束之后,我们就要调整约束对象的位置.如下图使用右下角第四个图标把我们的约束添加到对象身上去."></a>当我们添加完成约束之后,我们就要调整约束对象的位置.如下图使用右下角第四个图标把我们的约束添加到对象身上去.</h4><p><img src="http://ww2.sinaimg.cn/large/8446c8c7gw1f23diidbyjj20yg0m9di8.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h4 id="那么当我们不需要某个约束-或者想修改某个约束的时候-我们应该从哪里找到我们的约束条件呢-这里-我们要先选中要修改的对象-然后点击右边的菜单栏中的第五个图标按钮"><a href="#那么当我们不需要某个约束-或者想修改某个约束的时候-我们应该从哪里找到我们的约束条件呢-这里-我们要先选中要修改的对象-然后点击右边的菜单栏中的第五个图标按钮" class="headerlink" title="那么当我们不需要某个约束,或者想修改某个约束的时候,我们应该从哪里找到我们的约束条件呢?这里,我们要先选中要修改的对象.然后点击右边的菜单栏中的第五个图标按钮."></a>那么当我们不需要某个约束,或者想修改某个约束的时候,我们应该从哪里找到我们的约束条件呢?这里,我们要先选中要修改的对象.然后点击右边的菜单栏中的第五个图标按钮.</h4><p><img src="http://ww4.sinaimg.cn/large/8446c8c7gw1f23dkun7evj20ra0omabj.jpg" alt="“神经骚栋”/"></p>
+<p><br></p>
+<h2 id="纯代码屏幕适配"><a href="#纯代码屏幕适配" class="headerlink" title="纯代码屏幕适配"></a>纯代码屏幕适配</h2><hr>
+<h4 id="对于纯代码的屏幕适配-一种方法就是计算相对距离-一种是AutoLayer-UIView-还有一种是重量级的Masonry"><a href="#对于纯代码的屏幕适配-一种方法就是计算相对距离-一种是AutoLayer-UIView-还有一种是重量级的Masonry" class="headerlink" title="对于纯代码的屏幕适配,一种方法就是计算相对距离.一种是AutoLayer + UIView ,还有一种是重量级的Masonry."></a>对于纯代码的屏幕适配,一种方法就是计算相对距离.一种是AutoLayer + UIView ,还有一种是重量级的Masonry.</h4><h4 id="在一开始的时候-程序员做屏幕适配的时候-就是纯粹的和屏幕的大小做相对距离的计算-直到iOS6的时候出现了AutoLayer-UIView-再到后来的Masonry"><a href="#在一开始的时候-程序员做屏幕适配的时候-就是纯粹的和屏幕的大小做相对距离的计算-直到iOS6的时候出现了AutoLayer-UIView-再到后来的Masonry" class="headerlink" title="在一开始的时候,程序员做屏幕适配的时候,就是纯粹的和屏幕的大小做相对距离的计算.直到iOS6的时候出现了AutoLayer +UIView.再到后来的Masonry."></a>在一开始的时候,程序员做屏幕适配的时候,就是纯粹的和屏幕的大小做相对距离的计算.直到iOS6的时候出现了AutoLayer +UIView.再到后来的Masonry.</h4><p><br></p>
+<h4 id="对呀我来说-可视化的时候我喜欢使用AutoLayer-但是纯代码我更倾向于Masonry自动布局-我们先看一下使用AutoLayer-UIView是如何定义两个视图的"><a href="#对呀我来说-可视化的时候我喜欢使用AutoLayer-但是纯代码我更倾向于Masonry自动布局-我们先看一下使用AutoLayer-UIView是如何定义两个视图的" class="headerlink" title="对呀我来说,可视化的时候我喜欢使用AutoLayer ,但是纯代码我更倾向于Masonry自动布局.我们先看一下使用AutoLayer +UIView是如何定义两个视图的."></a>对呀我来说,可视化的时候我喜欢使用AutoLayer ,但是纯代码我更倾向于Masonry自动布局.我们先看一下使用AutoLayer +UIView是如何定义两个视图的.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    UIView *myview = [[UIView alloc] init];</span><br><span class="line">   </span><br><span class="line">    myview.backgroundColor = [UIColor greenColor];</span><br><span class="line">    </span><br><span class="line">    UIView *redView = [[UIView alloc] init];</span><br><span class="line">   </span><br><span class="line">    redView.backgroundColor = [UIColor redColor];</span><br><span class="line">    </span><br><span class="line">    UIView *blueView = [[UIView alloc] init];</span><br><span class="line">    </span><br><span class="line">    blueView.backgroundColor = [UIColor blueColor];</span><br><span class="line">   </span><br><span class="line">    [myview addSubview:redView];</span><br><span class="line">    </span><br><span class="line">    [myview addSubview:blueView];</span><br><span class="line">   </span><br><span class="line">    [myview setTranslatesAutoresizingMaskIntoConstraints:NO];</span><br><span class="line">    </span><br><span class="line">    [redView setTranslatesAutoresizingMaskIntoConstraints:NO];</span><br><span class="line">    </span><br><span class="line">    [blueView setTranslatesAutoresizingMaskIntoConstraints:NO];</span><br><span class="line">   </span><br><span class="line">    NSMutableArray *tmpConstraints = [NSMutableArray array];</span><br><span class="line">   </span><br><span class="line">    //约束条件</span><br><span class="line">    [tmpConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@&quot;|-50-[redView(==100)]-30-[blueView(==100)]&quot; options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView,blueView)]];</span><br><span class="line">    </span><br><span class="line">    [tmpConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@&quot;V:|-30-[redView(==30)]&quot; options:0 metrics:nil views:NSDictionaryOfVariableBindings(redView)]];</span><br><span class="line">    </span><br><span class="line">    [tmpConstraints addObjectsFromArray:[NSLayoutConstraint constraintsWithVisualFormat:@&quot;V:|-30-[blueView(==redView)]&quot; options:0 metrics:nil views:NSDictionaryOfVariableBindings(blueView,redView)]];</span><br><span class="line">    </span><br><span class="line">    [myview addConstraints:tmpConstraints];</span><br><span class="line">    </span><br><span class="line">    self.view = myview;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h3 id="Masonry"><a href="#Masonry" class="headerlink" title="Masonry"></a>Masonry</h3><hr>
+<h4 id="看到AutoLayer-UIView这么麻烦-那么对比Masonry就简单了许多-Masonry其实就是对AutoLayer-UIView的封装"><a href="#看到AutoLayer-UIView这么麻烦-那么对比Masonry就简单了许多-Masonry其实就是对AutoLayer-UIView的封装" class="headerlink" title="看到AutoLayer +UIView这么麻烦,那么对比Masonry就简单了许多.Masonry其实就是对AutoLayer +UIView的封装."></a>看到AutoLayer +UIView这么麻烦,那么对比Masonry就简单了许多.Masonry其实就是对AutoLayer +UIView的封装.</h4><p><br></p>
+<h4 id="首先我们先导入我们的Masonry的库"><a href="#首先我们先导入我们的Masonry的库" class="headerlink" title="首先我们先导入我们的Masonry的库."></a>首先我们先导入我们的Masonry的库.</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;Masonry/Masonry.h&gt;</span><br></pre></td></tr></table></figure>
+<p></p>
+<h4 id="然后-我们分情况写一下-当是一个视图扥时候-并且我们的视图要求是居中-并且视图大小是200-200"><a href="#然后-我们分情况写一下-当是一个视图扥时候-并且我们的视图要求是居中-并且视图大小是200-200" class="headerlink" title="然后,我们分情况写一下,当是一个视图扥时候,并且我们的视图要求是居中,并且视图大小是200 * 200,"></a>然后,我们分情况写一下,当是一个视图扥时候,并且我们的视图要求是居中,并且视图大小是200 * 200,</h4><p>MASConstraintMaker 就是我们的假约束的对象,是有如下属性的,我们可以根据这些属性给我们的目对象添加对应的约束.</p>
+<blockquote>
+<h4 id="property-nonatomic-strong-readonly-MASConstraint-left-左侧"><a href="#property-nonatomic-strong-readonly-MASConstraint-left-左侧" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *left;//左侧"></a>@property (nonatomic, strong, readonly) MASConstraint *left;//左侧</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-top-上侧"><a href="#property-nonatomic-strong-readonly-MASConstraint-top-上侧" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *top;//上侧"></a>@property (nonatomic, strong, readonly) MASConstraint *top;//上侧</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-right-右侧"><a href="#property-nonatomic-strong-readonly-MASConstraint-right-右侧" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *right;//右侧"></a>@property (nonatomic, strong, readonly) MASConstraint *right;//右侧</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-bottom-下侧"><a href="#property-nonatomic-strong-readonly-MASConstraint-bottom-下侧" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *bottom;//下侧"></a>@property (nonatomic, strong, readonly) MASConstraint *bottom;//下侧</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-leading-首部"><a href="#property-nonatomic-strong-readonly-MASConstraint-leading-首部" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *leading;//首部"></a>@property (nonatomic, strong, readonly) MASConstraint *leading;//首部</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-trailing-尾部"><a href="#property-nonatomic-strong-readonly-MASConstraint-trailing-尾部" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *trailing;//尾部"></a>@property (nonatomic, strong, readonly) MASConstraint *trailing;//尾部</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-width-宽"><a href="#property-nonatomic-strong-readonly-MASConstraint-width-宽" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *width;//宽"></a>@property (nonatomic, strong, readonly) MASConstraint *width;//宽</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-height-高"><a href="#property-nonatomic-strong-readonly-MASConstraint-height-高" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *height;//高"></a>@property (nonatomic, strong, readonly) MASConstraint *height;//高</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-centerX-横向居中"><a href="#property-nonatomic-strong-readonly-MASConstraint-centerX-横向居中" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *centerX;//横向居中"></a>@property (nonatomic, strong, readonly) MASConstraint *centerX;//横向居中</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-centerY-纵向居中"><a href="#property-nonatomic-strong-readonly-MASConstraint-centerY-纵向居中" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *centerY;//纵向居中"></a>@property (nonatomic, strong, readonly) MASConstraint *centerY;//纵向居中</h4><h4 id="property-nonatomic-strong-readonly-MASConstraint-baseline-文本基线"><a href="#property-nonatomic-strong-readonly-MASConstraint-baseline-文本基线" class="headerlink" title="@property (nonatomic, strong, readonly) MASConstraint *baseline;//文本基线"></a>@property (nonatomic, strong, readonly) MASConstraint *baseline;//文本基线</h4></blockquote>
+<p>那么具体代码设置如下.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">// 防止block中的循环引用</span><br><span class="line">    __weak typeof (self) weakSelf = self;</span><br><span class="line">    // 初始化一个View</span><br><span class="line">    UIView *bgView = [[UIView alloc]init];</span><br><span class="line">    bgView.backgroundColor = [UIColor redColor];</span><br><span class="line">    [self.view addSubview:bgView];</span><br><span class="line">    // 使用mas_makeConstraints添加约束</span><br><span class="line">    [bgView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        //设置视图中心在父视图的中心上</span><br><span class="line">        make.center.equalTo(weakSelf.view);</span><br><span class="line">        //设置视图的大小</span><br><span class="line">        make.size.mas_equalTo(CGSizeMake(200, 200));</span><br><span class="line">    &#125;];</span><br></pre></td></tr></table></figure>
+<h4 id="当是两个视图-我们需要做的是-2个view横向居中，第二个view距离第一个view间距为10"><a href="#当是两个视图-我们需要做的是-2个view横向居中，第二个view距离第一个view间距为10" class="headerlink" title="当是两个视图,我们需要做的是 2个view横向居中，第二个view距离第一个view间距为10"></a>当是两个视图,我们需要做的是 2个view横向居中，第二个view距离第一个view间距为10</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">UIView *view1 = [[UIButton alloc]init];</span><br><span class="line">   view1.backgroundColor = [UIColor redColor];</span><br><span class="line">   [self.view addSubview:view1];</span><br><span class="line">   [view1 mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       make.size.mas_equalTo(CGSizeMake(90, 90));</span><br><span class="line">       make.centerX.equalTo(weakSelf.view);</span><br><span class="line">       make.top.width.offset(90);</span><br><span class="line">   &#125;];</span><br><span class="line">   UIView *view2 = [[UILabel alloc]init];</span><br><span class="line">   view2.backgroundColor = [UIColor yellowColor];</span><br><span class="line">   [self.view addSubview:view2];</span><br><span class="line">   [view2 mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       make.size.mas_equalTo(CGSizeMake(100, 100));</span><br><span class="line">       make.centerX.equalTo(view1);</span><br><span class="line">       make.top.equalTo(view1.mas_bottom).with.offset(20);</span><br><span class="line">   &#125;];</span><br></pre></td></tr></table></figure>
+<blockquote>
+<h4 id="注意-添加约束之前必须把约束对象添加到父视图上"><a href="#注意-添加约束之前必须把约束对象添加到父视图上" class="headerlink" title="注意: 添加约束之前必须把约束对象添加到父视图上!!!"></a>注意: 添加约束之前必须把约束对象添加到父视图上!!!</h4></blockquote>
+<h4 id="整体上来说-为什么选择Masonry-因为Masonry便于后期的维护-而且相比与AutoLayer-UIView-的方法更加的简便-希望通过这篇文章对大家的屏幕适配有所帮助"><a href="#整体上来说-为什么选择Masonry-因为Masonry便于后期的维护-而且相比与AutoLayer-UIView-的方法更加的简便-希望通过这篇文章对大家的屏幕适配有所帮助" class="headerlink" title="整体上来说,为什么选择Masonry,因为Masonry便于后期的维护.而且相比与AutoLayer +UIView 的方法更加的简便.希望通过这篇文章对大家的屏幕适配有所帮助"></a>整体上来说,为什么选择Masonry,因为Masonry便于后期的维护.而且相比与AutoLayer +UIView 的方法更加的简便.希望通过这篇文章对大家的屏幕适配有所帮助</h4><p><a href="http://www.jianshu.com/p/f0b17ecfd04e" target="_blank" rel="external">—&gt;Masonry参考博客</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/04/21/华山论剑之iOS的数据持久化/" rel="next" title="华山论剑之iOS的数据持久化">
+                <i class="fa fa-chevron-left"></i> 华山论剑之iOS的数据持久化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/05/26/华山论剑之iOS内存-内存管理-copy-拷贝/" rel="prev" title="华山论剑之iOS内存,内存管理,copy(拷贝)">
+                华山论剑之iOS内存,内存管理,copy(拷贝) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">28</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#每一个人都有不高兴-不愉快的时候-请记住那句话-宝宝心里苦-但是宝宝不说-😭😭"><span class="nav-number">1.</span> <span class="nav-text">每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在iPhone之初-4s的屏幕逻辑分辨率只有320-480-我们是不需要做屏幕适配的-但是到了如今-iPhone5-iPhone6s-iPhone-6s-plus-屏幕的逻辑分辨率已经大大的有所改变了-所以-作为程序猿的我们做的就是屏幕的适配工作-今天-我就重可视化和纯代码来说一下屏幕适配的问题"><span class="nav-number"></span> <span class="nav-text">在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化编程"><span class="nav-number"></span> <span class="nav-text">可视化编程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可视化编程是适合独立开发-快速开发的一种形式-但是不利于后期的维护-可视化编程的屏幕适配主要是用到了AutoLayout的-当然了还有SizeClasses-今天我只谈一下我对AutoLayout的理解和认识-AutoLayout加起来比较简单-但是对于初学者而言-可能加约束加着加着就加错了-那么我们在加约束的期间要遵循什么的原则呢-其实很简单-就是大小和位置-大小就是宽和高-位置就是x和y-下面我们看一个范例-看AutoLayout是如何实现屏幕适配的"><span class="nav-number"></span> <span class="nav-text">可视化编程是适合独立开发,快速开发的一种形式,但是不利于后期的维护,可视化编程的屏幕适配主要是用到了AutoLayout的,当然了还有SizeClasses,今天我只谈一下我对AutoLayout的理解和认识.AutoLayout加起来比较简单,但是对于初学者而言,可能加约束加着加着就加错了,那么我们在加约束的期间要遵循什么的原则呢? 其实很简单,就是大小和位置,大小就是宽和高,位置就是x和y.下面我们看一个范例,看AutoLayout是如何实现屏幕适配的.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首先我们现在创建一个新的工程-然后在main-storyboard里面ViewController上面添加一View-并给它添加颜色"><span class="nav-number"></span> <span class="nav-text">首先我们现在创建一个新的工程,然后在main.storyboard里面ViewController上面添加一View,并给它添加颜色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后我们就选中这个View-我们用右下角的倒数第三个图标按钮给他添加约束-添加约束的工具栏如下"><span class="nav-number"></span> <span class="nav-text">然后我们就选中这个View,我们用右下角的倒数第三个图标按钮给他添加约束.添加约束的工具栏如下.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加约束的原则就是如何固定一个对象-从位置和大小入手"><span class="nav-number"></span> <span class="nav-text">添加约束的原则就是如何固定一个对象!(从位置和大小入手)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当我们添加完成约束之后-我们就要调整约束对象的位置-如下图使用右下角第四个图标把我们的约束添加到对象身上去"><span class="nav-number"></span> <span class="nav-text">当我们添加完成约束之后,我们就要调整约束对象的位置.如下图使用右下角第四个图标把我们的约束添加到对象身上去.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#那么当我们不需要某个约束-或者想修改某个约束的时候-我们应该从哪里找到我们的约束条件呢-这里-我们要先选中要修改的对象-然后点击右边的菜单栏中的第五个图标按钮"><span class="nav-number"></span> <span class="nav-text">那么当我们不需要某个约束,或者想修改某个约束的时候,我们应该从哪里找到我们的约束条件呢?这里,我们要先选中要修改的对象.然后点击右边的菜单栏中的第五个图标按钮.</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#纯代码屏幕适配"><span class="nav-number"></span> <span class="nav-text">纯代码屏幕适配</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#对于纯代码的屏幕适配-一种方法就是计算相对距离-一种是AutoLayer-UIView-还有一种是重量级的Masonry"><span class="nav-number"></span> <span class="nav-text">对于纯代码的屏幕适配,一种方法就是计算相对距离.一种是AutoLayer + UIView ,还有一种是重量级的Masonry.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#在一开始的时候-程序员做屏幕适配的时候-就是纯粹的和屏幕的大小做相对距离的计算-直到iOS6的时候出现了AutoLayer-UIView-再到后来的Masonry"><span class="nav-number"></span> <span class="nav-text">在一开始的时候,程序员做屏幕适配的时候,就是纯粹的和屏幕的大小做相对距离的计算.直到iOS6的时候出现了AutoLayer +UIView.再到后来的Masonry.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对呀我来说-可视化的时候我喜欢使用AutoLayer-但是纯代码我更倾向于Masonry自动布局-我们先看一下使用AutoLayer-UIView是如何定义两个视图的"><span class="nav-number"></span> <span class="nav-text">对呀我来说,可视化的时候我喜欢使用AutoLayer ,但是纯代码我更倾向于Masonry自动布局.我们先看一下使用AutoLayer +UIView是如何定义两个视图的.</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Masonry"><span class="nav-number"></span> <span class="nav-text">Masonry</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#看到AutoLayer-UIView这么麻烦-那么对比Masonry就简单了许多-Masonry其实就是对AutoLayer-UIView的封装"><span class="nav-number"></span> <span class="nav-text">看到AutoLayer +UIView这么麻烦,那么对比Masonry就简单了许多.Masonry其实就是对AutoLayer +UIView的封装.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#首先我们先导入我们的Masonry的库"><span class="nav-number"></span> <span class="nav-text">首先我们先导入我们的Masonry的库.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#然后-我们分情况写一下-当是一个视图扥时候-并且我们的视图要求是居中-并且视图大小是200-200"><span class="nav-number"></span> <span class="nav-text">然后,我们分情况写一下,当是一个视图扥时候,并且我们的视图要求是居中,并且视图大小是200 * 200,</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-left-左侧"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *left;//左侧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-top-上侧"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *top;//上侧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-right-右侧"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *right;//右侧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-bottom-下侧"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *bottom;//下侧</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-leading-首部"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *leading;//首部</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-trailing-尾部"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *trailing;//尾部</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-width-宽"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *width;//宽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-height-高"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *height;//高</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-centerX-横向居中"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *centerX;//横向居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-centerY-纵向居中"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *centerY;//纵向居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#property-nonatomic-strong-readonly-MASConstraint-baseline-文本基线"><span class="nav-number"></span> <span class="nav-text">@property (nonatomic, strong, readonly) MASConstraint *baseline;//文本基线</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#当是两个视图-我们需要做的是-2个view横向居中，第二个view距离第一个view间距为10"><span class="nav-number"></span> <span class="nav-text">当是两个视图,我们需要做的是 2个view横向居中，第二个view距离第一个view间距为10</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#注意-添加约束之前必须把约束对象添加到父视图上"><span class="nav-number"></span> <span class="nav-text">注意: 添加约束之前必须把约束对象添加到父视图上!!!</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整体上来说-为什么选择Masonry-因为Masonry便于后期的维护-而且相比与AutoLayer-UIView-的方法更加的简便-希望通过这篇文章对大家的屏幕适配有所帮助"><span class="nav-number"></span> <span class="nav-text">整体上来说,为什么选择Masonry,因为Masonry便于后期的维护.而且相比与AutoLayer +UIView 的方法更加的简便.希望通过这篇文章对大家的屏幕适配有所帮助</span></a></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>

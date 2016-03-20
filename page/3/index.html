@@ -400,6 +400,132 @@
             
               
                 
+                <a class="post-title-link" href="/2015/05/20/华山论剑之浅谈iOS的屏幕适配-AutoLayout与Masonry/" itemprop="url">
+                  华山论剑之浅谈iOS的屏幕适配(AutoLayout与Masonry)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-20T15:42:29+08:00" content="2015-05-20">
+              2015-05-20
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<h5 id="每一个人都有不高兴-不愉快的时候-请记住那句话-宝宝心里苦-但是宝宝不说-😭😭"><a href="#每一个人都有不高兴-不愉快的时候-请记住那句话-宝宝心里苦-但是宝宝不说-😭😭" class="headerlink" title="每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭"></a>每一个人都有不高兴,不愉快的时候,请记住那句话: 宝宝心里苦,但是宝宝不说.  😭😭</h5></blockquote>
+<h4 id="在iPhone之初-4s的屏幕逻辑分辨率只有320-480-我们是不需要做屏幕适配的-但是到了如今-iPhone5-iPhone6s-iPhone-6s-plus-屏幕的逻辑分辨率已经大大的有所改变了-所以-作为程序猿的我们做的就是屏幕的适配工作-今天-我就重可视化和纯代码来说一下屏幕适配的问题"><a href="#在iPhone之初-4s的屏幕逻辑分辨率只有320-480-我们是不需要做屏幕适配的-但是到了如今-iPhone5-iPhone6s-iPhone-6s-plus-屏幕的逻辑分辨率已经大大的有所改变了-所以-作为程序猿的我们做的就是屏幕的适配工作-今天-我就重可视化和纯代码来说一下屏幕适配的问题" class="headerlink" title="在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题."></a>在iPhone之初,4s的屏幕逻辑分辨率只有320*480,我们是不需要做屏幕适配的,但是到了如今,iPhone5,iPhone6s,iPhone 6s plus ,屏幕的逻辑分辨率已经大大的有所改变了.所以,作为程序猿的我们做的就是屏幕的适配工作.今天,我就重可视化和纯代码来说一下屏幕适配的问题.</h4><p></br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">iPhone机型</th>
+<th style="text-align:center">屏幕分辨率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">iPhone4(s)</td>
+<td style="text-align:center">320x480</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone5c</td>
+<td style="text-align:center">320x568</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone5(s)</td>
+<td style="text-align:center">320x568</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone6</td>
+<td style="text-align:center">375x667</td>
+</tr>
+<tr>
+<td style="text-align:center">iPhone6s(plus)</td>
+<td style="text-align:center">375x667</td>
+</tr>
+</tbody>
+</table>
+<p></br></p>
+<h2 id="可视化编程"><a href="#可视化编程" class="headerlink" title="可视化编程"></a>可视化编程</h2><hr>
+<h4 id="可视化编程是适合独立开发-快速开发的一种形式-但是不利于后期的维护-可视化编程的屏幕适配主要是用到了AutoLayout的-当然了还有SizeClasses-今天我只谈一下我对AutoLayout的理解和认识-AutoLayout加起来比较简单-但是对于初学者而言-可能加约束加着加着就加错了-那么我们在加约束的期间要遵循什么的原则呢-其实很简单-就是大小和位置-大小就是宽和高-位置就是x和y-下面我们看一个范例-看AutoLayout是如何实现屏幕适配的"><a href="#可视化编程是适合独立开发-快速开发的一种形式-但是不利于后期的维护-可视化编程的屏幕适配主要是用到了AutoLayout的-当然了还有SizeClasses-今天我只谈一下我对AutoLayout的理解和认识-AutoLayout加起来比较简单-但是对于初学者而言-可能加约束加着加着就加错了-那么我们在加约束的期间要遵循什么的原则呢-其实很简单-就是大小和位置-大小就是宽和高-位置就是x和y-下面我们看一个范例-看AutoLayout是如何实现屏幕适配的" class="headerlink" title="可视化编程是适合独立开发,快速开发的一种形式,但是不利于后期的维护,可视化编程的屏幕适配主要是用到了AutoLayout的,当然了还有SizeClasses,今天我只谈一下我对AutoLayout的理解和认识.AutoLayout加起来比较简单,但是对于初学者而言,可能加约束加着加着就加错了,那么我们在加约束的期间要遵循什么的原则呢? 其实很简单,就是大小和位置,大小就是宽和高,位置就是x和y.下面我们看一个范例,看AutoLayout是如何实现屏幕适配的."></a>可视化编程是适合独立开发,快速开发的一种形式,但是不利于后期的维护,可视化编程的屏幕适配主要是用到了AutoLayout的,当然了还有SizeClasses,今天我只谈一下我对AutoLayout的理解和认识.AutoLayout加起来比较简单,但是对于初学者而言,可能加约束加着加着就加错了,那么我们在加约束的期间要遵循什么的原则呢? 其实很简单,就是大小和位置,大小就是宽和高,位置就是x和y.下面我们看一个范例,看AutoLayout是如何实现屏幕适配的.</h4>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/05/20/华山论剑之浅谈iOS的屏幕适配-AutoLayout与Masonry/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/04/21/华山论剑之iOS的数据持久化/" itemprop="url">
                   华山论剑之iOS的数据持久化
                 </a>
@@ -752,6 +878,97 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/01/08/原谅我一生/" itemprop="url">
+                  原谅我一生放荡不羁爱自由
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-01-08T11:12:01+08:00" content="2015-01-08">
+              2015-01-08
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h4 id="今天我寒夜里看雪飘过"><a href="#今天我寒夜里看雪飘过" class="headerlink" title="今天我寒夜里看雪飘过"></a>今天我寒夜里看雪飘过</h4><h4 id="怀著冷却了的心窝飘远方"><a href="#怀著冷却了的心窝飘远方" class="headerlink" title="怀著冷却了的心窝飘远方"></a>怀著冷却了的心窝飘远方</h4><p><img src="http://ww1.sinaimg.cn/large/0060lm7Tgw1f1qbzrfqblj30hs0dcdgb.jpg" alt=“神经骚栋”/></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/01/08/原谅我一生/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -797,7 +1014,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">26</span>
+              <span class="site-state-item-count">28</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
