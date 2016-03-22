@@ -1,0 +1,712 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.5.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.5.0" />
+
+
+
+
+
+
+<meta name="description" content="或许我会为生活而奔波劳累,但却不能消磨我对技术的追求和热爱,这就是做为一个程序员最基本的要求.
+
+我们在程序中或多或少都会使用到手机的一些应用程序,比如电话,短信,浏览器,相机,相册等,那么我们该如何调用这些系统自带的应用程序呢?下面我一一说来.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华山论剑之浅谈iOS调用大乱斗(电话,短信,浏览器,相机,相册)">
+<meta property="og:url" content="http://yoursite.com/2015/06/22/华山论剑之浅谈iOS调用大乱斗-电话-短信-浏览器-相机-相册/index.html">
+<meta property="og:site_name" content="Coder-Dong">
+<meta property="og:description" content="或许我会为生活而奔波劳累,但却不能消磨我对技术的追求和热爱,这就是做为一个程序员最基本的要求.
+
+我们在程序中或多或少都会使用到手机的一些应用程序,比如电话,短信,浏览器,相机,相册等,那么我们该如何调用这些系统自带的应用程序呢?下面我一一说来.">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f25f2d4v39j20wk05vmxa.jpg">
+<meta property="og:updated_time" content="2016-03-22T02:10:35.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="华山论剑之浅谈iOS调用大乱斗(电话,短信,浏览器,相机,相册)">
+<meta name="twitter:description" content="或许我会为生活而奔波劳累,但却不能消磨我对技术的追求和热爱,这就是做为一个程序员最基本的要求.
+
+我们在程序中或多或少都会使用到手机的一些应用程序,比如电话,短信,浏览器,相机,相册等,那么我们该如何调用这些系统自带的应用程序呢?下面我一一说来.">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/8446c8c7gw1f25f2d4v39j20wk05vmxa.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"hide"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> 华山论剑之浅谈iOS调用大乱斗(电话,短信,浏览器,相机,相册) | Coder-Dong </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Coder-Dong</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="http://www.ixirong.com/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                华山论剑之浅谈iOS调用大乱斗(电话,短信,浏览器,相机,相册)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-22T10:04:51+08:00" content="2015-06-22">
+              2015-06-22
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<h5 id="或许我会为生活而奔波劳累-但却不能消磨我对技术的追求和热爱-这就是做为一个程序员最基本的要求"><a href="#或许我会为生活而奔波劳累-但却不能消磨我对技术的追求和热爱-这就是做为一个程序员最基本的要求" class="headerlink" title="或许我会为生活而奔波劳累,但却不能消磨我对技术的追求和热爱,这就是做为一个程序员最基本的要求."></a>或许我会为生活而奔波劳累,但却不能消磨我对技术的追求和热爱,这就是做为一个程序员最基本的要求.</h5></blockquote>
+<p><br></p>
+<h5 id="我们在程序中或多或少都会使用到手机的一些应用程序-比如电话-短信-浏览器-相机-相册等-那么我们该如何调用这些系统自带的应用程序呢-下面我一一说来"><a href="#我们在程序中或多或少都会使用到手机的一些应用程序-比如电话-短信-浏览器-相机-相册等-那么我们该如何调用这些系统自带的应用程序呢-下面我一一说来" class="headerlink" title="我们在程序中或多或少都会使用到手机的一些应用程序,比如电话,短信,浏览器,相机,相册等,那么我们该如何调用这些系统自带的应用程序呢?下面我一一说来."></a>我们在程序中或多或少都会使用到手机的一些应用程序,比如电话,短信,浏览器,相机,相册等,那么我们该如何调用这些系统自带的应用程序呢?下面我一一说来.</h5><a id="more"></a>
+<p><br></p>
+<h2 id="调用电话、浏览器"><a href="#调用电话、浏览器" class="headerlink" title="调用电话、浏览器"></a>调用电话、浏览器</h2><hr>
+<h5 id="对于调用电话和浏览器比较简单-使用UIApplication调用openURL方法"><a href="#对于调用电话和浏览器比较简单-使用UIApplication调用openURL方法" class="headerlink" title="对于调用电话和浏览器比较简单,使用UIApplication调用openURL方法."></a>对于调用电话和浏览器比较简单,使用UIApplication调用openURL方法.</h5><p><br></p>
+<p>调用系统电话</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@&quot;tel://10086&quot;]];</span><br></pre></td></tr></table></figure>
+<p><br><br>调用系统safari浏览器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@&quot;http://www.coder-dong.com&quot;]];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="调用短信功能"><a href="#调用短信功能" class="headerlink" title="调用短信功能"></a>调用短信功能</h2><hr>
+<h5 id="调用系统的短信功能-同样使用UIApplication调用openURL方法-我们只能openURL的方法中只能设定号码-不能做内容太上的更改-那么我们就需要导入我们的MessageUI-framework库-然后导入头文件MFMessageComposeViewController-h-并实现代理方法"><a href="#调用系统的短信功能-同样使用UIApplication调用openURL方法-我们只能openURL的方法中只能设定号码-不能做内容太上的更改-那么我们就需要导入我们的MessageUI-framework库-然后导入头文件MFMessageComposeViewController-h-并实现代理方法" class="headerlink" title="调用系统的短信功能, 同样使用UIApplication调用openURL方法. 我们只能openURL的方法中只能设定号码,不能做内容太上的更改.那么我们就需要导入我们的MessageUI.framework库,然后导入头文件MFMessageComposeViewController.h,并实现代理方法."></a>调用系统的短信功能, 同样使用UIApplication调用openURL方法. 我们只能openURL的方法中只能设定号码,不能做内容太上的更改.那么我们就需要导入我们的MessageUI.framework库,然后导入头文件MFMessageComposeViewController.h,并实现代理方法.</h5><p><br></p>
+<p><img src="http://ww1.sinaimg.cn/large/8446c8c7gw1f25f2d4v39j20wk05vmxa.jpg" alt="“神经骚栋”/"></p>
+<p><br><br>导入MFMessageComposeViewController头文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#import &lt;MessageUI/MFMessageComposeViewController.h&gt;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<p>实现自定义方法并设置代理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">- (IBAction)SMSAction:(id)sender &#123;</span><br><span class="line">    </span><br><span class="line">   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@&quot;sms://10086&quot;]];</span><br><span class="line">    </span><br><span class="line">    [self sendSMS:@&quot;我想咨询一下话费余额是不是一百万.&quot; recipientList:@[@&quot;10086客服&quot;]];</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">- (void)sendSMS:(NSString *)bodyOfMessage recipientList:(NSArray *)recipients&#123;</span><br><span class="line">    </span><br><span class="line">    MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];</span><br><span class="line"> </span><br><span class="line">    if([MFMessageComposeViewController canSendText])&#123;</span><br><span class="line">        </span><br><span class="line">        controller.body = bodyOfMessage;</span><br><span class="line">        </span><br><span class="line">        controller.recipients = recipients;</span><br><span class="line">    </span><br><span class="line">        controller.messageComposeDelegate = self;</span><br><span class="line">        </span><br><span class="line">        [self showDetailViewController:controller sender:nil];</span><br><span class="line">        </span><br><span class="line">    &#125;   </span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当完成消息的发送之后,我们就需要调用我们的代理方法,给用户反馈信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">//代理方法的实现</span><br><span class="line">-(void)messageComposeViewController:(MFMessageComposeViewController *)controller didFinishWithResult:(MessageComposeResult)result&#123;</span><br><span class="line">    </span><br><span class="line">    if (result == MessageComposeResultCancelled)&#123;</span><br><span class="line">        NSLog(@&quot;取消发送消息&quot;);</span><br><span class="line">    &#125; else if (result == MessageComposeResultSent)&#123;</span><br><span class="line">        NSLog(@&quot;消息已经发送&quot;);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;消息发送失败&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h2 id="调用相机、相册"><a href="#调用相机、相册" class="headerlink" title="调用相机、相册"></a>调用相机、相册</h2><hr>
+<h5 id="调用相机、相册我们需要使用到UIImagePickerController这个类-所以我们需要首先导入这个类"><a href="#调用相机、相册我们需要使用到UIImagePickerController这个类-所以我们需要首先导入这个类" class="headerlink" title="调用相机、相册我们需要使用到UIImagePickerController这个类,所以我们需要首先导入这个类"></a>调用相机、相册我们需要使用到UIImagePickerController这个类,所以我们需要首先导入这个类</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#import &lt;UIKit/UIImagePickerController.h&gt;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="然后我们在点击方法中实现调用相机-当然了-调用的时候-我们要先判断设备是否存在摄像头"><a href="#然后我们在点击方法中实现调用相机-当然了-调用的时候-我们要先判断设备是否存在摄像头" class="headerlink" title="然后我们在点击方法中实现调用相机,当然了,调用的时候,我们要先判断设备是否存在摄像头."></a>然后我们在点击方法中实现调用相机,当然了,调用的时候,我们要先判断设备是否存在摄像头.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">//设置调用类型为相机</span><br><span class="line">   UIImagePickerControllerSourceType  sourceType = UIImagePickerControllerSourceTypeCamera;</span><br><span class="line">   </span><br><span class="line">       if (![UIImagePickerController isSourceTypeAvailable: UIImagePickerControllerSourceTypeCamera]) &#123;</span><br><span class="line">       </span><br><span class="line">           NSLog(@&quot;本设备未发现摄像头!&quot;);</span><br><span class="line">           </span><br><span class="line">           return;</span><br><span class="line">       </span><br><span class="line">       &#125;</span><br><span class="line">   </span><br><span class="line">   UIImagePickerController *pickerController = [[UIImagePickerController alloc]init];</span><br><span class="line">   </span><br><span class="line">   pickerController.sourceType = sourceType;</span><br><span class="line">   </span><br><span class="line">   pickerController.delegate = self;</span><br><span class="line">   </span><br><span class="line">   pickerController.allowsEditing = YES;//设置是否可以进行编辑</span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">   [self showDetailViewController:pickerController sender:nil];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="调用系统相册-调用系统相册的时候-跟调用相机的时候十分相似"><a href="#调用系统相册-调用系统相册的时候-跟调用相机的时候十分相似" class="headerlink" title="调用系统相册,调用系统相册的时候,跟调用相机的时候十分相似."></a>调用系统相册,调用系统相册的时候,跟调用相机的时候十分相似.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//设置调用类型为相册.</span><br><span class="line">    UIImagePickerControllerSourceType  sourceType = UIImagePickerControllerSourceTypePhotoLibrary;</span><br><span class="line">    </span><br><span class="line">    UIImagePickerController *pickerController = [[UIImagePickerController alloc]init];</span><br><span class="line">    </span><br><span class="line">    pickerController.sourceType = sourceType;</span><br><span class="line">    </span><br><span class="line">    pickerController.delegate = self;</span><br><span class="line">    </span><br><span class="line">    pickerController.allowsEditing = YES;</span><br><span class="line">    </span><br><span class="line">    [self showDetailViewController:pickerController sender:nil];</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="我们调用系统相册和相机最终的目的是为了获得系统中的图片资源-所以我们需要实现代理方法-获取到我们的图片"><a href="#我们调用系统相册和相机最终的目的是为了获得系统中的图片资源-所以我们需要实现代理方法-获取到我们的图片" class="headerlink" title="我们调用系统相册和相机最终的目的是为了获得系统中的图片资源.所以我们需要实现代理方法,获取到我们的图片."></a>我们调用系统相册和相机最终的目的是为了获得系统中的图片资源.所以我们需要实现代理方法,获取到我们的图片.</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary&lt;NSString *,id&gt; *)info&#123;</span><br><span class="line"></span><br><span class="line">    NSString *type = [info objectForKey:UIImagePickerControllerMediaType];</span><br><span class="line">    </span><br><span class="line">    //当选择的类型是图片</span><br><span class="line">    if ([type isEqualToString:@&quot;public.image&quot;])</span><br><span class="line">    &#123;</span><br><span class="line">        //先把图片转成NSData</span><br><span class="line">        UIImage* image = [info objectForKey:@&quot;UIImagePickerControllerOriginalImage&quot;];</span><br><span class="line">        NSData *data;</span><br><span class="line">        if (UIImagePNGRepresentation(image) == nil)</span><br><span class="line">        &#123;</span><br><span class="line">            data = UIImageJPEGRepresentation(image, 1.0);</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            data = UIImagePNGRepresentation(image);</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        //图片保存的路径</span><br><span class="line">        //这里将图片放在沙盒的documents文件夹中</span><br><span class="line">        NSString * DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@&quot;Documents&quot;];</span><br><span class="line">        </span><br><span class="line">        //文件管理器</span><br><span class="line">        NSFileManager *fileManager = [NSFileManager defaultManager];</span><br><span class="line">        </span><br><span class="line">        //把刚刚图片转换的data对象拷贝至沙盒中 并保存为image.png</span><br><span class="line">        [fileManager createDirectoryAtPath:DocumentsPath withIntermediateDirectories:YES attributes:nil error:nil];</span><br><span class="line">        [fileManager createFileAtPath:[DocumentsPath stringByAppendingString:@&quot;/image.png&quot;] contents:data attributes:nil];</span><br><span class="line">        </span><br><span class="line">        //得到选择后沙盒中图片的完整路径</span><br><span class="line">       NSString * filePath = [[NSString alloc]initWithFormat:@&quot;%@%@&quot;,DocumentsPath,  @&quot;/image.png&quot;];</span><br><span class="line">        </span><br><span class="line">        NSLog(@&quot;%@&quot;,filePath);</span><br><span class="line">        </span><br><span class="line">        //关闭相册界面</span><br><span class="line">        [picker dismissModalViewControllerAnimated:YES];</span><br><span class="line">        </span><br><span class="line">        //创建一个选择后图片的小图标放在下方</span><br><span class="line">        //类似微薄选择图后的效果</span><br><span class="line">        UIImageView *smallimage = [[UIImageView alloc] initWithFrame:</span><br><span class="line">                                    CGRectMake(50, 120, 40, 40)] ;</span><br><span class="line">        </span><br><span class="line">        smallimage.image = image;</span><br><span class="line">        //加在视图中</span><br><span class="line">        [self.view addSubview:smallimage];</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><br></p>
+<h5 id="整体上看-调用系统的一些应用还是很简单的-希望这篇调用大乱斗能对大家有所帮助-😃"><a href="#整体上看-调用系统的一些应用还是很简单的-希望这篇调用大乱斗能对大家有所帮助-😃" class="headerlink" title="整体上看 ,调用系统的一些应用还是很简单的,希望这篇调用大乱斗能对大家有所帮助.😃"></a>整体上看 ,调用系统的一些应用还是很简单的,希望这篇调用大乱斗能对大家有所帮助.😃</h5><p><a href="http://www.xuanyusong.com/archives/1493" target="_blank" rel="external">—&gt;参考博客链接.</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/08/华山论剑之浅谈iOS的-target-action设计模式-和-代理模式-以及Bolck/" rel="next" title="华山论剑之浅谈iOS的 target - action设计模式 和 代理模式 以及Bolck">
+                <i class="fa fa-chevron-left"></i> 华山论剑之浅谈iOS的 target - action设计模式 和 代理模式 以及Bolck
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/22/华山论剑之浅谈iOS单例对象/" rel="prev" title="华山论剑之浅谈iOS单例对象.">
+                华山论剑之浅谈iOS单例对象. <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="神经骚栋" />
+          <p class="site-author-name" itemprop="name">神经骚栋</p>
+          <p class="site-description motion-element" itemprop="description">别挽留别勉强更别将就</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+          
+          
+
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://www.jianshu.com/users/e39da354ce50/latest_articles" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-5"><a class="nav-link" href="#或许我会为生活而奔波劳累-但却不能消磨我对技术的追求和热爱-这就是做为一个程序员最基本的要求"><span class="nav-number">1.</span> <span class="nav-text">或许我会为生活而奔波劳累,但却不能消磨我对技术的追求和热爱,这就是做为一个程序员最基本的要求.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我们在程序中或多或少都会使用到手机的一些应用程序-比如电话-短信-浏览器-相机-相册等-那么我们该如何调用这些系统自带的应用程序呢-下面我一一说来"><span class="nav-number">2.</span> <span class="nav-text">我们在程序中或多或少都会使用到手机的一些应用程序,比如电话,短信,浏览器,相机,相册等,那么我们该如何调用这些系统自带的应用程序呢?下面我一一说来.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用电话、浏览器"><span class="nav-number"></span> <span class="nav-text">调用电话、浏览器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#对于调用电话和浏览器比较简单-使用UIApplication调用openURL方法"><span class="nav-number">1.</span> <span class="nav-text">对于调用电话和浏览器比较简单,使用UIApplication调用openURL方法.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用短信功能"><span class="nav-number"></span> <span class="nav-text">调用短信功能</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调用系统的短信功能-同样使用UIApplication调用openURL方法-我们只能openURL的方法中只能设定号码-不能做内容太上的更改-那么我们就需要导入我们的MessageUI-framework库-然后导入头文件MFMessageComposeViewController-h-并实现代理方法"><span class="nav-number">1.</span> <span class="nav-text">调用系统的短信功能, 同样使用UIApplication调用openURL方法. 我们只能openURL的方法中只能设定号码,不能做内容太上的更改.那么我们就需要导入我们的MessageUI.framework库,然后导入头文件MFMessageComposeViewController.h,并实现代理方法.</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用相机、相册"><span class="nav-number"></span> <span class="nav-text">调用相机、相册</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#调用相机、相册我们需要使用到UIImagePickerController这个类-所以我们需要首先导入这个类"><span class="nav-number">1.</span> <span class="nav-text">调用相机、相册我们需要使用到UIImagePickerController这个类,所以我们需要首先导入这个类</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#然后我们在点击方法中实现调用相机-当然了-调用的时候-我们要先判断设备是否存在摄像头"><span class="nav-number">2.</span> <span class="nav-text">然后我们在点击方法中实现调用相机,当然了,调用的时候,我们要先判断设备是否存在摄像头.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#调用系统相册-调用系统相册的时候-跟调用相机的时候十分相似"><span class="nav-number">3.</span> <span class="nav-text">调用系统相册,调用系统相册的时候,跟调用相机的时候十分相似.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#我们调用系统相册和相机最终的目的是为了获得系统中的图片资源-所以我们需要实现代理方法-获取到我们的图片"><span class="nav-number">4.</span> <span class="nav-text">我们调用系统相册和相机最终的目的是为了获得系统中的图片资源.所以我们需要实现代理方法,获取到我们的图片.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#整体上看-调用系统的一些应用还是很简单的-希望这篇调用大乱斗能对大家有所帮助-😃"><span class="nav-number">5.</span> <span class="nav-text">整体上看 ,调用系统的一些应用还是很简单的,希望这篇调用大乱斗能对大家有所帮助.😃</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">神经骚栋</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+
+  
+
+
+
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=0.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=0.5.0"></script>
+
+
+
+  
+  
+
+  
+  
+<script type="text/javascript" src="/js/src/scrollspy.js?v=0.5.0"></script>
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = NexT.utils.escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    NexT.motion.middleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+
+      if (CONFIG.scheme !== 'Pisces' && (CONFIG.sidebar.display === 'post' || CONFIG.sidebar.display === 'always')) {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          NexT.utils.displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=0.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+  
+  
+  
+
+  
+
+
+</body>
+</html>
